@@ -1,0 +1,178 @@
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+.select-mania {
+	position:relative;
+	width:100%;
+	background:white;
+}
+
+.select-mania, 
+.select-mania * {
+	box-sizing:border-box;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.select-mania-inner {
+	width:100%;
+	min-height:42px;
+	font-size:0;
+	padding:6px;
+	border:1px solid #BDC3C7;
+	border-radius:4px;
+	cursor:pointer;
+}
+
+.select-mania-values, 
+.select-mania-value, 
+.select-mania-value-text, 
+.select-mania-value-clear, 
+.select-mania-clear, 
+.select-mania-arrow {
+	display:inline-block;
+	vertical-align:middle;
+}
+
+.select-mania-hidden {
+	display:none !important;
+}
+
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES ~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+.select-mania-values {
+	width:calc(100% - 48px);
+	min-height:26px;
+	font-size:0;
+}
+
+.select-mania-value {
+	width:auto;
+	height:26px;
+	border-radius: 4px;
+	margin-top:1px;
+	margin-bottom:1px;
+	margin-right:4px;
+}
+.select-mania.select-mania-multiple .select-mania-value {
+	border: 1px solid #BDC3C7;
+}
+
+.select-mania-value-text {
+	height:26px;
+	padding:4px;
+	font-size:1rem;
+}
+.select-mania.select-mania-multiple .select-mania-value-text {
+	/**/
+}
+
+.select-mania-value-clear {
+	display:none;
+}
+.select-mania.select-mania-multiple .select-mania-value-clear {
+	display:inline-block;
+	width:20px;
+	height:26px;
+	font-size:1rem;
+	text-align:center;
+}
+.select-mania-value-clear i {
+	line-height:24px;
+	font-size:0.85rem;
+}
+
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~ CLEAN VALUES ICON ~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+.select-mania-clear {
+	width:24px;
+	font-size:1rem;
+	text-align:center;
+}
+.select-mania-clear i {
+	/**/
+}
+
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ARROW ICON ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+.select-mania-arrow {
+	width:24px;
+	font-size:1rem;
+	text-align:center;
+}
+.select-mania-arrow i {
+	/**/
+}
+
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+.select-mania-dropdown-search {
+	width:100%;
+	margin-bottom:6px;
+}
+
+.select-mania-dropdown-search-input {
+	width:100%;
+	padding:6px;
+	border-radius:4px;
+	font-size:1rem;
+	border:1px solid #BDC3C7;
+	outline:none;
+	background-image:none;
+	background-color:transparent;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.select-mania-dropdown {
+	background:white;
+	z-index:999999;
+	display:none;
+	position:absolute;
+	top:calc(100% + 2px);
+	width:100%;
+	padding:6px;
+	border:1px solid #BDC3C7;
+	border-radius:4px;
+}
+
+.select-mania-dropdown-items {
+	width:100%;
+	max-height:200px;
+	overflow-y:auto;
+}
+
+.select-mania-dropdown-item {
+	width:100%;
+	min-height:20px;
+	padding:6px;
+	border-radius:4px;
+	cursor:pointer;
+}
+.select-mania-dropdown-item:hover {
+	background:#ECF0F1;
+}
+.select-mania-dropdown-item:empty[data-value=""] {
+	display:none;
+}
+
+.select-mania-dropdown-item.select-mania-selected {
+	background:#ECF0F1;
+}
+.select-mania.select-mania-multiple .select-mania-dropdown-item.select-mania-selected {
+	display:none;
+}
