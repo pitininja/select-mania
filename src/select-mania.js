@@ -51,7 +51,7 @@
 		getAttrData: function(el) {
 			var attrData = {};
 			//available attributes
-			var attrs = ['width','removable','search'];
+			var attrs = ['width','size','placeholder','removable','search'];
 			//loop through attributes
 			attrs.forEach(function(attr) {
 				//if attribute is set on select
@@ -73,8 +73,12 @@
 		//build selectMania element
 		build: function(data) {
 			var thisEngine = this;
+			//class for selectMania size
+			var sizeClass = 'select-mania-'+data.size;
+			//explicit selectMania width style
+			var widthStyle = 'style="width:'+data.width+';"';
 			//general selectMania div
-			var $select = $('<div class="select-mania" style="width:'+data.width+';"></div>');
+			var $select = $('<div class="select-mania '+sizeClass+'" '+widthStyle+'></div>');
 			//class for multiple
 			if(data.multiple) {
 				$select.addClass('select-mania-multiple');
@@ -100,8 +104,12 @@
 			var thisEngine = this;
 			//inner div
 			var $inner = $('<div class="select-mania-inner"></div>');
-			//insert selected values
+			//values div
 			var $values = $('<div class="select-mania-values"></div>');
+			//insert placeholder
+			var $placeholder = $('<div class="select-mania-placeholder">'+data.placeholder+'</div>');
+			$values.append($placeholder);
+			//insert selected values
 			data.values.forEach(function(val) {
 				$values.append(thisEngine.buildValue(val));
 			});
@@ -189,6 +197,9 @@
 		//add value to multiple select
 		addMultipleVal: function($selectEl, val) {
 			var originalVals = $selectEl.val();
+			if(!(originalVals instanceof Array)) {
+				originalVals = [];
+			}
 			originalVals.push(val);
 			$selectEl.val(originalVals);
 		}, 
@@ -196,6 +207,9 @@
 		//remove value from multiple select
 		removeMultipleVal: function($selectEl, val) {
 			var originalVals = $selectEl.val();
+			if(!(originalVals instanceof Array)) {
+				originalVals = [];
+			}
 			originalVals.splice($.inArray(val, originalVals), 1);
 			$selectEl.val(originalVals);
 		}, 
@@ -427,7 +441,7 @@
 			//selectMania element
 			var $selectManiaEl = $(this).closest('.select-mania');
 			//empty selectMania values
-			$selectManiaEl.find('.select-mania-values').empty();
+			$selectManiaEl.find('.select-mania-values .select-mania-value').remove();
 			//unselect items in dropdown
 			$selectManiaEl.find('.select-mania-dropdown-item').removeClass('select-mania-selected');
 			//empty values in original select element
@@ -493,7 +507,8 @@
 					//unselect every other items
 					$selectManiaEl.find('.select-mania-dropdown-item').removeClass('select-mania-selected');
 					//insert value element in selectMania values
-					$selectManiaEl.find('.select-mania-values').html($value);
+					$selectManiaEl.find('.select-mania-values .select-mania-value').remove();
+					$selectManiaEl.find('.select-mania-values').append($value);
 					//change value in original select element
 					$originalSelect.val(itemVal);
 				}
@@ -613,6 +628,8 @@
 			//settings provided by user
 			var settings = $.extend({
 				width: '100%', 
+				size: 'medium', 
+				placeholder: 'Select', 
 				removable: false, 
 				search: false, 
 				ajax: false, 
@@ -642,6 +659,13 @@
 					thisData.ajax = false;
 					console.error('selectMania | not a valid ajax function');
 					console.log(thisOriginalSelect);
+				}
+				//error if invalid size provided
+				if(jQuery.inArray(thisData.size, ['small','medium','large']) === -1) {
+					thisData.size = 'medium';
+					console.error('selectMania | not a valid size');
+					console.log(thisOriginalSelect);
+					return;
 				}
 				//build selectMania elements
 				var $builtSelect = Engine.build(thisData);
