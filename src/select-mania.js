@@ -109,11 +109,11 @@
 			//insert clean values icon
 			var $clean = $('<div class="select-mania-clear"></div>');
 			if(data.removable || data.multiple) {
-				$clean.append('<i class="select-mania-clear-icon fas fa-times">');
+				$clean.append('<i class="select-mania-clear-icon icon-cross">');
 			}
 			$inner.append($clean);
 			//insert dropdown arrow icon
-			$inner.append($('<div class="select-mania-arrow"><i class="select-mania-arrow-icon fas fa-angle-down"></i></div>'));
+			$inner.append($('<div class="select-mania-arrow"><i class="select-mania-arrow-icon icon-arrow-down"></i></div>'));
 			//send back inner elements
 			return $inner;
 		}, 
@@ -127,7 +127,7 @@
 			var valHtml = '<div class="select-mania-value" data-value="'+val.value+'">'+
 				'<div class="select-mania-value-text">'+val.text+'</div>'+
 				'<div class="select-mania-value-clear">'+
-					'<i class="select-mania-value-clear-icon fas fa-times"></i>'+
+					'<i class="select-mania-value-clear-icon icon-cross"></i>'+
 				'</div>'+
 			'</div>';
 			//send back selected value element
@@ -207,7 +207,7 @@
 			//original select element
 			var $originalSelect = $($selectManiaEl.data('selectMania-originalSelect'));
 			//if value is not empty
-			if($originalSelect.val().length > 0) {
+			if($originalSelect.val() !== null && $originalSelect.val().length > 0) {
 				//display clean values icon
 				$selectManiaEl.find('.select-mania-clear-icon').show();
 			}
@@ -258,8 +258,9 @@
 			$selectManiaEl.data('selectMania-ajaxPage', 1);
 			// TODO: loading icon
 			//call ajax function
-			var thisAjaxFunction = $selectManiaEl.data('selectMania-ajax');
-			thisAjaxFunction(thisSearch, 1, function(optHTML) {
+			var thisAjaxFunction = $selectManiaEl.data('selectMania-ajaxFunction');
+			var thisAjaxData = $selectManiaEl.data('selectMania-ajaxData');
+			thisAjaxFunction(thisSearch, 1, thisAjaxData, function(optHTML) {
 				// TODO: remove loading icon
 				//replace current items with sent options
 				Engine.replaceItems($selectManiaEl, optHTML);
@@ -337,10 +338,14 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ initAjax
 
 		//reset selectMania element ajax data and attach ajax function
-		initAjax: function($selectManiaEl, ajaxFunction) {
+		initAjax: function($selectManiaEl, thisData) {
 			//attach ajax function
-			if(typeof ajaxFunction === 'function') {
-				$selectManiaEl.data('selectMania-ajax', ajaxFunction);
+			if(thisData.hasOwnProperty('ajax') && typeof thisData.ajax === 'function') {
+				$selectManiaEl.data('selectMania-ajaxFunction', thisData.ajax);
+			}
+			//attach ajax data
+			if(thisData.hasOwnProperty('data') && typeof thisData.data === 'object') {
+				$selectManiaEl.data('selectMania-ajaxData', thisData.data);
 			}
 			//reset ajax data
 			$selectManiaEl.data('selectMania-ajaxPage', 1);
@@ -373,6 +378,8 @@
 			$selectManiaEl.find('.select-mania-dropdown-item').off('click.selectMania').on('click.selectMania', thisBinds.selectItem);
 			//search input in dropdown
 			$selectManiaEl.find('.select-mania-dropdown-search-input').off('input.selectMania').on('input.selectMania', thisBinds.inputSearch);
+			//prevents body scroll when reached dropdown top or bottom
+			$selectManiaEl.find('.select-mania-dropdown-items').off('wheel.selectMania').on('wheel.selectMania', thisBinds.scrollControl);
 			//ajax scroll
 			if($selectManiaEl.is('.select-mania-ajax')) {
 				$selectManiaEl.find('.select-mania-dropdown-items').off('scroll.selectMania').on('scroll.selectMania', thisBinds.scrollAjax);
@@ -533,7 +540,7 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ scrollAjax
 
 		//BIND ONLY - dropdown ajax scroll
-		scrollAjax: function() {
+		scrollAjax: function(e) {
 			//dropdown element
 			var $thisDropdown = $(this);
 			//selectMania element
@@ -554,8 +561,9 @@
 						$selectManiaEl.data('selectMania-ajaxPage', thisPage);
 						// TODO: loading icon
 						//call ajax function
-						var thisAjaxFunction = $selectManiaEl.data('selectMania-ajax');
-						thisAjaxFunction(thisSearch, thisPage, function(optHTML) {
+						var thisAjaxFunction = $selectManiaEl.data('selectMania-ajaxFunction');
+						var thisAjaxData = $selectManiaEl.data('selectMania-ajaxData');
+						thisAjaxFunction(thisSearch, thisPage, thisAjaxData, function(optHTML) {
 							// TODO: remove loading icon
 							//if options returned
 							if(optHTML.trim() !== '') {
@@ -574,6 +582,19 @@
 						});
 					}
 				}
+			}
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ scrollControl
+
+		//BIND ONLY - prevents body scroll when reached dropdown top or bottom
+		scrollControl: function(e) {
+			var $thisDropdown = $(this);
+			if(e.originalEvent.deltaY < 0) {
+				return ($thisDropdown.scrollTop() > 0);
+			}
+			else {
+				return($thisDropdown.scrollTop() + $thisDropdown.innerHeight() < $thisDropdown[0].scrollHeight);
 			}
 		}
 
@@ -594,45 +615,49 @@
 				width: '100%', 
 				removable: false, 
 				search: false, 
-				ajax: false
+				ajax: false, 
+				data: {}
 			}, opts);
 			//loop through targeted elements
 			return this.each(function() {
+				//current select to initialize
+				var thisOriginalSelect = this;
+				var $thisOriginalSelect = $(thisOriginalSelect);
 				//error if element is not a select
-				if($(this).hasClass('select-mania')) {
+				if(!$thisOriginalSelect.is('select')) {
 					console.error('selectMania | not a valid select element');
-					console.log(this);
+					console.log(thisOriginalSelect);
 					return;
 				}
 				//error if plugin already initialized
-				if($(this).hasClass('select-mania')) {
+				if($thisOriginalSelect.hasClass('select-mania')) {
 					console.info('selectMania | ignore because already initialized');
-					console.log(this);
+					console.log(thisOriginalSelect);
 					return;
 				}
 				//get select data
-				var thisData = Engine.getData(this, settings);
+				var thisData = Engine.getData(thisOriginalSelect, settings);
 				//control ajax function type
 				if(thisData.ajax !== false && typeof thisData.ajax !== 'function') {
 					thisData.ajax = false;
 					console.error('selectMania | not a valid ajax function');
-					console.log(this);
+					console.log(thisOriginalSelect);
 				}
 				//build selectMania elements
 				var $builtSelect = Engine.build(thisData);
 				//attach original select element to selectMania element
-				$builtSelect.data('selectMania-originalSelect', this);
+				$builtSelect.data('selectMania-originalSelect', thisOriginalSelect);
 				//if ajax is activated
 				if(thisData.ajax !== false) {
 					//initialize ajax data
-					Engine.initAjax($builtSelect, thisData.ajax);
+					Engine.initAjax($builtSelect, thisData);
 				}
 				//update clean values icon display
 				Engine.updateClean($builtSelect);
 				//hide original select element
-				$(this).hide();
+				$thisOriginalSelect.hide();
 				//insert selectMania element before original select
-				$builtSelect.insertBefore(this);
+				$builtSelect.insertBefore($thisOriginalSelect);
 				//bind selectMania element
 				Binds.bind($builtSelect);
 			});
