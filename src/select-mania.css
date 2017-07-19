@@ -159,17 +159,20 @@
 .select-mania-values {
 	width:calc(100% - 48px);
 	min-height:26px;
+	padding-right:4px;
 	font-size:0;
 	text-align:left;
 }
 
 .select-mania-value {
 	width:auto;
+	max-width:100%;
 	height:26px;
 	border-radius: 4px;
 	margin-top:1px;
 	margin-bottom:1px;
 	margin-right:4px;
+	font-size:0;
 }
 .select-mania.select-mania-multiple .select-mania-value {
 	border: 1px solid #BDC3C7;
@@ -180,9 +183,12 @@
 	padding:4px;
 	font-size:1rem;
 	text-align:left;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
 }
 .select-mania.select-mania-multiple .select-mania-value-text {
-	/**/
+	max-width:calc(100% - 22px);
 }
 
 .select-mania-value-clear {
@@ -332,6 +338,9 @@
 	padding:3px;
 	font-size:0.8rem;
 }
+.select-mania-small.select-mania-multiple .select-mania-value-text {
+	max-width:calc(100% - 20px);
+}
 
 .select-mania.select-mania-multiple.select-mania-small .select-mania-value-clear {
 	width:20px;
@@ -416,6 +425,9 @@
 	height:32px;
 	padding:4px;
 	font-size:1.1rem;
+}
+.select-mania-large.select-mania-multiple .select-mania-value-text {
+	max-width:calc(100% - 26px);
 }
 
 .select-mania.select-mania-multiple.select-mania-large .select-mania-value-clear {
