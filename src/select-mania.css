@@ -23,7 +23,6 @@
 	font-variant: normal !important;
 	text-transform: none !important;
 	speak: none;
-	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -36,10 +35,8 @@
 	font-variant: normal !important;
 	text-transform: none !important;
 	speak: none;
-	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	vertical-align:middle;
 }
 
 .icon-arrow-down:before {
@@ -47,6 +44,9 @@
 }
 .icon-cross:before {
 	content: "\63";
+}
+.icon-loading:before {
+	content: "\6c";
 }
 
 /* ################################################################## */
@@ -135,13 +135,14 @@
 }
 .select-mania.select-mania-multiple .select-mania-value-clear {
 	display:inline-block;
-	width:20px;
+	width:22px;
 	height:26px;
+	padding:4px;
 	font-size:1rem;
 	text-align:center;
 }
 .select-mania-value-clear i {
-	line-height:26px;
+	line-height:18px;
 	font-size:0.9rem;
 }
 
@@ -282,9 +283,10 @@
 .select-mania.select-mania-multiple.select-mania-small .select-mania-value-clear {
 	width:20px;
 	height:20px;
+	padding:3px;
 }
 .select-mania-small .select-mania-value-clear i {
-	line-height:20px;
+	line-height:14px;
 	font-size:0.9rem;
 }
 
@@ -364,11 +366,12 @@
 }
 
 .select-mania.select-mania-multiple.select-mania-large .select-mania-value-clear {
-	width:20px;
+	width:26px;
 	height:32px;
+	padding:4px;
 }
 .select-mania-large .select-mania-value-clear i {
-	line-height:32px;
+	line-height:24px;
 	font-size:1.1rem;
 }
 
