@@ -70,6 +70,7 @@
 	height:26px;
 	padding:4px;
 	font-size:1rem;
+	text-align:left;
 }
 .select-mania.select-mania-multiple .select-mania-value-text {
 	/**/
@@ -163,6 +164,7 @@
 	padding:6px;
 	border-radius:4px;
 	cursor:pointer;
+	text-align:left;
 }
 .select-mania-dropdown-item:hover {
 	background:#ECF0F1;
