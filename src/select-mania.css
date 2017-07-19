@@ -37,7 +37,6 @@
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	vertical-align:middle;
 }
 
 .icon-arrow-down:before {
@@ -45,6 +44,9 @@
 }
 .icon-cross:before {
 	content: "\63";
+}
+.icon-loading:before {
+	content: "\6c";
 }
 
 /* ################################################################## */
