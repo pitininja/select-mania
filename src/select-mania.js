@@ -109,11 +109,11 @@
 			//insert clean values icon
 			var $clean = $('<div class="select-mania-clear"></div>');
 			if(data.removable || data.multiple) {
-				$clean.append('<i class="select-mania-clear-icon fas fa-times">');
+				$clean.append('<i class="select-mania-clear-icon icon-cross">');
 			}
 			$inner.append($clean);
 			//insert dropdown arrow icon
-			$inner.append($('<div class="select-mania-arrow"><i class="select-mania-arrow-icon fas fa-angle-down"></i></div>'));
+			$inner.append($('<div class="select-mania-arrow"><i class="select-mania-arrow-icon icon-arrow-down"></i></div>'));
 			//send back inner elements
 			return $inner;
 		}, 
@@ -127,7 +127,7 @@
 			var valHtml = '<div class="select-mania-value" data-value="'+val.value+'">'+
 				'<div class="select-mania-value-text">'+val.text+'</div>'+
 				'<div class="select-mania-value-clear">'+
-					'<i class="select-mania-value-clear-icon fas fa-times"></i>'+
+					'<i class="select-mania-value-clear-icon icon-cross"></i>'+
 				'</div>'+
 			'</div>';
 			//send back selected value element
