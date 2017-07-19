@@ -1,12 +1,65 @@
 /* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ICONES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+@charset "UTF-8";
+
+@font-face {
+	font-family: "untitled-font-1";
+	src:url("fonts/untitled-font-1.eot");
+	src:url("fonts/untitled-font-1.eot?#iefix") format("embedded-opentype"),
+	url("fonts/untitled-font-1.woff") format("woff"),
+	url("fonts/untitled-font-1.ttf") format("truetype"),
+	url("fonts/untitled-font-1.svg#untitled-font-1") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+[data-icon]:before {
+	font-family: "untitled-font-1" !important;
+	content: attr(data-icon);
+	font-style: normal !important;
+	font-weight: normal !important;
+	font-variant: normal !important;
+	text-transform: none !important;
+	speak: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+	font-family: "untitled-font-1" !important;
+	font-style: normal !important;
+	font-weight: normal !important;
+	font-variant: normal !important;
+	text-transform: none !important;
+	speak: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	vertical-align:middle;
+}
+
+.icon-arrow-down:before {
+	content: "\61";
+}
+.icon-cross:before {
+	content: "\63";
+}
+
+/* ################################################################## */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* ################################################################## */
 
 .select-mania {
+	display:inline-block;
 	position:relative;
 	width:100%;
 	margin:auto;
 	background:white;
+	vertical-align:middle;
 }
 
 .select-mania, 
@@ -52,6 +105,7 @@
 	width:calc(100% - 48px);
 	min-height:26px;
 	font-size:0;
+	text-align:left;
 }
 
 .select-mania-value {
@@ -87,8 +141,8 @@
 	text-align:center;
 }
 .select-mania-value-clear i {
-	line-height:24px;
-	font-size:0.85rem;
+	line-height:26px;
+	font-size:0.9rem;
 }
 
 /* ################################################################## */
@@ -101,7 +155,7 @@
 	text-align:center;
 }
 .select-mania-clear i {
-	/**/
+	font-size:1.1rem;
 }
 
 /* ################################################################## */
@@ -114,7 +168,7 @@
 	text-align:center;
 }
 .select-mania-arrow i {
-	/**/
+	font-size:1.1rem;
 }
 
 /* ################################################################## */
@@ -145,7 +199,7 @@
 	z-index:999999;
 	display:none;
 	position:absolute;
-	top:calc(100% + 2px);
+	top:100%;
 	width:100%;
 	padding:6px;
 	border:1px solid #BDC3C7;
