@@ -353,13 +353,16 @@
 
 		//reset selectMania element ajax data and attach ajax function
 		initAjax: function($selectManiaEl, thisData) {
-			//attach ajax function
-			if(thisData.hasOwnProperty('ajax') && typeof thisData.ajax === 'function') {
-				$selectManiaEl.data('selectMania-ajaxFunction', thisData.ajax);
-			}
-			//attach ajax data
-			if(thisData.hasOwnProperty('data') && typeof thisData.data === 'object') {
-				$selectManiaEl.data('selectMania-ajaxData', thisData.data);
+			//if ajax data is passed to be attached
+			if(typeof thisData === 'object') {
+				//attach ajax function
+				if(thisData.hasOwnProperty('ajax') && typeof thisData.ajax === 'function') {
+					$selectManiaEl.data('selectMania-ajaxFunction', thisData.ajax);
+				}
+				//attach ajax data
+				if(thisData.hasOwnProperty('data') && typeof thisData.data === 'object') {
+					$selectManiaEl.data('selectMania-ajaxData', thisData.data);
+				}
 			}
 			//reset ajax data
 			$selectManiaEl.data('selectMania-ajaxPage', 1);
