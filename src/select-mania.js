@@ -197,6 +197,9 @@
 		//add value to multiple select
 		addMultipleVal: function($selectEl, val) {
 			var originalVals = $selectEl.val();
+			if(!(originalVals instanceof Array)) {
+				originalVals = [];
+			}
 			originalVals.push(val);
 			$selectEl.val(originalVals);
 		}, 
@@ -204,6 +207,9 @@
 		//remove value from multiple select
 		removeMultipleVal: function($selectEl, val) {
 			var originalVals = $selectEl.val();
+			if(!(originalVals instanceof Array)) {
+				originalVals = [];
+			}
 			originalVals.splice($.inArray(val, originalVals), 1);
 			$selectEl.val(originalVals);
 		}, 
