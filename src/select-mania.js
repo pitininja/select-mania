@@ -156,11 +156,13 @@
 				$dropdown.append($dropdownSearch);
 			}
 			//insert items list
-			var $itemContainer = $('<div class="select-mania-dropdown-items"></div>');
+			var $itemListContainer = $('<div class="select-mania-dropdown-items-container"></div>');
+			var $itemList = $('<div class="select-mania-dropdown-items"></div>');
 			data.items.forEach(function(item) {
-				$itemContainer.append(thisEngine.buildItem(item));
+				$itemList.append(thisEngine.buildItem(item));
 			});
-			$dropdown.append($itemContainer);
+			$itemListContainer.append($itemList);
+			$dropdown.append($itemListContainer);
 			//send back items dropdown
 			return $dropdown;
 		}, 
@@ -270,12 +272,14 @@
 			$selectManiaEl.data('selectMania-ajaxReady', false);
 			//reset current page number
 			$selectManiaEl.data('selectMania-ajaxPage', 1);
-			// TODO: loading icon
+			//loading icon
+			thisEngine.dropdownLoading($selectManiaEl);
 			//call ajax function
 			var thisAjaxFunction = $selectManiaEl.data('selectMania-ajaxFunction');
 			var thisAjaxData = $selectManiaEl.data('selectMania-ajaxData');
 			thisAjaxFunction(thisSearch, 1, thisAjaxData, function(optHTML) {
-				// TODO: remove loading icon
+				//remove loading icon
+				thisEngine.dropdownLoading($selectManiaEl, true);
 				//replace current items with sent options
 				Engine.replaceItems($selectManiaEl, optHTML);
 				//rebind select
@@ -368,6 +372,29 @@
 			$selectManiaEl.data('selectMania-ajaxPage', 1);
 			$selectManiaEl.data('selectMania-ajaxReady', true);
 			$selectManiaEl.data('selectMania-ajaxScrollDone', false);
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ dropdownLoading
+
+		//display / hide loading icon inside items dropdown
+		dropdownLoading: function($selectManiaEl, hide) {
+			//if hide icon requested
+			var isHide = false;
+			if(typeof hide !== 'undefined' && hide === true) {
+				isHide = true;
+			}
+			//dropdown inner list element
+			$dropdownContainer = $selectManiaEl.find('.select-mania-dropdown-items-container').first();
+			//remove loading icon if exists
+			$dropdownContainer.find('.icon-loading-container').remove();
+			//if show icon requested
+			if(isHide !== true) {
+				//build loading icon
+				var $loadingIcon = $('<div class="icon-loading-container"></div>');
+				$loadingIcon.append('<i class="icon-loading"></i>');
+				//insert loading icon
+				$dropdownContainer.append($loadingIcon);
+			}
 		}
 
 	};
@@ -577,12 +604,14 @@
 						$selectManiaEl.data('selectMania-ajaxReady', false);
 						//enregistre nouvelle page en cours
 						$selectManiaEl.data('selectMania-ajaxPage', thisPage);
-						// TODO: loading icon
+						//loading icon
+						Engine.dropdownLoading($selectManiaEl);
 						//call ajax function
 						var thisAjaxFunction = $selectManiaEl.data('selectMania-ajaxFunction');
 						var thisAjaxData = $selectManiaEl.data('selectMania-ajaxData');
 						thisAjaxFunction(thisSearch, thisPage, thisAjaxData, function(optHTML) {
-							// TODO: remove loading icon
+							//remove loading icon
+							Engine.dropdownLoading($selectManiaEl, true);
 							//if options returned
 							if(optHTML.trim() !== '') {
 								//add items to dropdown from sent options
@@ -632,7 +661,7 @@
 			var settings = $.extend({
 				width: '100%', 
 				size: 'medium', 
-				placeholder: 'Select', 
+				placeholder: 'Select an item', 
 				removable: false, 
 				search: false, 
 				ajax: false, 

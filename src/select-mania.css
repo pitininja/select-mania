@@ -27,6 +27,10 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+[class^="icon-"],
+[class*=" icon-"] {
+	display:inline-block;
+}
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
 	font-family: "select-mania-font" !important;
@@ -49,9 +53,62 @@
 	content: "\6c";
 }
 
+@-webkit-keyframes rotating {
+	from {
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+@keyframes rotating {
+	from {
+		-ms-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	to {
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+.icon-loading-container {
+	display:inline-block;
+	width:32px;
+	height:32px;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	margin:auto;
+	font-size:2rem;
+}
+.icon-loading-container .icon-loading {
+	width:32px;
+	height:32px;
+	-webkit-animation: rotating 2s linear infinite;
+	-moz-animation: rotating 2s linear infinite;
+	-ms-animation: rotating 2s linear infinite;
+	-o-animation: rotating 2s linear infinite;
+	animation: rotating 2s linear infinite;
+}
+
 /* ################################################################## */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* ################################################################## */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GENERAL */
 
 .select-mania {
 	display:inline-block;
@@ -97,9 +154,7 @@
 	display:none !important;
 }
 
-/* ################################################################## */
-/* ~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES ~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
 
 .select-mania-values {
 	width:calc(100% - 48px);
@@ -146,9 +201,7 @@
 	font-size:0.9rem;
 }
 
-/* ################################################################## */
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
 
 .select-mania-placeholder {
 	display:none;
@@ -162,9 +215,7 @@
 	display:inline-block;
 }
 
-/* ################################################################## */
-/* ~~~~~~~~~~~~~~~~~~~~~~~ CLEAN VALUES ICON ~~~~~~~~~~~~~~~~~~~~~~~~ */
-/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CLEAN VALUES ICON */
 
 .select-mania-clear {
 	width:24px;
@@ -175,9 +226,7 @@
 	font-size:1.1rem;
 }
 
-/* ################################################################## */
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ARROW ICON ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ARROW ICON */
 
 .select-mania-arrow {
 	width:24px;
@@ -188,9 +237,7 @@
 	font-size:1.1rem;
 }
 
-/* ################################################################## */
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
 
 .select-mania-dropdown {
 	background:white;
@@ -221,6 +268,12 @@
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
+}
+
+.select-mania-dropdown-items-container {
+	position:relative;
+	width:100%;
+	max-height:200px;
 }
 
 .select-mania-dropdown-items {
