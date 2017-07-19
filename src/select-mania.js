@@ -613,7 +613,7 @@
 				//get select data
 				var thisData = Engine.getData(this, settings);
 				//control ajax function type
-				if(typeof thisData.ajax !== 'function') {
+				if(thisData.ajax !== false && typeof thisData.ajax !== 'function') {
 					thisData.ajax = false;
 					console.error('selectMania | not a valid ajax function');
 					console.log(this);
