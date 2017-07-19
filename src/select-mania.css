@@ -54,10 +54,12 @@
 /* ################################################################## */
 
 .select-mania {
+	display:inline-block;
 	position:relative;
 	width:100%;
 	margin:auto;
 	background:white;
+	vertical-align:middle;
 }
 
 .select-mania, 
@@ -197,7 +199,7 @@
 	z-index:999999;
 	display:none;
 	position:absolute;
-	top:calc(100% + 2px);
+	top:100%;
 	width:100%;
 	padding:6px;
 	border:1px solid #BDC3C7;
