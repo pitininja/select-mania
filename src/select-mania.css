@@ -5,18 +5,18 @@
 @charset "UTF-8";
 
 @font-face {
-	font-family: "untitled-font-1";
-	src:url("fonts/untitled-font-1.eot");
-	src:url("fonts/untitled-font-1.eot?#iefix") format("embedded-opentype"),
-	url("fonts/untitled-font-1.woff") format("woff"),
-	url("fonts/untitled-font-1.ttf") format("truetype"),
-	url("fonts/untitled-font-1.svg#untitled-font-1") format("svg");
+	font-family: "select-mania-font";
+	src:url("fonts/select-mania-font.eot");
+	src:url("fonts/select-mania-font.eot?#iefix") format("embedded-opentype"),
+	url("fonts/select-mania-font.woff") format("woff"),
+	url("fonts/select-mania-font.ttf") format("truetype"),
+	url("fonts/select-mania-font.svg#select-mania-font") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
 
 [data-icon]:before {
-	font-family: "untitled-font-1" !important;
+	font-family: "select-mania-font" !important;
 	content: attr(data-icon);
 	font-style: normal !important;
 	font-weight: normal !important;
@@ -30,7 +30,7 @@
 
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
-	font-family: "untitled-font-1" !important;
+	font-family: "select-mania-font" !important;
 	font-style: normal !important;
 	font-weight: normal !important;
 	font-variant: normal !important;
@@ -146,6 +146,22 @@
 }
 
 /* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+.select-mania-placeholder {
+	display:none;
+	width:auto;
+	height:26px;
+	padding:4px;
+	font-size:1rem;
+	color:#7F8C8D;
+}
+.select-mania-placeholder:only-child {
+	display:inline-block;
+}
+
+/* ################################################################## */
 /* ~~~~~~~~~~~~~~~~~~~~~~~ CLEAN VALUES ICON ~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* ################################################################## */
 
@@ -175,6 +191,18 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* ################################################################## */
 
+.select-mania-dropdown {
+	background:white;
+	z-index:999999;
+	display:none;
+	position:absolute;
+	top:100%;
+	width:100%;
+	padding:6px;
+	border:1px solid #BDC3C7;
+	border-radius:4px;
+}
+
 .select-mania-dropdown-search {
 	width:100%;
 	margin-bottom:6px;
@@ -194,18 +222,6 @@
 	box-shadow: none;
 }
 
-.select-mania-dropdown {
-	background:white;
-	z-index:999999;
-	display:none;
-	position:absolute;
-	top:100%;
-	width:100%;
-	padding:6px;
-	border:1px solid #BDC3C7;
-	border-radius:4px;
-}
-
 .select-mania-dropdown-items {
 	width:100%;
 	max-height:200px;
@@ -217,6 +233,7 @@
 	min-height:20px;
 	padding:6px;
 	border-radius:4px;
+	font-size:1rem;
 	cursor:pointer;
 	text-align:left;
 }
@@ -232,4 +249,172 @@
 }
 .select-mania.select-mania-multiple .select-mania-dropdown-item.select-mania-selected {
 	display:none;
+}
+
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~ TAILLE SMALL ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL */
+
+.select-mania-small .select-mania-inner {
+	min-height:32px;
+	padding:4px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
+
+.select-mania-small .select-mania-values {
+	width:calc(100% - 44px);
+	min-height:20px;
+}
+
+.select-mania-small .select-mania-value {
+	height:20px;
+}
+
+.select-mania-small .select-mania-value-text {
+	height:20px;
+	padding:3px;
+	font-size:0.8rem;
+}
+
+.select-mania.select-mania-multiple.select-mania-small .select-mania-value-clear {
+	width:20px;
+	height:20px;
+}
+.select-mania-small .select-mania-value-clear i {
+	line-height:20px;
+	font-size:0.9rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
+
+.select-mania-small .select-mania-placeholder {
+	height:20px;
+	padding:4px;
+	font-size:0.8rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CLEAN VALUES ICON */
+
+.select-mania-small .select-mania-clear {
+	width:22px;
+}
+.select-mania-small .select-mania-clear i {
+	font-size:1rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ARROW ICON */
+
+.select-mania-small .select-mania-arrow {
+	width:22px;
+}
+.select-mania-small .select-mania-arrow i {
+	font-size:1rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.select-mania-small .select-mania-dropdown {
+	padding:4px;
+}
+
+.select-mania-small .select-mania-dropdown-search {
+	margin-bottom:4px;
+}
+
+.select-mania-small .select-mania-dropdown-search-input {
+	padding:4px;
+	font-size:0.8rem;
+}
+
+.select-mania-small .select-mania-dropdown-item {
+	min-height:16px;
+	padding:4px;
+	font-size:0.8rem;
+}
+
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~ TAILLE LARGE ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL */
+
+.select-mania-large .select-mania-inner {
+	min-height:52px;
+	padding:8px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
+
+.select-mania-large .select-mania-values {
+	width:calc(100% - 56px);
+	min-height:32px;
+}
+
+.select-mania-large .select-mania-value {
+	height:32px;
+}
+
+.select-mania-large .select-mania-value-text {
+	height:32px;
+	padding:4px;
+	font-size:1.1rem;
+}
+
+.select-mania.select-mania-multiple.select-mania-large .select-mania-value-clear {
+	width:20px;
+	height:32px;
+}
+.select-mania-large .select-mania-value-clear i {
+	line-height:32px;
+	font-size:1.1rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
+
+.select-mania-large .select-mania-placeholder {
+	height:32px;
+	padding:6px;
+	font-size:1.1rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CLEAN VALUES ICON */
+
+.select-mania-large .select-mania-clear {
+	width:28px;
+}
+.select-mania-large .select-mania-clear i {
+	font-size:1.2rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ARROW ICON */
+
+.select-mania-large .select-mania-arrow {
+	width:28px;
+}
+.select-mania-large .select-mania-arrow i {
+	font-size:1.2rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.select-mania-large .select-mania-dropdown {
+	padding:8px;
+}
+
+.select-mania-large .select-mania-dropdown-search {
+	margin-bottom:8px;
+}
+
+.select-mania-large .select-mania-dropdown-search-input {
+	padding:8px;
+	font-size:1.1rem;
+}
+
+.select-mania-large .select-mania-dropdown-item {
+	min-height:24px;
+	padding:8px;
+	font-size:1.1rem;
 }
