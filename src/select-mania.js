@@ -6,10 +6,63 @@
 
 	var Engine = {
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ initialize
+
+		//initialize selectMania on original select
+		initialize: function($originalSelect, settings) {
+			var thisEngine = this;
+			//get select data
+			var thisData = thisEngine.getData($originalSelect, settings);
+			//control ajax function type
+			if(thisData.ajax !== false && typeof thisData.ajax !== 'function') {
+				thisData.ajax = false;
+				console.error('selectMania | not a valid ajax function');
+				console.log($originalSelect[0]);
+			}
+			//error if invalid size provided
+			if(jQuery.inArray(thisData.size, ['small','medium','large']) === -1) {
+				thisData.size = 'medium';
+				console.error('selectMania | not a valid size');
+				console.log($originalSelect[0]);
+				return;
+			}
+			//build selectMania elements
+			var $builtSelect = thisEngine.build(thisData);
+			//attach original select element to selectMania element
+			$builtSelect.data('selectMania-originalSelect', $originalSelect[0]);
+			//attach selectMania element to original select element
+			$originalSelect.data('selectMania-element', $builtSelect);
+			//if ajax is activated
+			if(thisData.ajax !== false) {
+				//initialize ajax data
+				thisEngine.initAjax($builtSelect, thisData);
+			}
+			//update clean values icon display
+			thisEngine.updateClean($builtSelect);
+			//add witness / hding class original select element
+			$originalSelect.addClass('select-mania-original');
+			//insert selectMania element before original select
+			$builtSelect.insertBefore($originalSelect);
+			//bind selectMania element
+			Binds.bind($builtSelect);
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ destroy
+
+		//destroy selectMania on targeted original select
+		destroy: function($originalSelect) {
+			//selectMania element attached to original select
+			$selectManiaEl = $originalSelect.data('selectMania-element');
+			//remove selectMania element
+			$selectManiaEl.remove();
+			//remove class from original select
+			$originalSelect.removeClass('select-mania-original');
+		}, 
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ getData
 
 		//get select data
-		getData: function(el, settings) {
+		getData: function($originalSelect, settings) {
 			var thisEngine = this;
 			//select data
 			var data = {
@@ -18,9 +71,9 @@
 				items: []
 			};
 			//if select is multiple
-			data.multiple = $(el).is('[multiple]');
+			data.multiple = $originalSelect.is('[multiple]');
 			//loop through select options
-			$(el).find('option').each(function() {
+			$originalSelect.find('option').each(function() {
 				//set as value if option is selected
 				if(this.selected) {
 					data.values.push({
@@ -38,26 +91,26 @@
 			//merge select data with user settings
 			data = $.extend(data, settings);
 			//get select data stored as attributes
-			var attrData = thisEngine.getAttrData(el);
+			var attrData = thisEngine.getAttrData($originalSelect);
 			//merge select data found in attributes
 			data = $.extend(data, attrData);
 			//send back select data
 			return data;
 		}, 
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ getData
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ getAttrData
 
 		//get select data stored as attributes
-		getAttrData: function(el) {
+		getAttrData: function($originalSelect) {
 			var attrData = {};
 			//available attributes
 			var attrs = ['width','size','placeholder','removable','search'];
 			//loop through attributes
 			attrs.forEach(function(attr) {
 				//if attribute is set on select
-				if($(el).is('[data-'+attr+']')) {
+				if($originalSelect.is('[data-'+attr+']')) {
 					//insert data
-					var elAttr = $(el).attr('data-'+attr);
+					var elAttr = $originalSelect.attr('data-'+attr);
 					if(elAttr === 'true' || elAttr === 'false') {
 						elAttr = elAttr === 'true';
 					}
@@ -126,20 +179,31 @@
 			return $inner;
 		}, 
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ bindValue
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildValue
 
 		//build selected value
-		buildValue: function(val) {
-			var thisEngine = this;
+		buildValue: function(valObj) {
 			//selected value element html
-			var valHtml = '<div class="select-mania-value" data-value="'+val.value+'">'+
-				'<div class="select-mania-value-text">'+val.text+'</div>'+
+			var valHtml = '<div class="select-mania-value" data-value="'+valObj.value+'">'+
+				'<div class="select-mania-value-text">'+valObj.text+'</div>'+
 				'<div class="select-mania-value-clear">'+
 					'<i class="select-mania-value-clear-icon icon-cross"></i>'+
 				'</div>'+
 			'</div>';
 			//send back selected value element
 			return $(valHtml);
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildOption
+
+		//build option for original select
+		buildOption: function(valObj) {
+			//build option
+			var $opt = $('<option value="'+valObj.value+'">'+valObj.text+'</option>');
+			//set option selected status
+			$opt[0].selected = valObj.selected;
+			//send back option element
+			return $opt;
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildDropdown
@@ -205,26 +269,28 @@
 			$dropdown.find('.select-mania-dropdown-search-input').focus();
 		}, 
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ openDropdown / closeDropdown
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ addMultipleVal
 
-		//add value to multiple select
-		addMultipleVal: function($selectEl, val) {
-			var originalVals = $selectEl.val();
+		//add value to multiple original select
+		addMultipleVal: function($originalSelect, val) {
+			var originalVals = $originalSelect.val();
 			if(!(originalVals instanceof Array)) {
 				originalVals = [];
 			}
 			originalVals.push(val);
-			$selectEl.val(originalVals);
+			$originalSelect.val(originalVals);
 		}, 
 
-		//remove value from multiple select
-		removeMultipleVal: function($selectEl, val) {
-			var originalVals = $selectEl.val();
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ removeMultipleVal
+
+		//remove value from multiple original select
+		removeMultipleVal: function($originalSelect, val) {
+			var originalVals = $originalSelect.val();
 			if(!(originalVals instanceof Array)) {
 				originalVals = [];
 			}
 			originalVals.splice($.inArray(val, originalVals), 1);
-			$selectEl.val(originalVals);
+			$originalSelect.val(originalVals);
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ updateClean
@@ -245,7 +311,7 @@
 			}
 		}, 
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ doSearch / doSearchAjax
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ doSearch
 
 		//do search in items dropdown
 		doSearch: function($selectManiaEl) {
@@ -273,6 +339,8 @@
 				}
 			});
 		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ doSearchAjax
 
 		//do ajax search in items dropdown
 		doSearchAjax: function($selectManiaEl) {
@@ -405,6 +473,104 @@
 				$loadingIcon.append('<i class="icon-loading"></i>');
 				//insert loading icon
 				$dropdownContainer.append($loadingIcon);
+			}
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ getVal
+
+		//get parsed selected values
+		getVal: function($selectManiaEl) {
+			var valObjs = [];
+			//loop though values elements
+			$selectManiaEl.find('.select-mania-value').each(function() {
+				//selected value text
+				var thisText = $(this).find('.select-mania-value-text').first().text();
+				//insert selected value object
+				valObjs.push({
+					value: $(this).attr('data-value'), 
+					text: thisText
+				});
+			});
+			//send back parsed selected values
+			return valObjs;
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ setVal
+
+		//set parsed values as selected values
+		setVal: function($selectManiaEl, valObjs) {
+			var thisEngine = this;
+			//original select element
+			var $originalSelect = $($selectManiaEl.data('selectMania-originalSelect'));
+			//if there's more than one value in the values and select is not multiple
+			if(valObjs.length > 1 && !$selectManiaEl.is('.select-mania-multiple')) {
+				//keep only first value
+				valObjs = valObjs.slice(0, 1);
+			}
+			//loop through values
+			valObjs.forEach(function(val) {
+				//parse value object
+				var valObj = $.extend({
+					value: '', 
+					text: '', 
+					selected: true
+				}, val);
+				//set value in selectMania element
+				thisEngine.setOneValSelectMania($selectManiaEl, valObj);
+				//set value in original select
+				thisEngine.setOneValOriginal($originalSelect, valObj);
+			});
+			//update clean values icon display
+			thisEngine.updateClean($selectManiaEl);
+			//rebind selectMania element
+			Binds.bind($selectManiaEl);
+		}, 
+
+		//set one value on selectMania element
+		setOneValSelectMania: function($selectMania, valObj) {
+			var thisEngine = this;
+			//check if corresponding value element exists in selectMania element
+			var $searchVal = $selectMania.find('.select-mania-value[data-value="'+valObj.value+'"]').filter(function() {
+				return $(this).text() === valObj.text;
+			});
+			//if value element doesn't exist in selectMania element
+			if($searchVal.length < 1) {
+				//build value element for selectMania element
+				var $value = thisEngine.buildValue(valObj);
+				//insert built value element in selectMania element
+				$selectMania.find('.select-mania-values').append($value);
+			}
+			//check if corresponding item exists in dropdown
+			var $searchItem = $selectMania.find('.select-mania-dropdown-item[data-value="'+valObj.value+'"]').filter(function() {
+				return $(this).text() === valObj.text;
+			});
+			//if item exists in dropdown
+			if($searchItem.length > 0) {
+				//set item as selected
+				$searchItem.first().addClass('select-mania-selected');
+			}
+		}, 
+
+		//set one value on original select element
+		setOneValOriginal: function($originalSelect, valObj) {
+			var thisEngine = this;
+			//check if corresponding option exists in original select
+			var $searchOpt = $originalSelect.find('option[value="'+valObj.value+'"]').filter(function() {
+				return $(this).text() === valObj.text;
+			});
+			//if option doesn't exist in original select
+			if($searchOpt.length < 1) {
+				//build option for original select
+				var $option = thisEngine.buildOption(valObj);
+				//insert built option in original select
+				$originalSelect.append($option);
+			}
+			//if option already exists in original select
+			else {
+				//fond option element
+				var $foundOption = $searchOpt.first();
+				//set option as selected
+				$foundOption[0].selected = true;
 			}
 		}
 
@@ -673,7 +839,7 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ init
 
 		//initialize selectMania
-		init : function(opts) {
+		init: function(opts) {
 			//settings provided by user
 			var settings = $.extend({
 				width: '100%', 
@@ -687,96 +853,58 @@
 			//loop through targeted elements
 			return this.each(function() {
 				//current select to initialize
-				var thisOriginalSelect = this;
-				var $thisOriginalSelect = $(thisOriginalSelect);
+				var $originalSelect = $(this);
 				//error if element is not a select
-				if(!$thisOriginalSelect.is('select')) {
+				if(!$originalSelect.is('select')) {
 					console.error('selectMania | not a valid select element');
-					console.log(thisOriginalSelect);
+					console.log(this);
 					return;
 				}
 				//error if plugin already initialized
-				if($thisOriginalSelect.hasClass('select-mania-original')) {
+				if($originalSelect.hasClass('select-mania-original')) {
 					console.error('selectMania | ignore because already initialized');
-					console.log(thisOriginalSelect);
+					console.log(this);
 					return;
 				}
-				//get select data
-				var thisData = Engine.getData(thisOriginalSelect, settings);
-				//control ajax function type
-				if(thisData.ajax !== false && typeof thisData.ajax !== 'function') {
-					thisData.ajax = false;
-					console.error('selectMania | not a valid ajax function');
-					console.log(thisOriginalSelect);
-				}
-				//error if invalid size provided
-				if(jQuery.inArray(thisData.size, ['small','medium','large']) === -1) {
-					thisData.size = 'medium';
-					console.error('selectMania | not a valid size');
-					console.log(thisOriginalSelect);
-					return;
-				}
-				//build selectMania elements
-				var $builtSelect = Engine.build(thisData);
-				//attach original select element to selectMania element
-				$builtSelect.data('selectMania-originalSelect', thisOriginalSelect);
-				//attach selectMania element to original select element
-				$thisOriginalSelect.data('selectMania-element', $builtSelect);
-				//if ajax is activated
-				if(thisData.ajax !== false) {
-					//initialize ajax data
-					Engine.initAjax($builtSelect, thisData);
-				}
-				//update clean values icon display
-				Engine.updateClean($builtSelect);
-				//add witness / hding class original select element
-				$thisOriginalSelect.addClass('select-mania-original');
-				//insert selectMania element before original select
-				$builtSelect.insertBefore($thisOriginalSelect);
-				//bind selectMania element
-				Binds.bind($builtSelect);
+				//initialize selectMania on original select
+				Engine.initialize($originalSelect, settings);
 			});
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ update
 
 		//update selectMania
-		update : function(opts) {
+		update: function() {
 			// TODO
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ destroy
 
 		//destroy selectMania
-		destroy : function(opts) {
+		destroy: function() {
 			//loop through targeted elements
 			return this.each(function() {
 				//current select to destroy
-				var thisOriginalSelect = this;
-				var $thisOriginalSelect = $(thisOriginalSelect);
+				var $originalSelect = $(this);
 				//error if plugin not initialized
-				if(!$thisOriginalSelect.hasClass('select-mania-original')) {
+				if(!$originalSelect.hasClass('select-mania-original')) {
 					console.error('selectMania | can not destroy non initialized select');
-					console.log(thisOriginalSelect);
+					console.log(this);
 					return;
 				}
-				//selectMania element attached to original select
-				$selectManiaEl = $thisOriginalSelect.data('selectMania-element');
-				//remove selectMania element
-				$selectManiaEl.remove();
-				//remove class from original select
-				$thisOriginalSelect.removeClass('select-mania-original');
+				//destroy selectMania
+				Engine.destroy($originalSelect);
 			});
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ check
 
 		//check if selectMania initialized
-		check : function(opts) {
+		check: function() {
 			//control method was called on single element
 			if(this.length > 1) {
 				console.error('selectMania | check method can be called on single element only');
-				console.log(thisOriginalSelect);
+				console.log(this[0]);
 				return;
 			}
 			//if plugin initialized
@@ -787,6 +915,56 @@
 			else {
 				return false;
 			}
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ get
+
+		//returns parsed selected values
+		get: function() {
+			//control method was called on single element
+			if(this.length > 1) {
+				console.error('selectMania | check method can be called on single element only');
+				console.log(this[0]);
+				return;
+			}
+			//error if plugin not initialized
+			if(!this.hasClass('select-mania-original')) {
+				console.error('selectMania | can not destroy non initialized select');
+				console.log(this[0]);
+				return;
+			}
+			//selectMania element
+			var $selectManiaEl = this.data('selectMania-element');
+			//get and return parsed selected values
+			return Engine.getVal($selectManiaEl);
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set
+
+		//set parsed values as selected values
+		set: function(values) {
+			//control method was called on single element
+			if(this.length > 1) {
+				console.error('selectMania | check method can be called on single element only');
+				console.log(this[0]);
+				return;
+			}
+			//error if plugin not initialized
+			if(!this.hasClass('select-mania-original')) {
+				console.error('selectMania | can not destroy non initialized select');
+				console.log(this[0]);
+				return;
+			}
+			//error if values is not an array
+			if(!(values instanceof Array)) {
+				console.error('selectMania | values parameter is not a valid array');
+				console.log(values);
+				return;
+			}
+			//selectMania element
+			var $selectManiaEl = this.data('selectMania-element');
+			//get and return parsed selected values
+			return Engine.setVal($selectManiaEl, values);
 		}
 
 	};
