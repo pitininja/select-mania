@@ -976,12 +976,8 @@
 	//plugin calls handler
 	$.fn.selectMania = function(methodOrOpts) {
 
-		//info if targeted element empty
-		if(this.length < 1) {
-			console.info('selectMania | target is empty');
-			console.log(this);
-			return;
-		}
+		//stop right away if targeted element empty
+		if(this.length < 1) { return; }
 
 		//call method
 		if(Methods[methodOrOpts]) {
