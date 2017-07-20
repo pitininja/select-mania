@@ -482,6 +482,8 @@
 			else {
 				$originalSelect.val('');
 			}
+			//trigger original select change event
+			$originalSelect.trigger('change');
 			//update clear values icon display
 			Engine.updateClean($selectManiaEl);
 		}, 
@@ -504,6 +506,8 @@
 			//remove value from original select element
 			var $originalSelect = $($selectManiaEl.data('selectMania-originalSelect'));
 			Engine.removeMultipleVal($originalSelect, $value.attr('data-value'));
+			//trigger original select change event
+			$originalSelect.trigger('change');
 			//update clear values icon display
 			Engine.updateClean($selectManiaEl);
 		}, 
@@ -544,6 +548,8 @@
 				}
 				//set clicked item as selected
 				$(this).addClass('select-mania-selected');
+				//trigger original select change event
+				$originalSelect.trigger('change');
 			}
 			//if select not multiple
 			if(!$selectManiaEl.is('.select-mania-multiple')) {
