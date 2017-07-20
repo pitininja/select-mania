@@ -29,7 +29,7 @@
 			//build selectMania elements
 			var $builtSelect = thisEngine.build(thisData);
 			//attach original select element to selectMania element
-			$builtSelect.data('selectMania-originalSelect', $originalSelect[0]);
+			$builtSelect.data('selectMania-originalSelect', $originalSelect);
 			//attach selectMania element to original select element
 			$originalSelect.data('selectMania-element', $builtSelect);
 			//if ajax is activated
@@ -298,7 +298,7 @@
 		//display / hide clean values icon according to current values
 		updateClean: function($selectManiaEl) {
 			//original select element
-			var $originalSelect = $($selectManiaEl.data('selectMania-originalSelect'));
+			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
 			//if value is not empty
 			if($originalSelect.val() !== null && $originalSelect.val().length > 0) {
 				//display clean values icon
@@ -385,7 +385,7 @@
 		//add / replace dropdown items
 		addOrReplaceItems: function($selectManiaEl, optionsHTML, replace) {
 			//original select element
-			var $originalSelect = $($selectManiaEl.data('selectMania-originalSelect'));
+			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
 			//items dropdown
 			var $itemsContainer = $selectManiaEl.find('.select-mania-dropdown-items');
 			//options jquery parsing
@@ -495,13 +495,33 @@
 			return valObjs;
 		}, 
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ clear
+
+		//clear select values
+		clear: function($selectManiaEl) {
+			//empty selectMania values
+			$selectManiaEl.find('.select-mania-values .select-mania-value').remove();
+			//unselect items in dropdown
+			$selectManiaEl.find('.select-mania-dropdown-item').removeClass('select-mania-selected');
+			//empty values in original select element
+			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
+			if($selectManiaEl.is('.select-mania-multiple')) {
+				$originalSelect.val([]);
+			}
+			else {
+				$originalSelect.val('');
+			}
+		}, 
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ setVal
 
 		//set parsed values as selected values
 		setVal: function($selectManiaEl, valObjs) {
 			var thisEngine = this;
 			//original select element
-			var $originalSelect = $($selectManiaEl.data('selectMania-originalSelect'));
+			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
+			//clear select values before setting provided values
+			thisEngine.clear($selectManiaEl);
 			//if there's more than one value in the values and select is not multiple
 			if(valObjs.length > 1 && !$selectManiaEl.is('.select-mania-multiple')) {
 				//keep only first value
@@ -529,17 +549,10 @@
 		//set one value on selectMania element
 		setOneValSelectMania: function($selectMania, valObj) {
 			var thisEngine = this;
-			//check if corresponding value element exists in selectMania element
-			var $searchVal = $selectMania.find('.select-mania-value[data-value="'+valObj.value+'"]').filter(function() {
-				return $(this).text() === valObj.text;
-			});
-			//if value element doesn't exist in selectMania element
-			if($searchVal.length < 1) {
-				//build value element for selectMania element
-				var $value = thisEngine.buildValue(valObj);
-				//insert built value element in selectMania element
-				$selectMania.find('.select-mania-values').append($value);
-			}
+			//build value element for selectMania element
+			var $value = thisEngine.buildValue(valObj);
+			//insert built value element in selectMania element
+			$selectMania.find('.select-mania-values').append($value);
 			//check if corresponding item exists in dropdown
 			var $searchItem = $selectMania.find('.select-mania-dropdown-item[data-value="'+valObj.value+'"]').filter(function() {
 				return $(this).text() === valObj.text;
@@ -647,18 +660,10 @@
 			e.stopPropagation();
 			//selectMania element
 			var $selectManiaEl = $(this).closest('.select-mania');
-			//empty selectMania values
-			$selectManiaEl.find('.select-mania-values .select-mania-value').remove();
-			//unselect items in dropdown
-			$selectManiaEl.find('.select-mania-dropdown-item').removeClass('select-mania-selected');
-			//empty values in original select element
-			var $originalSelect = $($selectManiaEl.data('selectMania-originalSelect'));
-			if($selectManiaEl.is('.select-mania-multiple')) {
-				$originalSelect.val([]);
-			}
-			else {
-				$originalSelect.val('');
-			}
+			//original select element
+			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
+			//clear values
+			Engine.clear($selectManiaEl);
 			//trigger original select change event
 			$originalSelect.trigger('change');
 			//update clear values icon display
@@ -681,7 +686,7 @@
 			//remove value from selectMania element
 			$value.remove();
 			//remove value from original select element
-			var $originalSelect = $($selectManiaEl.data('selectMania-originalSelect'));
+			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
 			Engine.removeMultipleVal($originalSelect, $value.attr('data-value'));
 			//trigger original select change event
 			$originalSelect.trigger('change');
@@ -696,7 +701,7 @@
 			//selectMania element
 			var $selectManiaEl = $(this).closest('.select-mania');
 			//select original element
-			var $originalSelect = $($selectManiaEl.data('selectMania-originalSelect'));
+			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
 			//if item not already selected
 			if(!$(this).is('.select-mania-selected')) {
 				//clicked item value
@@ -888,7 +893,7 @@
 				var $originalSelect = $(this);
 				//error if plugin not initialized
 				if(!$originalSelect.hasClass('select-mania-original')) {
-					console.error('selectMania | can not destroy non initialized select');
+					console.error('selectMania | select is not initialized');
 					console.log(this);
 					return;
 				}
@@ -923,7 +928,7 @@
 			}
 			//error if plugin not initialized
 			if(!this.hasClass('select-mania-original')) {
-				console.error('selectMania | can not destroy non initialized select');
+				console.error('selectMania | select is not initialized');
 				console.log(this[0]);
 				return;
 			}
@@ -945,7 +950,7 @@
 			}
 			//error if plugin not initialized
 			if(!this.hasClass('select-mania-original')) {
-				console.error('selectMania | can not destroy non initialized select');
+				console.error('selectMania | select is not initialized');
 				console.log(this[0]);
 				return;
 			}
@@ -958,7 +963,32 @@
 			//selectMania element
 			var $selectManiaEl = this.data('selectMania-element');
 			//get and return parsed selected values
-			return Engine.setVal($selectManiaEl, values);
+			Engine.setVal($selectManiaEl, values);
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ clear
+
+		//clear values
+		clear: function() {
+			//loop through targeted elements
+			return this.each(function() {
+				//current select to destroy
+				var $originalSelect = $(this);
+				//error if plugin not initialized
+				if(!$originalSelect.hasClass('select-mania-original')) {
+					console.error('selectMania | select is not initialized');
+					console.log(this);
+					return;
+				}
+				//selectMania element
+				var $selectManiaEl = $originalSelect.data('selectMania-element');
+				//clear values
+				Engine.clear($selectManiaEl);
+				//trigger original select change event
+				$originalSelect.trigger('change');
+				//update clear values icon display
+				Engine.updateClean($selectManiaEl);
+			});
 		}
 
 	};
