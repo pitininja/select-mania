@@ -756,6 +756,26 @@
 				//remove class from original select
 				$thisOriginalSelect.removeClass('select-mania-original');
 			});
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ check
+
+		//check if selectMania initialized
+		check : function(opts) {
+			//control method was called on single element
+			if(this.length > 1) {
+				console.error('selectMania | check method can be called on single element only');
+				console.log(thisOriginalSelect);
+				return;
+			}
+			//if plugin initialized
+			if(this.hasClass('select-mania-original')) {
+				return true;
+			}
+			//if not initialized
+			else {
+				return false;
+			}
 		}
 
 	};
@@ -767,19 +787,28 @@
 	//plugin calls handler
 	$.fn.selectMania = function(methodOrOpts) {
 
-		//if call method
+		//info if targeted element empty
+		if(this.length < 1) {
+			console.info('selectMania | target is empty');
+			console.log(this);
+			return;
+		}
+
+		//call method
 		if(Methods[methodOrOpts]) {
 			//remove method name from call arguments
 			var slicedArguments = Array.prototype.slice.call(arguments, 1);
 			//call targeted mathod with arguments
 			return Methods[methodOrOpts].apply(this, slicedArguments);
 		}
-		//if call init
+
+		//call init
 		else if(typeof methodOrOpts === 'object' || !methodOrOpts) {
 			//call init with arguments
 			return Methods.init.apply(this, arguments);
 		}
-		//call error
+
+		//error
 		else {
 			console.error('selectMania | wrong method called');
 			console.log(this);
