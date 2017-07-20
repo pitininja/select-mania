@@ -8,12 +8,12 @@
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
 
-.select-mania-theme-green .select-mania-value {
+.select-mania-theme-green.select-mania.select-mania-multiple .select-mania-value { 
+	border: 1px solid #0CBF73; 
+	
 	background-color: #0CBF73;
 	color: white;
 }
-
-.select-mania-theme-green.select-mania.select-mania-multiple .select-mania-value { border: 1px solid #0CBF73; }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
 
