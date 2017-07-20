@@ -661,7 +661,7 @@
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ init
 
-		//selectMania initialization
+		//initialize selectMania
 		init : function(opts) {
 			//settings provided by user
 			var settings = $.extend({
@@ -685,8 +685,8 @@
 					return;
 				}
 				//error if plugin already initialized
-				if($thisOriginalSelect.hasClass('select-mania')) {
-					console.info('selectMania | ignore because already initialized');
+				if($thisOriginalSelect.hasClass('select-mania-original')) {
+					console.error('selectMania | ignore because already initialized');
 					console.log(thisOriginalSelect);
 					return;
 				}
@@ -709,6 +709,8 @@
 				var $builtSelect = Engine.build(thisData);
 				//attach original select element to selectMania element
 				$builtSelect.data('selectMania-originalSelect', thisOriginalSelect);
+				//attach selectMania element to original select element
+				$thisOriginalSelect.data('selectMania-element', $builtSelect);
 				//if ajax is activated
 				if(thisData.ajax !== false) {
 					//initialize ajax data
@@ -716,8 +718,8 @@
 				}
 				//update clean values icon display
 				Engine.updateClean($builtSelect);
-				//hide original select element
-				$thisOriginalSelect.hide();
+				//add witness / hding class original select element
+				$thisOriginalSelect.addClass('select-mania-original');
 				//insert selectMania element before original select
 				$builtSelect.insertBefore($thisOriginalSelect);
 				//bind selectMania element
@@ -727,20 +729,33 @@
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ update
 
-		//update selectMania instantiation
+		//update selectMania
 		update : function(opts) {
-
 			// TODO
-
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ destroy
 
-		//destroy selectMania instantiation
+		//destroy selectMania
 		destroy : function(opts) {
-
-			// TODO
-
+			//loop through targeted elements
+			return this.each(function() {
+				//current select to destroy
+				var thisOriginalSelect = this;
+				var $thisOriginalSelect = $(thisOriginalSelect);
+				//error if plugin not initialized
+				if(!$thisOriginalSelect.hasClass('select-mania-original')) {
+					console.error('selectMania | can not destroy non initialized select');
+					console.log(thisOriginalSelect);
+					return;
+				}
+				//selectMania element attached to original select
+				$selectManiaEl = $thisOriginalSelect.data('selectMania-element');
+				//remove selectMania element
+				$selectManiaEl.remove();
+				//remove class from original select
+				$thisOriginalSelect.removeClass('select-mania-original');
+			});
 		}
 
 	};
