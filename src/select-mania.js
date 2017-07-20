@@ -188,10 +188,21 @@
 
 		//open / close items dropdown
 		openDropdown: function($dropdown) {
+			var thisEngine = this;
+			//open dropdown
 			$dropdown.stop().addClass('open').slideDown(100);
+			//focus search input
+			thisEngine.focusSearch($dropdown);
 		}, 
 		closeDropdown: function($dropdown) {
 			$dropdown.stop().removeClass('open').slideUp(100);
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ focusSearch
+
+		//focus search input in dropdown
+		focusSearch: function($dropdown) {
+			$dropdown.find('.select-mania-dropdown-search-input').focus();
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ openDropdown / closeDropdown
