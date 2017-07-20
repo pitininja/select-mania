@@ -874,9 +874,9 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ update
 
 		//update selectMania
-		update: function() {
+		/*update: function() {
 			// TODO
-		}, 
+		}, */
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ destroy
 
@@ -907,14 +907,8 @@
 				console.log(this[0]);
 				return;
 			}
-			//if plugin initialized
-			if(this.hasClass('select-mania-original')) {
-				return true;
-			}
-			//if not initialized
-			else {
-				return false;
-			}
+			//send back if plugin initialized or not
+			return this.hasClass('select-mania-original');
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ get
