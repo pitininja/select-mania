@@ -13,6 +13,7 @@
 			//style
 			width: '100%', 
 			size: 'medium', 
+			themes: [], 
 			//texts
 			placeholder: 'Select an item', 
 			//controls
@@ -558,23 +559,31 @@ var Build = {
 			//explicit selectMania width style
 			var widthStyle = 'style="width:'+data.width+';"';
 			//general selectMania div
-			var $select = $('<div class="select-mania '+sizeClass+'" '+widthStyle+'></div>');
+			var $selectManiaEl = $('<div class="select-mania '+sizeClass+'" '+widthStyle+'></div>');
 			//class for multiple
 			if(data.multiple) {
-				$select.addClass('select-mania-multiple');
+				$selectManiaEl.addClass('select-mania-multiple');
+			}
+			//classes for themes
+			if(data.themes instanceof Array && data.themes.length > 0) {
+				//loop through themes
+				data.themes.forEach(function(theme) {
+					//applies theme class
+					$selectManiaEl.addClass('select-mania-theme-'+theme);
+				});
 			}
 			//class for activated ajax
 			if(data.ajax !== false) {
-				$select.addClass('select-mania-ajax');
+				$selectManiaEl.addClass('select-mania-ajax');
 			}
 			//insert children elements
-			$select
+			$selectManiaEl
 				//inner elements
 				.append(thisBuild.buildInner(data))
 				//items dropdown
 				.append(thisBuild.buildDropdown(data));
 			//send back selectMania element
-			return $select;
+			return $selectManiaEl;
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildInner
