@@ -1,24 +1,21 @@
 # select-mania
----------------------
 
 A jQuery select plugin.
 
 ## Depencies
----------------------
 
 - [jQuery (v1.6+)](https://jquery.com)
 
 ## Quick start
----------------------
 
 Link the main CSS and JS files:
-```
+```html
 <link rel="stylesheet" href="path-to-select-mania/select-mania.css" />
 <script type="text/javascript" src="path-to-select-mania/select-mania.js"></script>
 ```
 
 Initialize select-mania:
-```
+```javascript
 $('target-selector').selectMania();
 //with options
 $('target-selector').selectMania({
@@ -27,13 +24,12 @@ $('target-selector').selectMania({
 ```
 
 ## Options
----------------------
 
 Select-mania can be initialized with a bunch of available options.
 
 #### Example
 
-```
+```javascript
 $('target-selector').selectMania({
 	width: '200px', 
 	size: 'small', 
@@ -84,7 +80,7 @@ If the `ajax` option is enabled, the search will be made in ajax with the provid
 Default: `false`
 Select-mania can load items in ajax while scrolling, and do ajax search.
 In order to enable ajax features, set the `ajax` option to a function like this:
-```
+```javascript
 function(search, page, data, callback) {
     //send back html options to select-mania
     callback(hmtlOptions);
@@ -100,7 +96,7 @@ The function takes 4 arguments:
 The results sent by the callback function must be options to add / options found (if searching) in the form of a HTML string, or jQuery / DOM elements.
 
 Example:
-```
+```javascript
 ajax: function(search, page, data, callback) {
 	$.ajax({
 		type: 'POST', 
@@ -123,12 +119,11 @@ Default: `{}`
 This data will be set as argument in the ajax function if enabled.
 
 ## Methods
----------------------
 
 ### init
 
 Call this method to initialize select-mania on the targeted select elements.
-```
+```javascript
 //simple call
 $('target-selector').selectMania({/*options*/});
 //explicit call
@@ -139,7 +134,7 @@ $('target-selector').selectMania('init', {/*options*/});
 
 This method destroys select-mania on the targeted elements.
 The select-mania element will be removed and the original select set to this original state.
-```
+```javascript
 $('target-selector').selectMania('destroy');
 ```
 
@@ -147,7 +142,7 @@ $('target-selector').selectMania('destroy');
 
 *This method can be called on a single element only!*
 Returns `true` if select-mania is initialized on the targeted select, `false` otherwise.
-```
+```javascript
 $('target-selector').selectMania('check');
 ```
 
@@ -156,12 +151,12 @@ $('target-selector').selectMania('check');
 *This method can be called on a single element only!*
 Call this method to get parsed selected values of a select-mania initialized element.
 This can be useful to set selected values on further initialization, if these values were selected from ajax scroll / search and are not there anymore.
-```
+```javascript
 $('target-selector').selectMania('get');
 ```
 
 Returns selected values like this:
-```
+```javascript
 [
     {
         value: '20', 
@@ -179,7 +174,7 @@ Returns selected values like this:
 *This method can be called on a single element only!*
 This method sets the provided values as selected values on the targeted select-mania initialized element.
 The provided values must be formed like the data returned by the `get` method.
-```
+```javascript
 $('target-selector').selectMania('set', [
     {
         value: '20', 
@@ -195,12 +190,11 @@ $('target-selector').selectMania('set', [
 ### clear
 
 Clear the selected values of the targeted select.
-```
+```javascript
 $('target-selector').selectMania('clear');
 ```
 
 ## Questions
----------------------
 
 ##### Can I still get the selected values directly from the original select element?
 Of course! Just do a classic `$('target-selector').val();` and it will be fine. Every action taken on the select-mania element is passed on the orinal select element.
