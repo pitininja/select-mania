@@ -128,6 +128,10 @@
 .select-mania, 
 .select-mania * {
 	box-sizing:border-box;
+}
+
+.select-mania, 
+.select-mania *:not(.select-mania-dropdown-search-input) {
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
