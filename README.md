@@ -27,7 +27,7 @@ $('target-selector').selectMania({
 
 Select-mania can be initialized with a bunch of available options.
 
-#### Example
+### Example
 
 ```javascript
 $('target-selector').selectMania({
@@ -38,9 +38,9 @@ $('target-selector').selectMania({
 });
 ```
 
-#### Available options
+### Available options
 
-##### width
+#### width
 
 Default: `'100%'`
 
@@ -48,7 +48,7 @@ The select width.
 
 Must be a valid CSS width.
 
-##### size
+#### size
 
 Default: `'medium'`
 
@@ -56,7 +56,7 @@ The size of the select.
 
 Three sizes are available: `'small'`, `'medium'`, `'large'`
 
-##### themes
+#### themes
 
 Default: `[]`
 
@@ -66,19 +66,19 @@ Themes CSS files can be found in the `themes` folder with names like `select-man
 
 You can create your own theme! A `sample.css` theme file is here to help you doing that.
 
-##### placeholder
+#### placeholder
 
 Default: `'Select an item'`
 
 The text of the placeholder.
 
-##### removable
+#### removable
 
 Default: `false`
 
 Set this option to `true` to be able to remove the selected option of a simple select, even without any empty option available.
 
-##### search
+#### search
 
 Default: `false`
 
@@ -86,7 +86,7 @@ If set to `true`, a search input will be available in the dropdown to search for
 
 If the `ajax` option is enabled, the search will be made in ajax with the provided function (see below).
 
-##### ajax
+#### ajax
 
 Default: `false`
 
@@ -126,7 +126,7 @@ ajax: function(search, page, data, callback) {
 }
 ```
 
-##### data
+#### data
 
 Default: `{}`
 
