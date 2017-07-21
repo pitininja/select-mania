@@ -13,9 +13,12 @@
 			//style
 			width: '100%', 
 			size: 'medium', 
+			//texts
 			placeholder: 'Select an item', 
+			//controls
 			removable: false, 
 			search: false, 
+			//ajax
 			ajax: false, 
 			data: {}
 		}
