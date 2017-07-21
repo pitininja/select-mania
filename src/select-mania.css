@@ -342,7 +342,7 @@
 
 .select-mania-small .select-mania-values {
 	width:calc(100% - 44px);
-	min-height:20px;
+	min-height:24px;
 }
 
 .select-mania-small .select-mania-value {
