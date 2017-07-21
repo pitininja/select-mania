@@ -1,6 +1,28 @@
 (function($) {
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+// ----------------------------------------- DATA ----------------------------------------- //
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
+	var Data = {
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ defaults
+
+		//default settings values
+		defaults: {
+			//style
+			width: '100%', 
+			size: 'medium', 
+			placeholder: 'Select an item', 
+			removable: false, 
+			search: false, 
+			ajax: false, 
+			data: {}
+		}
+
+	};
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 // ---------------------------------------- ENGINE ---------------------------------------- //
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
@@ -909,15 +931,7 @@ var Build = {
 		//initialize selectMania
 		init: function(opts) {
 			//settings provided by user
-			var settings = $.extend({
-				width: '100%', 
-				size: 'medium', 
-				placeholder: 'Select an item', 
-				removable: false, 
-				search: false, 
-				ajax: false, 
-				data: {}
-			}, opts);
+			var settings = $.extend(Data.defaults, opts);
 			//loop through targeted elements
 			return this.each(function() {
 				//current select to initialize
