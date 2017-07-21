@@ -13,38 +13,28 @@
 			var thisEngine = this;
 			//get select data
 			var thisData = thisEngine.getData($originalSelect, settings);
-			//control ajax function type
-			if(thisData.ajax !== false && typeof thisData.ajax !== 'function') {
-				thisData.ajax = false;
-				console.error('selectMania | not a valid ajax function');
-				console.log($originalSelect[0]);
+			//control ajax function type and size
+			if(thisEngine.controlData($originalSelect, thisData, ['ajax','size'])) {
+				//build selectMania elements
+				var $builtSelect = Build.build(thisData);
+				//attach original select element to selectMania element
+				$builtSelect.data('selectMania-originalSelect', $originalSelect);
+				//attach selectMania element to original select element
+				$originalSelect.data('selectMania-element', $builtSelect);
+				//if ajax is activated
+				if(thisData.ajax !== false) {
+					//initialize ajax data
+					thisEngine.initAjax($builtSelect, thisData);
+				}
+				//update clean values icon display
+				thisEngine.updateClean($builtSelect);
+				//add witness / hding class original select element
+				$originalSelect.addClass('select-mania-original');
+				//insert selectMania element before original select
+				$builtSelect.insertBefore($originalSelect);
+				//bind selectMania element
+				Binds.bind($builtSelect);
 			}
-			//error if invalid size provided
-			if(jQuery.inArray(thisData.size, ['small','medium','large']) === -1) {
-				thisData.size = 'medium';
-				console.error('selectMania | not a valid size');
-				console.log($originalSelect[0]);
-				return;
-			}
-			//build selectMania elements
-			var $builtSelect = thisEngine.build(thisData);
-			//attach original select element to selectMania element
-			$builtSelect.data('selectMania-originalSelect', $originalSelect);
-			//attach selectMania element to original select element
-			$originalSelect.data('selectMania-element', $builtSelect);
-			//if ajax is activated
-			if(thisData.ajax !== false) {
-				//initialize ajax data
-				thisEngine.initAjax($builtSelect, thisData);
-			}
-			//update clean values icon display
-			thisEngine.updateClean($builtSelect);
-			//add witness / hding class original select element
-			$originalSelect.addClass('select-mania-original');
-			//insert selectMania element before original select
-			$builtSelect.insertBefore($originalSelect);
-			//bind selectMania element
-			Binds.bind($builtSelect);
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ destroy
@@ -119,133 +109,6 @@
 			});
 			//send back select attributes data
 			return attrData;
-		}, 
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ build
-
-		//build selectMania element
-		build: function(data) {
-			var thisEngine = this;
-			//class for selectMania size
-			var sizeClass = 'select-mania-'+data.size;
-			//explicit selectMania width style
-			var widthStyle = 'style="width:'+data.width+';"';
-			//general selectMania div
-			var $select = $('<div class="select-mania '+sizeClass+'" '+widthStyle+'></div>');
-			//class for multiple
-			if(data.multiple) {
-				$select.addClass('select-mania-multiple');
-			}
-			//class for activated ajax
-			if(data.ajax !== false) {
-				$select.addClass('select-mania-ajax');
-			}
-			//insert children elements
-			$select
-				//inner elements
-				.append(thisEngine.buildInner(data))
-				//items dropdown
-				.append(thisEngine.buildDropdown(data));
-			//send back selectMania element
-			return $select;
-		}, 
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildInner
-
-		//build inner elements
-		buildInner: function(data) {
-			var thisEngine = this;
-			//inner div
-			var $inner = $('<div class="select-mania-inner"></div>');
-			//values div
-			var $values = $('<div class="select-mania-values"></div>');
-			//insert placeholder
-			var $placeholder = $('<div class="select-mania-placeholder">'+data.placeholder+'</div>');
-			$values.append($placeholder);
-			//insert selected values
-			data.values.forEach(function(val) {
-				$values.append(thisEngine.buildValue(val));
-			});
-			$inner.append($values);
-			//insert clean values icon
-			var $clean = $('<div class="select-mania-clear"></div>');
-			if(data.removable || data.multiple) {
-				$clean.append('<i class="select-mania-clear-icon icon-cross">');
-			}
-			$inner.append($clean);
-			//insert dropdown arrow icon
-			$inner.append($('<div class="select-mania-arrow"><i class="select-mania-arrow-icon icon-arrow-down"></i></div>'));
-			//send back inner elements
-			return $inner;
-		}, 
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildValue
-
-		//build selected value
-		buildValue: function(valObj) {
-			//selected value element html
-			var valHtml = '<div class="select-mania-value" data-value="'+valObj.value+'">'+
-				'<div class="select-mania-value-text">'+valObj.text+'</div>'+
-				'<div class="select-mania-value-clear">'+
-					'<i class="select-mania-value-clear-icon icon-cross"></i>'+
-				'</div>'+
-			'</div>';
-			//send back selected value element
-			return $(valHtml);
-		}, 
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildOption
-
-		//build option for original select
-		buildOption: function(valObj) {
-			//build option
-			var $opt = $('<option value="'+valObj.value+'">'+valObj.text+'</option>');
-			//set option selected status
-			$opt[0].selected = valObj.selected;
-			//send back option element
-			return $opt;
-		}, 
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildDropdown
-
-		//build items dropdown
-		buildDropdown: function(data) {
-			var thisEngine = this;
-			//dropdown element
-			var $dropdown = $('<div class="select-mania-dropdown"></div>');
-			//insert search input in dropdown if activated
-			if(data.search) {
-				var $dropdownSearch = $('<div class="select-mania-dropdown-search"></div>');
-				$dropdownSearch.append('<input class="select-mania-dropdown-search-input" />');
-				$dropdown.append($dropdownSearch);
-			}
-			//insert items list
-			var $itemListContainer = $('<div class="select-mania-dropdown-items-container"></div>');
-			var $itemList = $('<div class="select-mania-dropdown-items"></div>');
-			data.items.forEach(function(item) {
-				$itemList.append(thisEngine.buildItem(item));
-			});
-			$itemListContainer.append($itemList);
-			$dropdown.append($itemListContainer);
-			//send back items dropdown
-			return $dropdown;
-		}, 
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildItem
-
-		//build dropdown item
-		buildItem: function(item) {
-			var thisEngine = this;
-			//item html
-			var $itemHtml = $('<div class="select-mania-dropdown-item" data-value="'+item.value+'">'+
-				item.text+
-			'</div>');
-			//if item is selected add class
-			if(item.selected) {
-				$itemHtml.addClass('select-mania-selected');
-			}
-			//send back item
-			return $itemHtml;
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ openDropdown / closeDropdown
@@ -409,7 +272,7 @@
 					this.selected = true;
 				}
 				//build item from option
-				var $builtItem = Engine.buildItem({
+				var $builtItem = Build.buildItem({
 					value: this.value, 
 					text: this.text, 
 					selected: this.selected
@@ -548,9 +411,8 @@
 
 		//set one value on selectMania element
 		setOneValSelectMania: function($selectMania, valObj) {
-			var thisEngine = this;
 			//build value element for selectMania element
-			var $value = thisEngine.buildValue(valObj);
+			var $value = Build.buildValue(valObj);
 			//insert built value element in selectMania element
 			$selectMania.find('.select-mania-values').append($value);
 			//check if corresponding item exists in dropdown
@@ -566,7 +428,6 @@
 
 		//set one value on original select element
 		setOneValOriginal: function($originalSelect, valObj) {
-			var thisEngine = this;
 			//check if corresponding option exists in original select
 			var $searchOpt = $originalSelect.find('option[value="'+valObj.value+'"]').filter(function() {
 				return $(this).text() === valObj.text;
@@ -574,7 +435,7 @@
 			//if option doesn't exist in original select
 			if($searchOpt.length < 1) {
 				//build option for original select
-				var $option = thisEngine.buildOption(valObj);
+				var $option = Build.buildOption(valObj);
 				//insert built option in original select
 				$originalSelect.append($option);
 			}
@@ -585,6 +446,208 @@
 				//set option as selected
 				$foundOption[0].selected = true;
 			}
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ control
+
+		//controls on target element
+		controlTarget: function($target, controls) {
+			//error if element is not a select
+			if($.inArray('isSelect', controls) !== -1 && !$target.is('select')) {
+				console.error('selectMania | not a valid select element');
+				console.log($target[0]);
+				return false;
+			}
+			//error if plugin not initialized
+			if($.inArray('isInitialized', controls) !== -1 && !$target.hasClass('select-mania-original')) {
+				console.error('selectMania | select is not initialized');
+				console.log($target[0]);
+				return false;
+			}
+			//error if plugin already initialized
+			if($.inArray('notInitialized', controls) !== -1 && $target.hasClass('select-mania-original')) {
+				console.error('selectMania | ignore because already initialized');
+				console.log($target[0]);
+				return false;
+			}
+			//control method was called on single element
+			if($.inArray('isSingle', controls) !== -1 && $target.length > 1) {
+				console.error('selectMania | check method can be called on single element only');
+				console.log($target[0]);
+				return false;
+			}
+			//if control ok
+			return true;
+		}, 
+
+		//controls on selectMania data
+		controlData: function($target, data, controls) {
+			//control ajax function type
+			if($.inArray('ajax', controls) !== -1 && data.ajax !== false && typeof data.ajax !== 'function') {
+				data.ajax = false;
+				console.error('selectMania | not a valid ajax function');
+				console.log($target[0]);
+				console.log(data);
+				return false;
+			}
+			//error if invalid size provided
+			if($.inArray('size', controls) !== -1 && $.inArray(data.size, ['small','medium','large']) === -1) {
+				data.size = 'medium';
+				console.error('selectMania | not a valid size');
+				console.log($target[0]);
+				console.log(data);
+				return false;
+			}
+			//if control ok
+			return true;
+		}, 
+
+		//controls on selectMania values
+		controlValues: function($target, values) {
+			//error if values is not an array
+			if(!(values instanceof Array)) {
+				console.error('selectMania | values parameter is not a valid array');
+				console.log($target[0]);
+				console.log(values);
+				return false;
+			}
+			//if control ok
+			return true;
+		}
+
+	};
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+// ---------------------------------------- BUILD ----------------------------------------- //
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
+var Build = {
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ build
+
+		//build selectMania element
+		build: function(data) {
+			var thisBuild = this;
+			//class for selectMania size
+			var sizeClass = 'select-mania-'+data.size;
+			//explicit selectMania width style
+			var widthStyle = 'style="width:'+data.width+';"';
+			//general selectMania div
+			var $select = $('<div class="select-mania '+sizeClass+'" '+widthStyle+'></div>');
+			//class for multiple
+			if(data.multiple) {
+				$select.addClass('select-mania-multiple');
+			}
+			//class for activated ajax
+			if(data.ajax !== false) {
+				$select.addClass('select-mania-ajax');
+			}
+			//insert children elements
+			$select
+				//inner elements
+				.append(thisBuild.buildInner(data))
+				//items dropdown
+				.append(thisBuild.buildDropdown(data));
+			//send back selectMania element
+			return $select;
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildInner
+
+		//build inner elements
+		buildInner: function(data) {
+			var thisBuild = this;
+			//inner div
+			var $inner = $('<div class="select-mania-inner"></div>');
+			//values div
+			var $values = $('<div class="select-mania-values"></div>');
+			//insert placeholder
+			var $placeholder = $('<div class="select-mania-placeholder">'+data.placeholder+'</div>');
+			$values.append($placeholder);
+			//insert selected values
+			data.values.forEach(function(val) {
+				$values.append(thisBuild.buildValue(val));
+			});
+			$inner.append($values);
+			//insert clean values icon
+			var $clean = $('<div class="select-mania-clear"></div>');
+			if(data.removable || data.multiple) {
+				$clean.append('<i class="select-mania-clear-icon icon-cross">');
+			}
+			$inner.append($clean);
+			//insert dropdown arrow icon
+			$inner.append($('<div class="select-mania-arrow"><i class="select-mania-arrow-icon icon-arrow-down"></i></div>'));
+			//send back inner elements
+			return $inner;
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildValue
+
+		//build selected value
+		buildValue: function(valObj) {
+			//selected value element html
+			var valHtml = '<div class="select-mania-value" data-value="'+valObj.value+'">'+
+				'<div class="select-mania-value-text">'+valObj.text+'</div>'+
+				'<div class="select-mania-value-clear">'+
+					'<i class="select-mania-value-clear-icon icon-cross"></i>'+
+				'</div>'+
+			'</div>';
+			//send back selected value element
+			return $(valHtml);
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildOption
+
+		//build option for original select
+		buildOption: function(valObj) {
+			//build option
+			var $opt = $('<option value="'+valObj.value+'">'+valObj.text+'</option>');
+			//set option selected status
+			$opt[0].selected = valObj.selected;
+			//send back option element
+			return $opt;
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildDropdown
+
+		//build items dropdown
+		buildDropdown: function(data) {
+			var thisBuild = this;
+			//dropdown element
+			var $dropdown = $('<div class="select-mania-dropdown"></div>');
+			//insert search input in dropdown if activated
+			if(data.search) {
+				var $dropdownSearch = $('<div class="select-mania-dropdown-search"></div>');
+				$dropdownSearch.append('<input class="select-mania-dropdown-search-input" />');
+				$dropdown.append($dropdownSearch);
+			}
+			//insert items list
+			var $itemListContainer = $('<div class="select-mania-dropdown-items-container"></div>');
+			var $itemList = $('<div class="select-mania-dropdown-items"></div>');
+			data.items.forEach(function(item) {
+				$itemList.append(thisBuild.buildItem(item));
+			});
+			$itemListContainer.append($itemList);
+			$dropdown.append($itemListContainer);
+			//send back items dropdown
+			return $dropdown;
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildItem
+
+		//build dropdown item
+		buildItem: function(item) {
+			var thisBuild = this;
+			//item html
+			var $itemHtml = $('<div class="select-mania-dropdown-item" data-value="'+item.value+'">'+
+				item.text+
+			'</div>');
+			//if item is selected add class
+			if(item.selected) {
+				$itemHtml.addClass('select-mania-selected');
+			}
+			//send back item
+			return $itemHtml;
 		}
 
 	};
@@ -707,7 +770,7 @@
 				//clicked item value
 				var itemVal = $(this).attr('data-value');
 				//build value element
-				var $value = Engine.buildValue({
+				var $value = Build.buildValue({
 					value: itemVal, 
 					text: $(this).text()
 				});
@@ -859,20 +922,11 @@
 			return this.each(function() {
 				//current select to initialize
 				var $originalSelect = $(this);
-				//error if element is not a select
-				if(!$originalSelect.is('select')) {
-					console.error('selectMania | not a valid select element');
-					console.log(this);
-					return;
+				//controls if element is a select and plugin is not already initialized
+				if(Engine.controlTarget($originalSelect, ['isSelect','notInitialized'])) {
+					//initialize selectMania on original select
+					Engine.initialize($originalSelect, settings);
 				}
-				//error if plugin already initialized
-				if($originalSelect.hasClass('select-mania-original')) {
-					console.error('selectMania | ignore because already initialized');
-					console.log(this);
-					return;
-				}
-				//initialize selectMania on original select
-				Engine.initialize($originalSelect, settings);
 			});
 		}, 
 
@@ -891,14 +945,11 @@
 			return this.each(function() {
 				//current select to destroy
 				var $originalSelect = $(this);
-				//error if plugin not initialized
-				if(!$originalSelect.hasClass('select-mania-original')) {
-					console.error('selectMania | select is not initialized');
-					console.log(this);
-					return;
+				//controls if selectMania initialized
+				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
+					//destroy selectMania
+					Engine.destroy($originalSelect);
 				}
-				//destroy selectMania
-				Engine.destroy($originalSelect);
 			});
 		}, 
 
@@ -906,64 +957,40 @@
 
 		//check if selectMania initialized
 		check: function() {
-			//control method was called on single element
-			if(this.length > 1) {
-				console.error('selectMania | check method can be called on single element only');
-				console.log(this[0]);
-				return;
+			//controls method was called on single element
+			if(Engine.controlTarget(this, ['isSingle'])) {
+				//send back if plugin initialized or not
+				return this.hasClass('select-mania-original');
 			}
-			//send back if plugin initialized or not
-			return this.hasClass('select-mania-original');
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ get
 
 		//returns parsed selected values
 		get: function() {
-			//control method was called on single element
-			if(this.length > 1) {
-				console.error('selectMania | check method can be called on single element only');
-				console.log(this[0]);
-				return;
+			//controls if single element and plugin initialized
+			if(Engine.controlTarget(this, ['isSingle','isInitialized'])) {
+				//selectMania element
+				var $selectManiaEl = this.data('selectMania-element');
+				//get and return parsed selected values
+				return Engine.getVal($selectManiaEl);
 			}
-			//error if plugin not initialized
-			if(!this.hasClass('select-mania-original')) {
-				console.error('selectMania | select is not initialized');
-				console.log(this[0]);
-				return;
-			}
-			//selectMania element
-			var $selectManiaEl = this.data('selectMania-element');
-			//get and return parsed selected values
-			return Engine.getVal($selectManiaEl);
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ set
 
 		//set parsed values as selected values
 		set: function(values) {
-			//control method was called on single element
-			if(this.length > 1) {
-				console.error('selectMania | check method can be called on single element only');
-				console.log(this[0]);
-				return;
-			}
-			//error if plugin not initialized
-			if(!this.hasClass('select-mania-original')) {
-				console.error('selectMania | select is not initialized');
-				console.log(this[0]);
-				return;
-			}
-			//error if values is not an array
-			if(!(values instanceof Array)) {
-				console.error('selectMania | values parameter is not a valid array');
-				console.log(values);
-				return;
-			}
-			//selectMania element
-			var $selectManiaEl = this.data('selectMania-element');
-			//get and return parsed selected values
-			Engine.setVal($selectManiaEl, values);
+			//controls if single element and plugin initialized
+			if(Engine.controlTarget(this, ['isSingle','isInitialized'])) {
+				//controls values are valid
+				if(Engine.controlValues(this, values)) {
+					//selectMania element
+					var $selectManiaEl = this.data('selectMania-element');
+					//get and return parsed selected values
+					Engine.setVal($selectManiaEl, values);
+				}
+			}					
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ clear
@@ -974,20 +1001,17 @@
 			return this.each(function() {
 				//current select to destroy
 				var $originalSelect = $(this);
-				//error if plugin not initialized
-				if(!$originalSelect.hasClass('select-mania-original')) {
-					console.error('selectMania | select is not initialized');
-					console.log(this);
-					return;
+				//controls if plugin initialized
+				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
+					//selectMania element
+					var $selectManiaEl = $originalSelect.data('selectMania-element');
+					//clear values
+					Engine.clear($selectManiaEl);
+					//trigger original select change event
+					$originalSelect.trigger('change');
+					//update clear values icon display
+					Engine.updateClean($selectManiaEl);
 				}
-				//selectMania element
-				var $selectManiaEl = $originalSelect.data('selectMania-element');
-				//clear values
-				Engine.clear($selectManiaEl);
-				//trigger original select change event
-				$originalSelect.trigger('change');
-				//update clear values icon display
-				Engine.updateClean($selectManiaEl);
 			});
 		}
 
