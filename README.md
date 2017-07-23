@@ -31,10 +31,10 @@ Select-mania can be initialized with a bunch of available options.
 
 ```javascript
 $('target-selector').selectMania({
-	width: '200px', 
-	size: 'small', 
-	themes: ['square','red'], 
-	placeholder: 'Please select me!'
+    width: '200px', 
+    size: 'small', 
+    themes: ['square','red'], 
+    placeholder: 'Please select me!'
 });
 ```
 
@@ -111,18 +111,18 @@ The results sent by the callback function must be options to add / options found
 Example:
 ```javascript
 ajax: function(search, page, data, callback) {
-	$.ajax({
-		type: 'POST', 
-		url: 'myAjaxScript.php', 
-		data: {
-			search: search, 
-			page: page, 
-			custom: data.custom
-		}, 
-		success: function(html) {
-			callback(html);
-		}
-	});
+    $.ajax({
+        type: 'POST', 
+        url: 'myAjaxScript.php', 
+        data: {
+            search: search, 
+            page: page, 
+            custom: data.custom
+        }, 
+        success: function(html) {
+            callback(html);
+        }
+    });
 }
 ```
 
@@ -144,6 +144,15 @@ $('target-selector').selectMania({/*options*/});
 $('target-selector').selectMania('init', {/*options*/});
 ```
 
+### update
+
+Updates select-mania on targeted elements.
+
+The select-mania element will be updated according to the original select options.
+```javascript
+$('target-selector').selectMania('update');
+```
+
 ### destroy
 
 This method destroys select-mania on the targeted elements.
@@ -159,7 +168,9 @@ $('target-selector').selectMania('destroy');
 
 Returns `true` if select-mania is initialized on the targeted select, `false` otherwise.
 ```javascript
-$('target-selector').selectMania('check');
+if($('target-selector').selectMania('check')) {
+    // select-mania is initialized!
+}
 ```
 
 ### get
@@ -170,12 +181,8 @@ Call this method to get parsed selected values of a select-mania initialized ele
 
 This can be useful to set selected values on further initialization, if these values were selected from ajax scroll / search and are not there anymore.
 ```javascript
-$('target-selector').selectMania('get');
-```
-
-Returns selected values like this:
-```javascript
-[
+var values = $('target-selector').selectMania('get');
+values: [
     {
         value: '20', 
         text: 'Value number twenty'
