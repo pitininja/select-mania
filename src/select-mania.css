@@ -439,6 +439,15 @@
 	font-size:0.8rem;
 }
 
+.select-mania-small .select-mania-group-name {
+	padding:4px;
+	font-size:0.8rem;
+}
+
+.select-mania-small .select-mania-group-inner .select-mania-item {
+	padding-left:12px;
+}
+
 /* ################################################################## */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~ TAILLE LARGE ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* ################################################################## */
@@ -525,4 +534,13 @@
 	min-height:24px;
 	padding:8px;
 	font-size:1.1rem;
+}
+
+.select-mania-large .select-mania-group-name {
+	padding:8px;
+	font-size:1.1rem;
+}
+
+.select-mania-large .select-mania-group-inner .select-mania-item {
+	padding-left:24px;
 }
