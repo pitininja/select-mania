@@ -122,21 +122,19 @@
 			$valueList = $selectManiaEl.find('.select-mania-values').first();
 			$itemList = $selectManiaEl.find('.select-mania-items').first();
 			//remove selectMania values and items
-			$selectManiaEl.find('.select-mania-value, .select-mania-item').remove();
-			//loop through original select options
-			$originalSelect.find('option').each(function() {
-				var $option = $(this);
-				//build item and insert into item list
-				$itemList.append(Build.buildItem($option));
-				//if option is selected
-				if($option.is(':selected')) {
-					//build and insert values
+			$selectManiaEl.find('.select-mania-value').remove();
+			$itemList.empty();
+			//build and insert selected values
+			$originalSelect.find('option:selected').each(function() {
+				if($(this).is(':selected')) {
 					$valueList.append(Build.buildValue({
 						value: this.value, 
 						text: this.text
 					}));
 				}
 			});
+			//build and insert items
+			$itemList.append(Build.buildItemList($originalSelect.children()));
 			//update clean values icon display
 			thisEngine.updateClean($selectManiaEl);
 			//rebind selectMania element
@@ -291,35 +289,27 @@
 
 		//add / replace dropdown items
 		addOrReplaceItems: function($selectManiaEl, optionsHTML, replace) {
+			var thisEngine = this;
 			//original select element
 			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
 			//items dropdown
 			var $itemsContainer = $selectManiaEl.find('.select-mania-items');
 			//options jquery parsing
-			var $options = $(optionsHTML).filter('option');
-			//array for selected values
-			var selectedVals = [];
-			//insert selected values in array
-			if($selectManiaEl.is('.select-mania-multiple')) {
-				selectedVals = $originalSelect.val();
-			}
-			else {
-				selectedVals.push($originalSelect.val());
-			}
-			//container element for built items
-			$builtItems = $();
-			//loop through sent options
-			$options.each(function() {
-				//if option value is in selected values
-				if($.inArray(this.value, selectedVals) !== -1) {
-					//set option as selected
-					this.selected = true;
-				}
-				//build item from option
-				var $builtItem = Build.buildItem($(this));
-				//add built item to items list to insert
-				$builtItems = $builtItems.add($builtItem);
+			var $options = $(optionsHTML);
+			//get selectMania element values
+			var selectedVals = thisEngine.getVal($selectManiaEl);
+			//loop through selected values
+			selectedVals.forEach(function(val) {
+				$options
+					//search for options matching selected value
+					.filter(function() {
+						return $(this).attr('value') === val.value && $(this).text() === val.text;
+					})
+					//set matching options as selected
+					.prop('selected', true);
 			});
+			//build items list
+			$builtItems = Build.buildItemList($options);
 			//if items are meant to be replaced
 			if(replace === true) {
 				//empty old options except selected ones
@@ -669,16 +659,58 @@ var Build = {
 				$dropdownSearch.append('<input class="select-mania-dropdown-search-input" />');
 				$dropdown.append($dropdownSearch);
 			}
-			//insert items list
+			//build items container
 			var $itemListContainer = $('<div class="select-mania-items-container"></div>');
 			var $itemList = $('<div class="select-mania-items"></div>');
-			$originalSelect.find('option').each(function() {
-				$itemList.append(thisBuild.buildItem($(this)));
-			});
+			//build and insert items list
+			$itemList.append(thisBuild.buildItemList($originalSelect.children()));
+			//insert items list into dropdown
 			$itemListContainer.append($itemList);
 			$dropdown.append($itemListContainer);
 			//send back items dropdown
 			return $dropdown;
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildItemGroup
+
+		//build items list
+		buildItemList: function($optList) {
+			var thisBuild = this;
+			//empty item list
+			$itemList = $();
+			//loop through original select children
+			$optList.each(function() {
+				//if optgroup
+				if($(this).is('optgroup')) {
+					//build and insert item group
+					$itemList = $itemList.add(thisBuild.buildItemGroup($(this)));
+				}
+				//if option
+				else if($(this).is('option')) {
+					//build and insert item
+					$itemList = $itemList.add(thisBuild.buildItem($(this)));
+				}
+			});
+			//send back build items list
+			return $itemList;
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildItemGroup
+
+		//build dropdown items group
+		buildItemGroup: function($optgroupEl) {
+			var thisBuild = this;
+			//build group element
+			$group = $('<div class="select-mania-group"></div>');
+			$group.append('<div class="select-mania-group-name">'+$optgroupEl.attr('label')+'</div>');
+			var $groupInner = $('<div class="select-mania-group-inner"></div>');
+			//build and insert items
+			$optgroupEl.find('option').each(function() {
+				$groupInner.append(thisBuild.buildItem($(this)));
+			});
+			$group.append($groupInner);
+			//send back items group
+			return $group;
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildItem
