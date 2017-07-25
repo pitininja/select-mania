@@ -307,6 +307,22 @@
 	overflow-y:auto;
 }
 
+.select-mania-group {
+	width:100%;
+}
+
+.select-mania-group-name {
+	width:100%;
+	padding:6px;
+	font-size:1rem;
+	font-weight:bold;
+	text-align:left;
+}
+
+.select-mania-group-inner {
+	width:100%;
+}
+
 .select-mania-item {
 	width:100%;
 	min-height:20px;
@@ -321,6 +337,10 @@
 }
 .select-mania-item:empty[data-value=""] {
 	display:none;
+}
+
+.select-mania-group-inner .select-mania-item {
+	padding-left:18px;
 }
 
 .select-mania-item.select-mania-selected {
