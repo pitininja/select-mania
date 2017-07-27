@@ -80,8 +80,10 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ initialize
 
 		//initialize selectMania on original select
-		initialize: function($originalSelect, settings) {
+		initialize: function($originalSelect, userSettings) {
 			var thisEngine = this;
+			//clone settings before starting work
+			var settings = $.extend(true, {}, userSettings);
 			//get select settings stored as attributes
 			var attrSettings = thisEngine.getAttrSettings($originalSelect);
 			//merge settings with attributes
@@ -989,7 +991,7 @@ var Build = {
 		//initialize selectMania
 		init: function(opts) {
 			//settings provided by user
-			var settings = $.extend(Data.defaults, opts);
+			var settings = $.extend(true, {}, Data.defaults, opts);
 			//loop through targeted elements
 			return this.each(function() {
 				//current select to initialize
