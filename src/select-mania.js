@@ -706,9 +706,14 @@ var Build = {
 			$group = $('<div class="select-mania-group"></div>');
 			$group.append('<div class="select-mania-group-name">'+$optgroupEl.attr('label')+'</div>');
 			var $groupInner = $('<div class="select-mania-group-inner"></div>');
+			//if group is disabled set class
+			var groupIsDisabled = $optgroupEl.is(':disabled');
+			if(groupIsDisabled) {
+				$group.addClass('select-mania-disabled');
+			}
 			//build and insert items
 			$optgroupEl.find('option').each(function() {
-				$groupInner.append(thisBuild.buildItem($(this)));
+				$groupInner.append(thisBuild.buildItem($(this), groupIsDisabled));
 			});
 			$group.append($groupInner);
 			//send back items group
@@ -718,14 +723,16 @@ var Build = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ buildItem
 
 		//build dropdown item
-		buildItem: function($optionEl) {
+		buildItem: function($optionEl, forceDisabled) {
 			var optionEl = $optionEl[0];
 			//build item html
-			var $item = $('<div class="select-mania-item" data-value="'+optionEl.value+'">'+
-				optionEl.text+
-			'</div>');
+			var $item = $('<div class="select-mania-item" data-value="'+optionEl.value+'">'+optionEl.text+'</div>');
+			//if item is disabled set class
+			if($optionEl.is(':disabled') || Tools.def(forceDisabled) === true) {
+				$item.addClass('select-mania-disabled');
+			}
 			//if item is selected add class
-			if(optionEl.selected) {
+			if($optionEl.is(':selected')) {
 				$item.addClass('select-mania-selected');
 			}
 			//send back item
@@ -754,7 +761,7 @@ var Build = {
 			//open / close dropdown
 			$selectManiaEl.find('.select-mania-inner').off('click.selectMania').on('click.selectMania', thisBinds.dropdownToggle);
 			//item selection in dropdown
-			$selectManiaEl.find('.select-mania-item').off('click.selectMania').on('click.selectMania', thisBinds.selectItem);
+			$selectManiaEl.find('.select-mania-item:not(.select-mania-disabled)').off('click.selectMania').on('click.selectMania', thisBinds.selectItem);
 			//search input in dropdown
 			$selectManiaEl.find('.select-mania-dropdown-search-input').off('input.selectMania').on('input.selectMania', thisBinds.inputSearch);
 			//prevents body scroll when reached dropdown top or bottom
@@ -976,6 +983,24 @@ var Build = {
 			else {
 				return($thisDropdown.scrollTop() + $thisDropdown.innerHeight() < $thisDropdown[0].scrollHeight);
 			}
+		}
+
+	};
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+// ---------------------------------------- OUTILS ---------------------------------------- //
+// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
+
+	var Tools = {
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ def
+
+		//force null if var is undefined
+		def: function(v) {
+			if(typeof v === 'undefined') {
+				return null;
+			}
+			return v;
 		}
 
 	};
