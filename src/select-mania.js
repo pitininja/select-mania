@@ -704,8 +704,18 @@ var Build = {
 			var thisBuild = this;
 			//build group element
 			$group = $('<div class="select-mania-group"></div>');
-			$group.append('<div class="select-mania-group-name">'+$optgroupEl.attr('label')+'</div>');
 			var $groupInner = $('<div class="select-mania-group-inner"></div>');
+			//build group title element
+			var $groupTitle = $('<div class="select-mania-group-title"></div>');
+			//if group icon is set
+			if($optgroupEl.is('[data-icon]')) {
+				//insert group title icon
+				$groupTitle.append('<div class="select-mania-group-icon"><i class="'+$optgroupEl.attr('data-icon')+'"></i></div>');
+			}
+			//insert group title text
+			$groupTitle.append('<div class="select-mania-group-text">'+$optgroupEl.attr('label')+'</div>');
+			//insert group title in group element
+			$group.append($groupTitle);
 			//if group is disabled set class
 			var groupIsDisabled = $optgroupEl.is(':disabled');
 			if(groupIsDisabled) {
@@ -726,7 +736,14 @@ var Build = {
 		buildItem: function($optionEl, forceDisabled) {
 			var optionEl = $optionEl[0];
 			//build item html
-			var $item = $('<div class="select-mania-item" data-value="'+optionEl.value+'">'+optionEl.text+'</div>');
+			var $item = $('<div class="select-mania-item" data-value="'+optionEl.value+'"></div>');
+			//if option icon is set
+			if($optionEl.is('[data-icon]')) {
+				//insert item icon
+				$item.append('<div class="select-mania-item-icon"><i class="'+$optionEl.attr('data-icon')+'"></i></div>');
+			}
+			//insert item text
+			$item.append('<div class="select-mania-item-text">'+optionEl.text+'</div>');
 			//if item is disabled set class
 			if($optionEl.is(':disabled') || Tools.def(forceDisabled) === true) {
 				$item.addClass('select-mania-disabled');
