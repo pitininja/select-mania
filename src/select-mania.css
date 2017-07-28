@@ -311,6 +311,10 @@
 	width:100%;
 }
 
+.select-mania-group.select-mania-disabled {
+	color: #D6D6D6;
+}
+
 .select-mania-group-name {
 	width:100%;
 	padding:6px;
@@ -349,6 +353,13 @@
 }
 .select-mania.select-mania-multiple .select-mania-item.select-mania-selected {
 	display:none;
+}
+
+.select-mania-item.select-mania-disabled {
+	color: #D6D6D6;
+}
+.select-mania-item.select-mania-disabled:hover {
+	background:none;
 }
 
 /* ################################################################## */
