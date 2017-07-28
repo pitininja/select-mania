@@ -22,6 +22,26 @@
 			//ajax
 			ajax: false, 
 			data: {}
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ setDefaults
+
+		//set default settings values
+		setup: function(opts) {
+			//controls provided settings keys
+			var defKeys = Object.keys(this.defaults);
+			var optKeys = Object.keys(opts);
+			var isOk = true;
+			optKeys.forEach(function(k) {
+				if($.inArray(k, defKeys) === -1) {
+					console.error('selectMania | wrong setup settings');
+					isOk = false;
+				}
+			});
+			//if provided settings are ok
+			if(isOk) {
+				this.defaults = $.extend(true, {}, Data.defaults, opts);
+			}
 		}
 
 	};
@@ -1138,6 +1158,28 @@ var Build = {
 					Engine.updateClean($selectManiaEl);
 				}
 			});
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ setup
+
+		//setup default settings values
+		setup: function() {
+			//loop through targeted elements
+			return this.each(function() {
+				//current select to destroy
+				var $originalSelect = $(this);
+				//controls if plugin initialized
+				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
+					//selectMania element
+					var $selectManiaEl = $originalSelect.data('selectMania-element');
+					//clear values
+					Engine.clear($selectManiaEl);
+					//trigger original select change event
+					$originalSelect.trigger('change');
+					//update clear values icon display
+					Engine.updateClean($selectManiaEl);
+				}
+			});
 		}
 
 	};
@@ -1146,12 +1188,10 @@ var Build = {
 // --------------------------------------- HANDLER ---------------------------------------- //
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
-	//plugin calls handler
+	//plugin methods handler
 	$.fn.selectMania = function(methodOrOpts) {
-
 		//stop right away if targeted element empty
 		if(this.length < 1) { return; }
-
 		//call method
 		if(Methods[methodOrOpts]) {
 			//remove method name from call arguments
@@ -1159,19 +1199,24 @@ var Build = {
 			//call targeted mathod with arguments
 			return Methods[methodOrOpts].apply(this, slicedArguments);
 		}
-
 		//call init
 		else if(typeof methodOrOpts === 'object' || !methodOrOpts) {
 			//call init with arguments
 			return Methods.init.apply(this, arguments);
 		}
-
 		//error
 		else {
 			console.error('selectMania | wrong method called');
 			console.log(this);
 		}
-
 	};
+
+	//plugin setup handler
+	$.extend({
+		selectManiaSetup: function(opts) {
+			//set default settings values
+			Data.setup(opts);
+		}
+	});
 
 })(jQuery);

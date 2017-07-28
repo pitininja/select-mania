@@ -48,6 +48,8 @@ The select width.
 
 Must be a valid CSS width.
 
+Can be set by passing a `data-width` attribute on the select element.
+
 #### size
 
 Default: `'medium'`
@@ -55,6 +57,8 @@ Default: `'medium'`
 The size of the select.
 
 Three sizes are available: `'small'`, `'medium'`, `'large'`
+
+Can be set by passing a `data-size` attribute on the select element.
 
 #### themes
 
@@ -72,11 +76,15 @@ Default: `'Select an item'`
 
 The text of the placeholder.
 
+Can be set by passing a `data-placeholder` attribute on the select element.
+
 #### removable
 
 Default: `false`
 
 Set this setting to `true` to be able to remove the selected option of a simple select, even without any empty option available.
+
+Can be set by passing a `data-removable` attribute on the select element.
 
 #### search
 
@@ -85,6 +93,8 @@ Default: `false`
 If set to `true`, a search input will be available in the dropdown to search for items to select.
 
 If the `ajax` setting is enabled, the search will be made in ajax with the provided function (see below).
+
+Can be set by passing a `data-search` attribute on the select element.
 
 #### ajax
 
@@ -166,6 +176,17 @@ Disabled option or optgroup elements will be render as disabled items or groups 
 Any selected option element will be set as selected value.
 ```html
 <option value="1" selected>Item</option>
+```
+
+## Setup settings
+
+Settings can be set globally by using the `selectManiaSetup` method.
+
+The settings set that way will be apply by default on every select initialized with the plugin.
+```javascript
+$.selectManiaSetup({
+    /* global settings */
+});
 ```
 
 ## Methods
