@@ -15,7 +15,7 @@
 	font-style: normal;
 }
 
-[data-icon]:before {
+.select-mania [data-icon]:before {
 	font-family: "select-mania-font" !important;
 	content: attr(data-icon);
 	font-style: normal !important;
@@ -27,12 +27,12 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-[class^="icon-"],
-[class*=" icon-"] {
+.select-mania [class^="icon-"],
+.select-mania [class*=" icon-"] {
 	display:inline-block;
 }
-[class^="icon-"]:before,
-[class*=" icon-"]:before {
+.select-mania [class^="icon-"]:before,
+.select-mania [class*=" icon-"]:before {
 	font-family: "select-mania-font" !important;
 	font-style: normal !important;
 	font-weight: normal !important;
@@ -43,13 +43,13 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-arrow-down:before {
+.select-mania .icon-arrow-down:before {
 	content: "\61";
 }
-.icon-cross:before {
+.select-mania .icon-cross:before {
 	content: "\63";
 }
-.icon-loading:before {
+.select-mania .icon-loading:before {
 	content: "\6c";
 }
 
@@ -82,7 +82,7 @@
 	}
 }
 
-.icon-loading-container {
+.select-mania .icon-loading-container {
 	display:inline-block;
 	width:32px;
 	height:32px;
@@ -94,7 +94,7 @@
 	margin:auto;
 	font-size:2rem;
 }
-.icon-loading-container .icon-loading {
+.select-mania .icon-loading-container .icon-loading {
 	width:32px;
 	height:32px;
 	-webkit-animation: rotating 2s linear infinite;
