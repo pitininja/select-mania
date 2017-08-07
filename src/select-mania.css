@@ -364,9 +364,10 @@
 .select-mania-item-text {
 	display: inline-block;
 	width: 100%;
-	height: 20px;
+	min-height: 20px;
 	font-size:1rem;
 	vertical-align: top;
+	text-align:left;
 }
 .select-mania-group-icon+.select-mania-group-text, 
 .select-mania-item-icon+.select-mania-item-text {
@@ -495,7 +496,7 @@
 
 .select-mania-small .select-mania-group-text, 
 .select-mania-small .select-mania-item-text {
-	height: 16px;
+	min-height: 16px;
 	font-size:0.8rem;
 }
 .select-mania-small .select-mania-group-icon+.select-mania-group-text, 
@@ -615,7 +616,7 @@
 
 .select-mania-large .select-mania-group-text, 
 .select-mania-large .select-mania-item-text {
-	height: 22px;
+	min-height: 22px;
 	font-size:1.1rem;
 }
 .select-mania-large .select-mania-group-icon+.select-mania-group-text, 
