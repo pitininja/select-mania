@@ -248,7 +248,7 @@
 			//if empty search value
 			if(searchVal === '') {
 				//display all items
-				$selectManiaEl.find('.select-mania-item').removeClass('select-mania-hidden');
+				$selectManiaEl.find('.select-mania-group, .select-mania-item').removeClass('select-mania-hidden');
 				//stop function
 				return;
 			}
@@ -262,6 +262,15 @@
 				//if item text don't match search value
 				else {
 					//hide item
+					$(this).addClass('select-mania-hidden');
+				}
+			});
+			//show / hide optgroups if contain results / empty
+			$selectManiaEl.find('.select-mania-group').each(function() {
+				if($(this).find('.select-mania-item:not(.select-mania-hidden)').length > 0) {
+					$(this).removeClass('select-mania-hidden');
+				}
+				else {
 					$(this).addClass('select-mania-hidden');
 				}
 			});
