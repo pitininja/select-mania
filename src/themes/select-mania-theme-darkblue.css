@@ -8,26 +8,26 @@
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
 
-.select-mania-theme-darkblue.select-mania.select-mania-multiple .select-mania-value { 
-	border: 1px solid #336AB2; 
-	
+.select-mania-theme-darkblue.select-mania.select-mania-multiple .select-mania-value {
+	border: 1px solid #336AB2;
+
 	background-color: #336AB2;
 	color: white;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
 
-.select-mania-theme-darkblue .select-mania-dropdown { border:1px solid #D6D6D6; }
+.select-mania-theme-darkblue .select-mania { border:1px solid #D6D6D6; }
 
 
-.select-mania-theme-darkblue .select-mania-dropdown-search-input {
+.select-mania-theme-darkblue .select-mania-search-input {
 	border:1px solid #D6D6D6;
 	color: #5A5A5A;
 }
 
-.select-mania-theme-darkblue .select-mania-dropdown-item:hover { background:#D4DFEF; }
+.select-mania-theme-darkblue .select-mania-item:hover { background:#D4DFEF; }
 
-.select-mania-theme-darkblue .select-mania-dropdown-item.select-mania-selected {
+.select-mania-theme-darkblue .select-mania-item.select-mania-selected {
 	background: #336AB2;
 	color: white;
 }
