@@ -86,6 +86,14 @@ Set this setting to `true` to be able to remove the selected option of a simple 
 
 Can be set by passing a `data-removable` attribute on the select element.
 
+#### empty
+
+Default: `false`
+
+If this setting is enabled, the select value will be forced as empty on initialization.
+
+Can be set by passing a `data-empty` attribute on the select element.
+
 #### search
 
 Default: `false`
@@ -279,6 +287,9 @@ $('target-selector').selectMania('clear');
 ```
 
 ## Questions
+
+##### Can I use the HTML `required` attribute?
+Yes you can! It is now supported and will behave as a standard select required attribute when the parent form is submitted.
 
 ##### Can I still get the selected values directly from the original select element?
 Of course! Just do a classic `$('target-selector').val();` and it will be fine. Every action taken on the select-mania element is passed on the orinal select element.
