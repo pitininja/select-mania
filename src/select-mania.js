@@ -18,6 +18,7 @@
 			placeholder: 'Select an item', 
 			//controls
 			removable: false, 
+			empty: false, 
 			search: false, 
 			//ajax
 			ajax: false, 
@@ -80,7 +81,7 @@
 		getAttrSettings: function($originalSelect) {
 			var attrData = {};
 			//available attributes
-			var attrs = ['width','size','placeholder','removable','search'];
+			var attrs = ['width','size','placeholder','removable','empty','search'];
 			//loop through attributes
 			attrs.forEach(function(attr) {
 				//if attribute is set on select
@@ -112,6 +113,10 @@
 			settings = thisEngine.internalSettings($originalSelect, settings);
 			//control ajax function type and size
 			if(thisEngine.controlSettings($originalSelect, settings, ['ajax','size'])) {
+				//set selected value as empty if explicitly asked
+				if(settings.empty) {
+					$originalSelect.val('');
+				}
 				//build selectMania elements
 				var $builtSelect = Build.build($originalSelect, settings);
 				//attach original select element to selectMania element
