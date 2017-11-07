@@ -109,14 +109,14 @@
 			var attrSettings = thisEngine.getAttrSettings($originalSelect);
 			//merge settings with attributes
 			settings = $.extend(settings, attrSettings);
+			//set selected value as empty if explicitly asked
+			if(settings.empty) {
+				$originalSelect.val('');
+			}
 			//insert internal data into settings
 			settings = thisEngine.internalSettings($originalSelect, settings);
 			//control ajax function type and size
 			if(thisEngine.controlSettings($originalSelect, settings, ['ajax','size'])) {
-				//set selected value as empty if explicitly asked
-				if(settings.empty) {
-					$originalSelect.val('');
-				}
 				//build selectMania elements
 				var $builtSelect = Build.build($originalSelect, settings);
 				//attach original select element to selectMania element
