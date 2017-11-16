@@ -401,6 +401,126 @@
 }
 
 /* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~ TAILLE TINY ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL */
+
+.select-mania-tiny .select-mania-inner {
+	min-height:24px;
+	padding:2px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
+
+.select-mania-tiny .select-mania-values {
+	width:calc(100% - 36px);
+	min-height:18px;
+}
+
+.select-mania-tiny .select-mania-value {
+	height:16px;
+}
+
+.select-mania-tiny .select-mania-value-text {
+	height:14px;
+	padding:0;
+	font-size:0.75rem;
+}
+.select-mania-tiny.select-mania-multiple .select-mania-value-text {
+	max-width:calc(100% - 14px);
+}
+
+.select-mania.select-mania-multiple.select-mania-tiny .select-mania-value-clear {
+	width:14px;
+	height:14px;
+	padding:0;
+}
+.select-mania-tiny .select-mania-value-clear i {
+	line-height:14px;
+	font-size:0.75rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
+
+.select-mania-tiny .select-mania-placeholder {
+	height:16px;
+	padding:2px;
+	font-size:0.75rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CLEAN VALUES ICON */
+
+.select-mania-tiny .select-mania-clear {
+	width:18px;
+}
+.select-mania-tiny .select-mania-clear i {
+	font-size:0.85rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ARROW ICON */
+
+.select-mania-tiny .select-mania-arrow {
+	width:18px;
+}
+.select-mania-tiny .select-mania-arrow i {
+	font-size:0.85rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
+
+.select-mania-tiny .select-mania-dropdown {
+	padding:2px;
+}
+
+.select-mania-tiny .select-mania-dropdown-search {
+	margin-bottom:2px;
+}
+
+.select-mania-tiny .select-mania-dropdown-search-input {
+	padding:2px;
+	font-size:0.75rem;
+}
+
+.select-mania-tiny .select-mania-item {
+	min-height:16px;
+	padding:2px;
+	font-size:0;
+}
+
+.select-mania-tiny .select-mania-group-icon,
+.select-mania-tiny .select-mania-item-icon {
+	width: 14px;
+	height: 14px;
+	margin-right: 2px;
+	font-size: 0.65rem;
+}
+.select-mania-tiny .select-mania-group-icon i,
+.select-mania-tiny .select-mania-item-icon i {
+	width: 14px;
+	height: 14px;
+}
+
+.select-mania-tiny .select-mania-group-text,
+.select-mania-tiny .select-mania-item-text {
+	min-height: 14px;
+	font-size:0.75rem;
+}
+.select-mania-tiny .select-mania-group-icon+.select-mania-group-text,
+.select-mania-tiny .select-mania-item-icon+.select-mania-item-text {
+	width: calc(100% - 19px);
+}
+
+.select-mania-tiny .select-mania-group-title {
+	padding:2px;
+	font-size:0.75rem;
+}
+
+.select-mania-tiny .select-mania-group-inner .select-mania-item {
+	padding-left:8px;
+}
+
+/* ################################################################## */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~ TAILLE SMALL ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* ################################################################## */
 

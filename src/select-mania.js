@@ -557,7 +557,7 @@
 				return false;
 			}
 			//error if invalid size provided
-			if($.inArray('size', controls) !== -1 && $.inArray(settings.size, ['small','medium','large']) === -1) {
+			if($.inArray('size', controls) !== -1 && $.inArray(settings.size, ['tiny','small','medium','large']) === -1) {
 				settings.size = 'medium';
 				console.error('selectMania | not a valid size');
 				console.log($target[0]);
