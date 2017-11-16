@@ -56,7 +56,7 @@ Default: `'medium'`
 
 The size of the select.
 
-Three sizes are available: `'small'`, `'medium'`, `'large'`
+Three sizes are available: `'tiny'`, `'small'`, `'medium'`, `'large'`
 
 Can be set by passing a `data-size` attribute on the select element.
 
