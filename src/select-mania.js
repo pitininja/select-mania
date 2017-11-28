@@ -134,6 +134,8 @@
 				$originalSelect.addClass('select-mania-original');
 				//insert selectMania element before original select
 				$builtSelect.insertBefore($originalSelect);
+				//move original select into selectMania element
+				$originalSelect.appendTo($builtSelect);
 				//bind selectMania element
 				Binds.bind($builtSelect);
 			}
@@ -174,6 +176,8 @@
 		destroy: function($originalSelect) {
 			//selectMania element
 			$selectManiaEl = $originalSelect.data('selectMania-element');
+			//move original select out of the selectMania element
+			$originalSelect.insertAfter($selectManiaEl);
 			//remove selectMania element
 			$selectManiaEl.remove();
 			//remove class from original select
@@ -187,11 +191,70 @@
 			var thisEngine = this;
 			//open dropdown
 			$dropdown.stop().addClass('open').slideDown(100);
+			//scroll dropdown to top
+			$dropdown.find('.select-mania-items').scrollTop(0);
 			//focus search input
 			thisEngine.focusSearch($dropdown);
+			//bind keyboard control
+			$(document).off('keydown.selectMania').on('keydown.selectMania', Binds.keyboardControl);
 		}, 
 		closeDropdown: function($dropdown) {
+			//unbind keyboard control
+			$(document).off('keydown.selectMania');
+			//remove every hover class from items
+			$dropdown.find('.select-mania-item').removeClass('select-mania-hover');
+			//close dropdown
 			$dropdown.stop().removeClass('open').slideUp(100);
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ selectItem
+
+		//perform item selection in dropdown
+		selectItem: function($item) {
+			//selectMania element
+			var $selectManiaEl = $item.closest('.select-mania');
+			//select original element
+			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
+			//if item not already selected
+			if(!$item.is('.select-mania-selected')) {
+				//clicked item value
+				var itemVal = $item.attr('data-value');
+				//build value element
+				var $value = Build.buildValue({
+					value: itemVal, 
+					text: $item.text()
+				});
+				//if select multiple
+				if($selectManiaEl.is('.select-mania-multiple')) {
+					//insert value element in selectMania values
+					$selectManiaEl.find('.select-mania-values').append($value);
+					//add value in original select element
+					Engine.addMultipleVal($originalSelect, itemVal);
+				}
+				//if select not multiple
+				else {
+					//unselect every other items
+					$selectManiaEl.find('.select-mania-item').removeClass('select-mania-selected');
+					//insert value element in selectMania values
+					$selectManiaEl.find('.select-mania-values .select-mania-value').remove();
+					$selectManiaEl.find('.select-mania-values').append($value);
+					//change value in original select element
+					$originalSelect.val(itemVal);
+				}
+				//set clicked item as selected
+				$item.addClass('select-mania-selected');
+				//trigger original select change event
+				$originalSelect.trigger('change');
+			}
+			//if select not multiple
+			if(!$selectManiaEl.is('.select-mania-multiple')) {
+				//close dropdown
+				Engine.closeDropdown($selectManiaEl.find('.select-mania-dropdown'));
+			}
+			//update clear values icon display
+			Engine.updateClean($selectManiaEl);
+			//rebind selectMania element
+			Binds.bind($selectManiaEl);
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ focusSearch
@@ -579,6 +642,64 @@
 			}
 			//if control ok
 			return true;
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ navigateItem
+
+		//navigate hover to next or previous item in dropdown
+		navigateItem: function($dropdown, nextOrPrevious) {
+			//selectMania element
+			var $selectManiaEl = $dropdown.closest('.select-mania');
+			//item scrollable list
+			var $itemList = $dropdown.find('.select-mania-items');
+			//active enabled items
+			var validItemSelector = '.select-mania-item:not(.select-mania-disabled):not(.select-mania-hidden)';
+			if($selectManiaEl.hasClass('select-mania-multiple')) {
+				validItemSelector += ':not(.select-mania-selected)';
+			}
+			var $validItems = $dropdown.find(validItemSelector);
+			//current hovered item
+			var $hoveredItem = $dropdown.find(validItemSelector+'.select-mania-hover');
+			//item to target
+			var $targetItem = $();
+			//if there is currently a hovered item
+			if($hoveredItem.length > 0) {
+				//if arrow up get previous item
+				if(nextOrPrevious === 'next') {
+					$targetItem = $validItems.slice($validItems.index($hoveredItem) + 1).first();
+				}
+				//if arrow down get next item
+				else if(nextOrPrevious === 'previous') {
+					$targetItem = $validItems.slice(0, $validItems.index($hoveredItem)).last();
+				}
+			}
+			//no current hovered item
+			else {
+				//hovers first item
+				$targetItem = $validItems.first();
+			}
+			//if target item exists hover this item
+			if($targetItem.length > 0) {
+				//remove hover from every item
+				$dropdown.find('.select-mania-item').removeClass('select-mania-hover');
+				//add hover class to target item
+				$targetItem.addClass('select-mania-hover');
+				//data for item visibility calculation
+				var $targetItemPosition = $targetItem.position();
+				var $targetItemHeight = $targetItem.outerHeight(true);
+				var $itemListHeight = $itemList.height();
+				var $itemListScrollTop = $itemList.scrollTop();
+				//if target item not visible in item list (above)
+				if($targetItemPosition.top < 0) {
+					//scroll to see item
+					$itemList.scrollTop($itemListScrollTop + $targetItemPosition.top);
+				}
+				//if target item not visible in item list (below)
+				else if($targetItemPosition.top + $targetItemHeight > $itemListHeight) {
+					//scroll to see item
+					$itemList.scrollTop($itemListScrollTop + $targetItemPosition.top + $targetItemHeight - $itemListHeight);
+				}
+			}
 		}
 
 	};
@@ -803,16 +924,23 @@ var Build = {
 		//bind all selectMania controls
 		bind: function($selectManiaEl) {
 			var thisBinds = this;
+			//original select element
+			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
 			//click outside select
 			$(document).off('click.selectMania').on('click.selectMania', thisBinds.documentClick);
+			//focus / blur original select element
+			$originalSelect.off('focus.selectMania').on('focus.selectMania', thisBinds.focus);
+			$originalSelect.off('blur.selectMania').on('blur.selectMania', thisBinds.blur);
 			//clear values
 			$selectManiaEl.find('.select-mania-clear-icon').off('click.selectMania').on('click.selectMania', thisBinds.clearValues);
 			//clear select multiple individual value
 			$selectManiaEl.find('.select-mania-value-clear-icon').off('click.selectMania').on('click.selectMania', thisBinds.clearValue);
 			//open / close dropdown
 			$selectManiaEl.find('.select-mania-inner').off('click.selectMania').on('click.selectMania', thisBinds.dropdownToggle);
+			//item hover in dropdown
+			$selectManiaEl.find('.select-mania-item:not(.select-mania-disabled)').off('mouseenter.selectMania').on('mouseenter.selectMania', thisBinds.hoverItem);
 			//item selection in dropdown
-			$selectManiaEl.find('.select-mania-item:not(.select-mania-disabled)').off('click.selectMania').on('click.selectMania', thisBinds.selectItem);
+			$selectManiaEl.find('.select-mania-item:not(.select-mania-disabled)').off('click.selectMania').on('click.selectMania', thisBinds.itemSelection);
 			//search input in dropdown
 			$selectManiaEl.find('.select-mania-dropdown-search-input').off('input.selectMania').on('input.selectMania', thisBinds.inputSearch);
 			//prevents body scroll when reached dropdown top or bottom
@@ -826,7 +954,8 @@ var Build = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ dropdownToggle
 
 		//BIND ONLY - open / close dropdown
-		dropdownToggle: function() {
+		dropdownToggle: function(e) {
+			e.stopPropagation();
 			//dropdown element
 			var $dropdown = $(this).closest('.select-mania').find('.select-mania-dropdown').first();
 			//toggle dropdown
@@ -897,54 +1026,13 @@ var Build = {
 			Engine.updateClean($selectManiaEl);
 		}, 
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ selectItem
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ itemSelection
 
 		//BIND ONLY - item selection in dropdown
-		selectItem: function() {
-			//selectMania element
-			var $selectManiaEl = $(this).closest('.select-mania');
-			//select original element
-			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
-			//if item not already selected
-			if(!$(this).is('.select-mania-selected')) {
-				//clicked item value
-				var itemVal = $(this).attr('data-value');
-				//build value element
-				var $value = Build.buildValue({
-					value: itemVal, 
-					text: $(this).text()
-				});
-				//if select multiple
-				if($selectManiaEl.is('.select-mania-multiple')) {
-					//insert value element in selectMania values
-					$selectManiaEl.find('.select-mania-values').append($value);
-					//add value in original select element
-					Engine.addMultipleVal($originalSelect, itemVal);
-				}
-				//if select not multiple
-				else {
-					//unselect every other items
-					$selectManiaEl.find('.select-mania-item').removeClass('select-mania-selected');
-					//insert value element in selectMania values
-					$selectManiaEl.find('.select-mania-values .select-mania-value').remove();
-					$selectManiaEl.find('.select-mania-values').append($value);
-					//change value in original select element
-					$originalSelect.val(itemVal);
-				}
-				//set clicked item as selected
-				$(this).addClass('select-mania-selected');
-				//trigger original select change event
-				$originalSelect.trigger('change');
-			}
-			//if select not multiple
-			if(!$selectManiaEl.is('.select-mania-multiple')) {
-				//close dropdown
-				Engine.closeDropdown($selectManiaEl.find('.select-mania-dropdown'));
-			}
-			//update clear values icon display
-			Engine.updateClean($selectManiaEl);
-			//rebind selectMania element
-			Binds.bind($selectManiaEl);
+		itemSelection: function() {
+			var $selectedItem = $(this);
+			//select item in dropdown
+			Engine.selectItem($selectedItem);
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ inputSearch
@@ -1034,12 +1122,114 @@ var Build = {
 			else {
 				return($thisDropdown.scrollTop() + $thisDropdown.innerHeight() < $thisDropdown[0].scrollHeight);
 			}
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ focus / blur
+
+		//BIND ONLY - focus selectMania when original select is focused
+		focus: function(e) {
+			var $originalSelect = $(this);
+			//selectMania element
+			var $selectManiaEl = $originalSelect.data('selectMania-element');
+			//add focus class to selectMania element
+			$selectManiaEl.addClass('select-mania-focused');
+			//bind keyboard dropdown opening
+			$originalSelect.off('keydown.selectMania').on('keydown.selectMania', Binds.keyboardOpening);
+		}, 
+
+		//BIND ONLY - unfocus selectMania when original select is focused
+		blur: function(e) {
+			var $originalSelect = $(this);
+			//selectMania element
+			var $selectManiaEl = $originalSelect.data('selectMania-element');
+			//remove focus class from selectMania element
+			$selectManiaEl.removeClass('select-mania-focused');
+			//unbind keyboard dropdown opening
+			$originalSelect.off('keydown.selectMania');
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ hoverItem
+
+		//BIND ONLY - hover status on dropdown items
+		hoverItem: function(e) {
+			var $item = $(this);
+			//dropdown
+			var $dropdown = $item.closest('.select-mania-dropdown');
+			//remove hover from every item
+			$dropdown.find('.select-mania-item').removeClass('select-mania-hover');
+			//apply hover class
+			$item.addClass('select-mania-hover');
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ keyboardOpening / keyboardControl
+
+		//BIND ONLY - keyboard dropdown opening
+		keyboardOpening: function(e) {
+			var $originalSelect = $(this);
+			//selectMania element
+			var $selectManiaEl = $originalSelect.data('selectMania-element');
+			//dropdown
+			var $dropdown = $selectManiaEl.find('.select-mania-dropdown').first();
+			//list of key codes triggering opening beside characters (enter, spacebar, arrow keys)
+			var openingKeys = [13,32,37,38,39,40];
+			//if dropdown is closed and triggering key pressed
+			if(!$dropdown.hasClass('open') && $.inArray(e.keyCode, openingKeys) !== -1) {
+				e.preventDefault();
+				e.stopPropagation();
+				//unfocus original select
+				$originalSelect.blur();
+				//opens dropdown
+				Engine.openDropdown($dropdown);
+			}
+		}, 
+
+		//BIND ONLY - keyboard control within dropdown
+		keyboardControl: function(e) {
+			//currently open dropdown
+			var $dropdown = $('.select-mania-dropdown.open').first();
+			//list of control keys (tab, enter, escape, arrow up, arrow down)
+			var controlKeys = [9,13,27,38,40];
+			//if a selectMania dropdown is open and key pressed is a control key
+			if($dropdown.length > 0 && $.inArray(e.keyCode, controlKeys) !== -1) {
+				e.preventDefault();
+				e.stopPropagation();
+				//switch key pressed
+				switch(e.keyCode) {
+					//enter
+					case 13:
+						//currently hovered element
+						var $hoverItem = $dropdown.find('.select-mania-item:not(.select-mania-disabled):not(.select-mania-hidden).select-mania-hover').first();
+						//if hovered element exists
+						if($hoverItem.length > 0) {
+							//select item in dropdown
+							Engine.selectItem($hoverItem);
+						}
+						break;
+					//tab
+					case 9:
+					//escape
+					case 27:
+						//close dropdown
+						Engine.closeDropdown($dropdown);
+						break;
+					//arrow up
+					case 38:
+						//hover previous item in dropdown
+						Engine.navigateItem($dropdown, 'previous');
+						break;
+					//arrow down
+					case 40:
+						//hover next item in dropdown
+						Engine.navigateItem($dropdown, 'next');
+						break;
+				}
+			}
 		}
 
 	};
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
-// ---------------------------------------- OUTILS ---------------------------------------- //
+// ---------------------------------------- TOOLS ----------------------------------------- //
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
 	var Tools = {
@@ -1057,7 +1247,7 @@ var Build = {
 	};
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
-// --------------------------------------- MÉTHODES --------------------------------------- //
+// --------------------------------------- METHODS --------------------------------------- //
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
 	var Methods = {
