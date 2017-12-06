@@ -278,7 +278,7 @@
 			var $itemList = $dropdown.find('.select-mania-items');
 			var itemListScroll = $itemList.scrollTop();
 			//data for calculating dropdown absolute position
-			var selectManiaElPos = $selectManiaEl.position();
+			var selectManiaElPos = $selectManiaEl.offset();
 			var selectManiaElWidth = $selectManiaEl.outerWidth();
 			var selectManiaElHeight = $selectManiaEl.outerHeight();
 			//append dropdown to body in absolute position
