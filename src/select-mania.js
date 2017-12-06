@@ -22,7 +22,9 @@
 			search: false, 
 			//ajax
 			ajax: false, 
-			data: {}
+			data: {}, 
+			//positionning
+			scrollContainer: null
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ setDefaults
@@ -63,6 +65,8 @@
 			settings.values = [];
 			//if select is multiple
 			settings.multiple = $originalSelect.is('[multiple]');
+			//if select is disabled
+			settings.disabled = $originalSelect.is('[disabled]');
 			//loop through selected options
 			$originalSelect.find('option:selected').each(function() {
 				//insert selected value data
@@ -81,7 +85,7 @@
 		getAttrSettings: function($originalSelect) {
 			var attrData = {};
 			//available attributes
-			var attrs = ['width','size','placeholder','removable','empty','search'];
+			var attrs = ['width','size','placeholder','removable','empty','search','scrollContainer'];
 			//loop through attributes
 			attrs.forEach(function(attr) {
 				//if attribute is set on select
@@ -116,7 +120,7 @@
 			//insert internal data into settings
 			settings = thisEngine.internalSettings($originalSelect, settings);
 			//control ajax function type and size
-			if(thisEngine.controlSettings($originalSelect, settings, ['ajax','size'])) {
+			if(thisEngine.controlSettings($originalSelect, settings)) {
 				//build selectMania elements
 				var $builtSelect = Build.build($originalSelect, settings);
 				//attach original select element to selectMania element
@@ -134,6 +138,8 @@
 				$originalSelect.addClass('select-mania-original');
 				//insert selectMania element before original select
 				$builtSelect.insertBefore($originalSelect);
+				//move original select into selectMania element
+				$originalSelect.appendTo($builtSelect);
 				//bind selectMania element
 				Binds.bind($builtSelect);
 			}
@@ -148,6 +154,13 @@
 			$selectManiaEl = $originalSelect.data('selectMania-element');
 			$valueList = $selectManiaEl.find('.select-mania-values').first();
 			$itemList = $selectManiaEl.find('.select-mania-items').first();
+			//update disabled status
+			if($originalSelect.is('[disabled]')) {
+				$selectManiaEl.addClass('select-mania-disabled');
+			}
+			else {
+				$selectManiaEl.removeClass('select-mania-disabled');
+			}
 			//remove selectMania values and items
 			$selectManiaEl.find('.select-mania-value').remove();
 			$itemList.empty();
@@ -174,6 +187,8 @@
 		destroy: function($originalSelect) {
 			//selectMania element
 			$selectManiaEl = $originalSelect.data('selectMania-element');
+			//move original select out of the selectMania element
+			$originalSelect.insertAfter($selectManiaEl);
 			//remove selectMania element
 			$selectManiaEl.remove();
 			//remove class from original select
@@ -182,23 +197,163 @@
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ openDropdown / closeDropdown
 
-		//open / close items dropdown
+		//open items dropdown
 		openDropdown: function($dropdown) {
 			var thisEngine = this;
+			//select-mania element
+			var $selectManiaEl = $dropdown.closest('.select-mania');
+			//if scroll container option is set
+			if($selectManiaEl.is('[data-selectMania-scrollContainer]')) {
+				//scroll container element
+				var $scrollContainer = $($selectManiaEl.attr('data-selectMania-scrollContainer'));
+				//position absolute dropdown
+				Engine.positionDropdown($dropdown);
+				//apply positionning class
+				$dropdown.addClass('select-mania-absolute');
+				//bind scroll container to close dropdown on scroll
+				$scrollContainer.off('scroll.selectMania').on('scroll.selectMania', function() {
+					//unbind close dropdown on scrolling
+					$scrollContainer.off('scroll.selectMania');
+					//close open dropdown
+					Engine.closeDropdown($('.select-mania-dropdown.open'));
+				});
+				//reposition dropdown when window is resized
+				$(window).off('resize.selectMania').on('resize.selectMania', function() {
+					//position absolute dropdown
+					Engine.positionDropdown($dropdown);
+				});
+			}
 			//open dropdown
 			$dropdown.stop().addClass('open').slideDown(100);
+			//scroll dropdown to top
+			$dropdown.find('.select-mania-items').scrollTop(0);
 			//focus search input
 			thisEngine.focusSearch($dropdown);
+			//bind keyboard control
+			$(document).off('keydown.selectMania').on('keydown.selectMania', Binds.keyboardControl);
 		}, 
+
+		//close items dropdown
 		closeDropdown: function($dropdown) {
-			$dropdown.stop().removeClass('open').slideUp(100);
+			var $selectManiaEl = $dropdown.data('selectMania-element');
+			//unbind keyboard control
+			$(document).off('keydown.selectMania');
+			//remove every hover class from items
+			$dropdown.find('.select-mania-item').removeClass('select-mania-hover');
+			//if dropdown has aboslute positionning
+			if($dropdown.hasClass('select-mania-absolute')) {
+				//select-mania inner element
+				var $selectManiaInner = $dropdown
+					.data('selectMania-element')
+					.find('.select-mania-inner')
+					.first();
+				//move back the dropdown inside select-mania element
+				$dropdown
+					.removeClass('open')
+					.hide()
+					.insertAfter(
+						$selectManiaInner
+					);
+				//unbind repositioning on resize
+				$(window).off('resize.selectMania');
+				//unbind close dropdown on scrolling
+				var $scrollContainer = $($selectManiaEl.attr('data-selectMania-scrollContainer'));
+				if($scrollContainer.length > 0) {
+					$scrollContainer.off('scroll.selectMania');
+				}
+			}
+			//if dropdown has standard positionning
+			else {
+				//close dropdown
+				$dropdown.stop().removeClass('open').slideUp(100);
+			}
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ positionDropdown
+
+		//position dropdown relative to its select-mania element
+		positionDropdown: function($dropdown) {
+			var $selectManiaEl = $dropdown.data('selectMania-element');
+			//item list scroll data
+			var $itemList = $dropdown.find('.select-mania-items');
+			var itemListScroll = $itemList.scrollTop();
+			//data for calculating dropdown absolute position
+			var selectManiaElPos = $selectManiaEl.position();
+			var selectManiaElWidth = $selectManiaEl.outerWidth();
+			var selectManiaElHeight = $selectManiaEl.outerHeight();
+			//append dropdown to body in absolute position
+			$dropdown.appendTo('body').css({
+				position: 'absolute', 
+				top: selectManiaElPos.top + selectManiaElHeight, 
+				left: selectManiaElPos.left, 
+				width: selectManiaElWidth
+			});
+			//force item list scroll to its initial state
+			$itemList.scrollTop(itemListScroll);
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ selectItem
+
+		//perform item selection in dropdown
+		selectItem: function($item) {
+			//dropdown element
+			var $dropdown = $item.closest('.select-mania-dropdown');
+			//selectMania element
+			var $selectManiaEl = $dropdown.data('selectMania-element');
+			//select original element
+			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
+			//if item not already selected
+			if(!$item.is('.select-mania-selected')) {
+				//clicked item value
+				var itemVal = $item.attr('data-value');
+				//build value element
+				var $value = Build.buildValue({
+					value: itemVal, 
+					text: $item.text()
+				});
+				//if select multiple
+				if($selectManiaEl.is('.select-mania-multiple')) {
+					//insert value element in selectMania values
+					$selectManiaEl.find('.select-mania-values').append($value);
+					//add value in original select element
+					Engine.addMultipleVal($originalSelect, itemVal);
+				}
+				//if select not multiple
+				else {
+					//unselect every other items
+					$dropdown.find('.select-mania-item').removeClass('select-mania-selected');
+					//insert value element in selectMania values
+					$selectManiaEl.find('.select-mania-values .select-mania-value').remove();
+					$selectManiaEl.find('.select-mania-values').append($value);
+					//change value in original select element
+					$originalSelect.val(itemVal);
+				}
+				//set clicked item as selected
+				$item.addClass('select-mania-selected');
+				//trigger original select change event
+				$originalSelect.trigger('change');
+			}
+			//if absolute position dropdown
+			if($dropdown.is('.select-mania-absolute')) {
+				//position absolute dropdown
+				Engine.positionDropdown($dropdown);
+			}
+			//if select not multiple
+			if(!$selectManiaEl.is('.select-mania-multiple')) {
+				//close dropdown
+				Engine.closeDropdown($dropdown);
+			}
+			//update clear values icon display
+			Engine.updateClean($selectManiaEl);
+			//rebind selectMania element
+			Binds.bind($selectManiaEl);
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ focusSearch
 
 		//focus search input in dropdown
 		focusSearch: function($dropdown) {
-			$dropdown.find('.select-mania-dropdown-search-input').focus();
+			$dropdown.find('.select-mania-search-input').focus();
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ addMultipleVal
@@ -247,18 +402,20 @@
 
 		//do search in items dropdown
 		doSearch: function($selectManiaEl) {
+			//dropdown
+			var $dropdown = $selectManiaEl.data('selectMania-dropdown');
 			//search value
-			var searchVal = $selectManiaEl.find('.select-mania-dropdown-search-input').first().val();
+			var searchVal = $dropdown.find('.select-mania-search-input').first().val();
 			searchVal = searchVal.toLowerCase().trim();
 			//if empty search value
 			if(searchVal === '') {
 				//display all items
-				$selectManiaEl.find('.select-mania-group, .select-mania-item').removeClass('select-mania-hidden');
+				$dropdown.find('.select-mania-group, .select-mania-item').removeClass('select-mania-hidden');
 				//stop function
 				return;
 			}
 			//loop through dropdown items
-			$selectManiaEl.find('.select-mania-item').each(function() {
+			$dropdown.find('.select-mania-item').each(function() {
 				//if item text matches search value
 				if($(this).text().toLowerCase().indexOf(searchVal) !== -1) {
 					//display item
@@ -271,7 +428,7 @@
 				}
 			});
 			//show / hide optgroups if contain results / empty
-			$selectManiaEl.find('.select-mania-group').each(function() {
+			$dropdown.find('.select-mania-group').each(function() {
 				if($(this).find('.select-mania-item:not(.select-mania-hidden)').length > 0) {
 					$(this).removeClass('select-mania-hidden');
 				}
@@ -286,8 +443,10 @@
 		//do ajax search in items dropdown
 		doSearchAjax: function($selectManiaEl) {
 			var thisEngine = this;
+			//dropdown
+			var $dropdown = $selectManiaEl.data('selectMania-dropdown');
 			//search value
-			var thisSearch = $selectManiaEl.find('.select-mania-dropdown-search-input').first().val();
+			var thisSearch = $dropdown.find('.select-mania-search-input').first().val();
 			//pause ajax scroll
 			$selectManiaEl.data('selectMania-ajaxReady', false);
 			//reset current page number
@@ -326,10 +485,12 @@
 		//add / replace dropdown items
 		addOrReplaceItems: function($selectManiaEl, optionsHTML, replace) {
 			var thisEngine = this;
+			//dropdown
+			var $dropdown = $selectManiaEl.data('selectMania-dropdown');
 			//original select element
 			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
 			//items dropdown
-			var $itemsContainer = $selectManiaEl.find('.select-mania-items');
+			var $itemsContainer = $dropdown.find('.select-mania-items');
 			//options jquery parsing
 			var $options = $(optionsHTML);
 			//get selectMania element values
@@ -428,10 +589,12 @@
 
 		//clear select values
 		clear: function($selectManiaEl) {
+			//dropdown
+			var $dropdown = $selectManiaEl.data('selectMania-dropdown');
 			//empty selectMania values
 			$selectManiaEl.find('.select-mania-value').remove();
 			//unselect items in dropdown
-			$selectManiaEl.find('.select-mania-item').removeClass('select-mania-selected');
+			$dropdown.find('.select-mania-item').removeClass('select-mania-selected');
 			//empty values in original select element
 			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
 			if($selectManiaEl.is('.select-mania-multiple')) {
@@ -520,7 +683,7 @@
 		controlTarget: function($target, controls) {
 			//error if element is not a select
 			if($.inArray('isSelect', controls) !== -1 && !$target.is('select')) {
-				console.error('selectMania | not a valid select element');
+				console.error('selectMania | invalid select element');
 				console.log($target[0]);
 				return false;
 			}
@@ -547,19 +710,27 @@
 		}, 
 
 		//control selectMania settings
-		controlSettings: function($target, settings, controls) {
+		controlSettings: function($target, settings) {
 			//control ajax function type
-			if($.inArray('ajax', controls) !== -1 && settings.ajax !== false && typeof settings.ajax !== 'function') {
+			if(settings.ajax !== false && typeof settings.ajax !== 'function') {
 				settings.ajax = false;
-				console.error('selectMania | not a valid ajax function');
+				console.error('selectMania | invalid ajax function');
 				console.log($target[0]);
 				console.log(settings);
 				return false;
 			}
 			//error if invalid size provided
-			if($.inArray('size', controls) !== -1 && $.inArray(settings.size, ['tiny','small','medium','large']) === -1) {
+			if($.inArray(settings.size, ['tiny','small','medium','large']) === -1) {
 				settings.size = 'medium';
-				console.error('selectMania | not a valid size');
+				console.error('selectMania | invalid size');
+				console.log($target[0]);
+				console.log(settings);
+				return false;
+			}
+			//error if invalid sroll container provided
+			if(settings.scrollContainer !== null && $(settings.scrollContainer).length < 1) {
+				settings.scrollContainer = null;
+				console.error('selectMania | invalid scroll container');
 				console.log($target[0]);
 				console.log(settings);
 				return false;
@@ -579,6 +750,64 @@
 			}
 			//if control ok
 			return true;
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ navigateItem
+
+		//navigate hover to next or previous item in dropdown
+		navigateItem: function($dropdown, nextOrPrevious) {
+			//selectMania element
+			var $selectManiaEl = $dropdown.closest('.select-mania');
+			//item scrollable list
+			var $itemList = $dropdown.find('.select-mania-items');
+			//active enabled items
+			var validItemSelector = '.select-mania-item:not(.select-mania-disabled):not(.select-mania-hidden)';
+			if($selectManiaEl.hasClass('select-mania-multiple')) {
+				validItemSelector += ':not(.select-mania-selected)';
+			}
+			var $validItems = $dropdown.find(validItemSelector);
+			//current hovered item
+			var $hoveredItem = $dropdown.find(validItemSelector+'.select-mania-hover');
+			//item to target
+			var $targetItem = $();
+			//if there is currently a hovered item
+			if($hoveredItem.length > 0) {
+				//if arrow up get previous item
+				if(nextOrPrevious === 'next') {
+					$targetItem = $validItems.slice($validItems.index($hoveredItem) + 1).first();
+				}
+				//if arrow down get next item
+				else if(nextOrPrevious === 'previous') {
+					$targetItem = $validItems.slice(0, $validItems.index($hoveredItem)).last();
+				}
+			}
+			//no current hovered item
+			else {
+				//hovers first item
+				$targetItem = $validItems.first();
+			}
+			//if target item exists hover this item
+			if($targetItem.length > 0) {
+				//remove hover from every item
+				$dropdown.find('.select-mania-item').removeClass('select-mania-hover');
+				//add hover class to target item
+				$targetItem.addClass('select-mania-hover');
+				//data for item visibility calculation
+				var $targetItemPosition = $targetItem.position();
+				var $targetItemHeight = $targetItem.outerHeight(true);
+				var $itemListHeight = $itemList.height();
+				var $itemListScrollTop = $itemList.scrollTop();
+				//if target item not visible in item list (above)
+				if($targetItemPosition.top < 0) {
+					//scroll to see item
+					$itemList.scrollTop($itemListScrollTop + $targetItemPosition.top);
+				}
+				//if target item not visible in item list (below)
+				else if($targetItemPosition.top + $targetItemHeight > $itemListHeight) {
+					//scroll to see item
+					$itemList.scrollTop($itemListScrollTop + $targetItemPosition.top + $targetItemHeight - $itemListHeight);
+				}
+			}
 		}
 
 	};
@@ -604,6 +833,10 @@ var Build = {
 			if(settings.multiple) {
 				$selectManiaEl.addClass('select-mania-multiple');
 			}
+			//class for disabled
+			if(settings.disabled) {
+				$selectManiaEl.addClass('select-mania-disabled');
+			}
 			//classes for themes
 			if(settings.themes instanceof Array && settings.themes.length > 0) {
 				//loop through themes
@@ -616,12 +849,20 @@ var Build = {
 			if(settings.ajax !== false) {
 				$selectManiaEl.addClass('select-mania-ajax');
 			}
-			//insert children elements
-			$selectManiaEl
-				//inner elements
-				.append(thisBuild.buildInner(settings))
-				//items dropdown
-				.append(thisBuild.buildDropdown($originalSelect, settings));
+			//attribute for scroll container
+			if(settings.scrollContainer !== null) {
+				$selectManiaEl.attr('data-selectMania-scrollContainer', settings.scrollContainer);
+			}
+			//build inner elements
+			var $innerElements = thisBuild.buildInner(settings);
+			//build dropdown
+			var $dropdown = thisBuild.buildDropdown($originalSelect, settings);
+			//insert elements
+			$selectManiaEl.append($innerElements).append($dropdown);
+			//attach dropdown to select-mania element
+			$selectManiaEl.data('selectMania-dropdown', $dropdown);
+			//attach select-mania element to dropdown
+			$dropdown.data('selectMania-element', $selectManiaEl);
 			//send back selectMania element
 			return $selectManiaEl;
 		}, 
@@ -687,12 +928,14 @@ var Build = {
 		//build items dropdown
 		buildDropdown: function($originalSelect, settings) {
 			var thisBuild = this;
+			//class for sizing
+			var sizeClass = 'select-mania-'+settings.size;
 			//dropdown element
-			var $dropdown = $('<div class="select-mania-dropdown"></div>');
+			var $dropdown = $('<div class="select-mania-dropdown '+sizeClass+'"></div>');
 			//insert search input in dropdown if activated
 			if(settings.search) {
 				var $dropdownSearch = $('<div class="select-mania-dropdown-search"></div>');
-				$dropdownSearch.append('<input class="select-mania-dropdown-search-input" />');
+				$dropdownSearch.append('<input class="select-mania-search-input" />');
 				$dropdown.append($dropdownSearch);
 			}
 			//build items container
@@ -703,6 +946,14 @@ var Build = {
 			//insert items list into dropdown
 			$itemListContainer.append($itemList);
 			$dropdown.append($itemListContainer);
+			//classes for themes
+			if(settings.themes instanceof Array && settings.themes.length > 0) {
+				//loop through themes
+				settings.themes.forEach(function(theme) {
+					//applies theme class
+					$dropdown.addClass('select-mania-theme-'+theme);
+				});
+			}
 			//send back items dropdown
 			return $dropdown;
 		}, 
@@ -803,37 +1054,79 @@ var Build = {
 		//bind all selectMania controls
 		bind: function($selectManiaEl) {
 			var thisBinds = this;
-			//click outside select
-			$(document).off('click.selectMania').on('click.selectMania', thisBinds.documentClick);
-			//clear values
-			$selectManiaEl.find('.select-mania-clear-icon').off('click.selectMania').on('click.selectMania', thisBinds.clearValues);
-			//clear select multiple individual value
-			$selectManiaEl.find('.select-mania-value-clear-icon').off('click.selectMania').on('click.selectMania', thisBinds.clearValue);
-			//open / close dropdown
-			$selectManiaEl.find('.select-mania-inner').off('click.selectMania').on('click.selectMania', thisBinds.dropdownToggle);
-			//item selection in dropdown
-			$selectManiaEl.find('.select-mania-item:not(.select-mania-disabled)').off('click.selectMania').on('click.selectMania', thisBinds.selectItem);
-			//search input in dropdown
-			$selectManiaEl.find('.select-mania-dropdown-search-input').off('input.selectMania').on('input.selectMania', thisBinds.inputSearch);
-			//prevents body scroll when reached dropdown top or bottom
-			$selectManiaEl.find('.select-mania-items').off('wheel.selectMania').on('wheel.selectMania', thisBinds.scrollControl);
-			//ajax scroll
-			if($selectManiaEl.is('.select-mania-ajax')) {
-				$selectManiaEl.find('.select-mania-items').off('scroll.selectMania').on('scroll.selectMania', thisBinds.scrollAjax);
+			//original select element
+			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
+			//dropdown
+			var $dropdown = $selectManiaEl.data('selectMania-dropdown');
+			//if select is not disabled
+			if(!$selectManiaEl.is('.select-mania-disabled')) {
+				//click outside select
+				$(document).off('click.selectMania').on('click.selectMania', thisBinds.documentClick);
+				//focus / blur original select element
+				$originalSelect.off('focus.selectMania').on('focus.selectMania', thisBinds.focus);
+				$originalSelect.off('blur.selectMania').on('blur.selectMania', thisBinds.blur);
+				//clear values
+				$selectManiaEl.find('.select-mania-clear-icon').off('click.selectMania').on('click.selectMania', thisBinds.clearValues);
+				//clear select multiple individual value
+				$selectManiaEl.find('.select-mania-value-clear-icon').off('click.selectMania').on('click.selectMania', thisBinds.clearValue);
+				//open / close dropdown
+				$selectManiaEl.find('.select-mania-inner').off('click.selectMania').on('click.selectMania', thisBinds.dropdownToggle);
+				//item hover in dropdown
+				$dropdown.find('.select-mania-item:not(.select-mania-disabled)').off('mouseenter.selectMania').on('mouseenter.selectMania', thisBinds.hoverItem);
+				//item selection in dropdown
+				$dropdown.find('.select-mania-item:not(.select-mania-disabled)').off('click.selectMania').on('click.selectMania', thisBinds.itemSelection);
+				//search input in dropdown
+				$dropdown.find('.select-mania-search-input').off('input.selectMania').on('input.selectMania', thisBinds.inputSearch);
+				//prevents body scroll when reached dropdown top or bottom
+				$dropdown.find('.select-mania-items').off('wheel.selectMania').on('wheel.selectMania', thisBinds.scrollControl);
+				//ajax scroll
+				if($selectManiaEl.is('.select-mania-ajax')) {
+					$dropdown.find('.select-mania-items').off('scroll.selectMania').on('scroll.selectMania', thisBinds.scrollAjax);
+				}
+			}
+			//if select is disabled unbind controls
+			else {
+				//focus / blur original select element
+				$originalSelect.off('focus.selectMania');
+				$originalSelect.off('blur.selectMania');
+				//clear values
+				$selectManiaEl.find('.select-mania-clear-icon').off('click.selectMania');
+				//clear select multiple individual value
+				$selectManiaEl.find('.select-mania-value-clear-icon').off('click.selectMania');
+				//open / close dropdown
+				$selectManiaEl.find('.select-mania-inner').off('click.selectMania');
+				//item hover in dropdown
+				$dropdown.find('.select-mania-item:not(.select-mania-disabled)').off('mouseenter.selectMania');
+				//item selection in dropdown
+				$dropdown.find('.select-mania-item:not(.select-mania-disabled)').off('click.selectMania');
+				//search input in dropdown
+				$dropdown.find('.select-mania-search-input').off('input.selectMania');
+				//prevents body scroll when reached dropdown top or bottom
+				$dropdown.find('.select-mania-items').off('wheel.selectMania');
+				//ajax scroll
+				$dropdown.find('.select-mania-items').off('scroll.selectMania');
 			}
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ dropdownToggle
 
 		//BIND ONLY - open / close dropdown
-		dropdownToggle: function() {
+		dropdownToggle: function(e) {
+			e.stopPropagation();
+			//select-mania element
+			var $selectManiaEl = $(this).closest('.select-mania');
 			//dropdown element
-			var $dropdown = $(this).closest('.select-mania').find('.select-mania-dropdown').first();
-			//toggle dropdown
+			var $dropdown = $selectManiaEl.data('selectMania-dropdown');
+			//if dropdown open
 			if($dropdown.is('.open')) {
+				//close dropdown
 				Engine.closeDropdown($dropdown);
 			}
+			//if dropdown closed
 			else {
+				//close every open dropdown
+				Engine.closeDropdown($('.select-mania-dropdown.open'));
+				//open target dropdown
 				Engine.openDropdown($dropdown);
 			}
 		}, 
@@ -842,15 +1135,8 @@ var Build = {
 
 		//BIND ONLY - click outside select
 		documentClick: function(e) {
-			//if click is inside select
-			if($(e.target).closest('.select-mania').length > 0) {
-				//close every other select open dropdown
-				var $thisSelectMania = $(e.target).closest('.select-mania');
-				var $openDropdowns = $('.select-mania').not($thisSelectMania).find('.select-mania-dropdown.open');
-				Engine.closeDropdown($openDropdowns);
-			}
-			//if click outside select
-			else {
+			//if click not in open dropdown
+			if($(e.target).closest('.select-mania-dropdown').length < 1) {
 				//close every open dropdown
 				Engine.closeDropdown($('.select-mania-dropdown.open'));
 			}
@@ -863,10 +1149,17 @@ var Build = {
 			e.stopPropagation();
 			//selectMania element
 			var $selectManiaEl = $(this).closest('.select-mania');
+			//dropdown
+			var $dropdown = $selectManiaEl.data('selectMania-dropdown');
 			//original select element
 			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
 			//clear values
 			Engine.clear($selectManiaEl);
+			//if absolute position dropdown
+			if($dropdown.is('.select-mania-absolute')) {
+				//position absolute dropdown
+				Engine.positionDropdown($dropdown);
+			}
 			//trigger original select change event
 			$originalSelect.trigger('change');
 			//update clear values icon display
@@ -880,10 +1173,12 @@ var Build = {
 			e.stopPropagation();
 			//selectMania element
 			var $selectManiaEl = $(this).closest('.select-mania');
+			//dropdown
+			var $dropdown = $selectManiaEl.data('selectMania-dropdown');
 			//value to delete
 			var $value = $(this).closest('.select-mania-value');
 			//unselect item in dropdown
-			$selectManiaEl
+			$dropdown
 				.find('.select-mania-item[data-value="'+$value.attr('data-value')+'"]')
 				.removeClass('select-mania-selected');
 			//remove value from selectMania element
@@ -891,77 +1186,42 @@ var Build = {
 			//remove value from original select element
 			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
 			Engine.removeMultipleVal($originalSelect, $value.attr('data-value'));
+			//if absolute position dropdown
+			if($dropdown.is('.select-mania-absolute')) {
+				//position absolute dropdown
+				Engine.positionDropdown($dropdown);
+			}
 			//trigger original select change event
 			$originalSelect.trigger('change');
 			//update clear values icon display
 			Engine.updateClean($selectManiaEl);
 		}, 
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ selectItem
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ itemSelection
 
 		//BIND ONLY - item selection in dropdown
-		selectItem: function() {
-			//selectMania element
-			var $selectManiaEl = $(this).closest('.select-mania');
-			//select original element
-			var $originalSelect = $selectManiaEl.data('selectMania-originalSelect');
-			//if item not already selected
-			if(!$(this).is('.select-mania-selected')) {
-				//clicked item value
-				var itemVal = $(this).attr('data-value');
-				//build value element
-				var $value = Build.buildValue({
-					value: itemVal, 
-					text: $(this).text()
-				});
-				//if select multiple
-				if($selectManiaEl.is('.select-mania-multiple')) {
-					//insert value element in selectMania values
-					$selectManiaEl.find('.select-mania-values').append($value);
-					//add value in original select element
-					Engine.addMultipleVal($originalSelect, itemVal);
-				}
-				//if select not multiple
-				else {
-					//unselect every other items
-					$selectManiaEl.find('.select-mania-item').removeClass('select-mania-selected');
-					//insert value element in selectMania values
-					$selectManiaEl.find('.select-mania-values .select-mania-value').remove();
-					$selectManiaEl.find('.select-mania-values').append($value);
-					//change value in original select element
-					$originalSelect.val(itemVal);
-				}
-				//set clicked item as selected
-				$(this).addClass('select-mania-selected');
-				//trigger original select change event
-				$originalSelect.trigger('change');
-			}
-			//if select not multiple
-			if(!$selectManiaEl.is('.select-mania-multiple')) {
-				//close dropdown
-				Engine.closeDropdown($selectManiaEl.find('.select-mania-dropdown'));
-			}
-			//update clear values icon display
-			Engine.updateClean($selectManiaEl);
-			//rebind selectMania element
-			Binds.bind($selectManiaEl);
+		itemSelection: function() {
+			var $selectedItem = $(this);
+			//select item in dropdown
+			Engine.selectItem($selectedItem);
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ inputSearch
 
 		//BIND ONLY - dropdown search input
 		inputSearch: function() {
+			var $input = $(this);
 			//selectMania element
-			$selectManiaEl = $(this).closest('.select-mania');
+			$selectManiaEl = $input.closest('.select-mania-dropdown').data('selectMania-element');
 			//timer duration according to select multiple or not
 			var thisTime = 200;
 			if($selectManiaEl.is('.select-mania-ajax')) {
 				thisTime = 400;
 			}
 			//clear timeout
-			clearTimeout($(this).data('selectMania-searchTimer'));
+			clearTimeout($input.data('selectMania-searchTimer'));
 			//search input timeout
-			$(this).data('selectMania-searchTimer', setTimeout(function() {
+			$input.data('selectMania-searchTimer', setTimeout(function() {
 				//ajax search
 				if($selectManiaEl.is('.select-mania-ajax')) {
 					Engine.doSearchAjax($selectManiaEl);
@@ -977,20 +1237,21 @@ var Build = {
 
 		//BIND ONLY - dropdown ajax scroll
 		scrollAjax: function(e) {
+			var $itemList = $(this);
 			//dropdown element
-			var $thisDropdown = $(this);
+			var $dropdown = $itemList.closest('.select-mania-dropdown');
 			//selectMania element
-			var $selectManiaEl = $thisDropdown.closest('.select-mania');
+			var $selectManiaEl = $dropdown.data('selectMania-element');
 			//if ajax scroll is not over
 			if($selectManiaEl.data('selectMania-ajaxScrollDone') !== true) {
 				//if scroll reached bottom with 12px tolerance
-				if($thisDropdown.scrollTop() >= $thisDropdown[0].scrollHeight - $thisDropdown.outerHeight() - 12) {
+				if($itemList.scrollTop() >= $itemList[0].scrollHeight - $itemList.outerHeight() - 12) {
 					//if ajax scroll is ready
 					if($selectManiaEl.data('selectMania-ajaxReady') === true) {
 						//page number to call
 						var thisPage = $selectManiaEl.data('selectMania-ajaxPage') + 1;
 						//search value
-						var thisSearch = $selectManiaEl.find('.select-mania-dropdown-search-input').first().val();
+						var thisSearch = $selectManiaEl.find('.select-mania-search-input').first().val();
 						//pause ajax scroll
 						$selectManiaEl.data('selectMania-ajaxReady', false);
 						//enregistre nouvelle page en cours
@@ -1034,12 +1295,114 @@ var Build = {
 			else {
 				return($thisDropdown.scrollTop() + $thisDropdown.innerHeight() < $thisDropdown[0].scrollHeight);
 			}
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ focus / blur
+
+		//BIND ONLY - focus selectMania when original select is focused
+		focus: function(e) {
+			var $originalSelect = $(this);
+			//selectMania element
+			var $selectManiaEl = $originalSelect.data('selectMania-element');
+			//add focus class to selectMania element
+			$selectManiaEl.addClass('select-mania-focused');
+			//bind keyboard dropdown opening
+			$originalSelect.off('keydown.selectMania').on('keydown.selectMania', Binds.keyboardOpening);
+		}, 
+
+		//BIND ONLY - unfocus selectMania when original select is focused
+		blur: function(e) {
+			var $originalSelect = $(this);
+			//selectMania element
+			var $selectManiaEl = $originalSelect.data('selectMania-element');
+			//remove focus class from selectMania element
+			$selectManiaEl.removeClass('select-mania-focused');
+			//unbind keyboard dropdown opening
+			$originalSelect.off('keydown.selectMania');
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ hoverItem
+
+		//BIND ONLY - hover status on dropdown items
+		hoverItem: function(e) {
+			var $item = $(this);
+			//dropdown
+			var $dropdown = $item.closest('.select-mania-dropdown');
+			//remove hover from every item
+			$dropdown.find('.select-mania-item').removeClass('select-mania-hover');
+			//apply hover class
+			$item.addClass('select-mania-hover');
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ keyboardOpening / keyboardControl
+
+		//BIND ONLY - keyboard dropdown opening
+		keyboardOpening: function(e) {
+			var $originalSelect = $(this);
+			//selectMania element
+			var $selectManiaEl = $originalSelect.data('selectMania-element');
+			//dropdown
+			var $dropdown = $selectManiaEl.data('selectMania-dropdown');
+			//list of key codes triggering opening beside characters (enter, spacebar, arrow keys)
+			var openingKeys = [13,32,37,38,39,40];
+			//if dropdown is closed and triggering key pressed
+			if(!$dropdown.hasClass('open') && $.inArray(e.keyCode, openingKeys) !== -1) {
+				e.preventDefault();
+				e.stopPropagation();
+				//unfocus original select
+				$originalSelect.blur();
+				//opens dropdown
+				Engine.openDropdown($dropdown);
+			}
+		}, 
+
+		//BIND ONLY - keyboard control within dropdown
+		keyboardControl: function(e) {
+			//currently open dropdown
+			var $dropdown = $('.select-mania-dropdown.open').first();
+			//list of control keys (tab, enter, escape, arrow up, arrow down)
+			var controlKeys = [9,13,27,38,40];
+			//if a selectMania dropdown is open and key pressed is a control key
+			if($dropdown.length > 0 && $.inArray(e.keyCode, controlKeys) !== -1) {
+				e.preventDefault();
+				e.stopPropagation();
+				//switch key pressed
+				switch(e.keyCode) {
+					//enter
+					case 13:
+						//currently hovered element
+						var $hoverItem = $dropdown.find('.select-mania-item:not(.select-mania-disabled):not(.select-mania-hidden).select-mania-hover').first();
+						//if hovered element exists
+						if($hoverItem.length > 0) {
+							//select item in dropdown
+							Engine.selectItem($hoverItem);
+						}
+						break;
+					//tab
+					case 9:
+					//escape
+					case 27:
+						//close dropdown
+						Engine.closeDropdown($dropdown);
+						break;
+					//arrow up
+					case 38:
+						//hover previous item in dropdown
+						Engine.navigateItem($dropdown, 'previous');
+						break;
+					//arrow down
+					case 40:
+						//hover next item in dropdown
+						Engine.navigateItem($dropdown, 'next');
+						break;
+				}
+			}
 		}
 
 	};
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
-// ---------------------------------------- OUTILS ---------------------------------------- //
+// ---------------------------------------- TOOLS ----------------------------------------- //
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
 	var Tools = {
@@ -1057,7 +1420,7 @@ var Build = {
 	};
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
-// --------------------------------------- MÉTHODES --------------------------------------- //
+// --------------------------------------- METHODS --------------------------------------- //
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ //
 
 	var Methods = {

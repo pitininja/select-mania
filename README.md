@@ -70,6 +70,16 @@ Themes CSS files can be found in the `themes` folder with names like `select-man
 
 You can create your own theme! A `sample.css` theme file is here to help you doing that.
 
+### scrollContainer
+
+Default: null
+
+A selector or element which is the scrollable container of the select.
+
+If a scroll container is set, the dropdown will be opened in a special way so it does not go under the scrollable element.
+
+Note that the dropdown will close automatically if any scroll is detected on the scroll container.
+
 #### placeholder
 
 Default: `'Select an item'`
@@ -288,11 +298,14 @@ $('target-selector').selectMania('clear');
 
 ## Questions
 
-##### Can I use the HTML `required` attribute?
-Yes you can! It is now supported and will behave as a standard select required attribute when the parent form is submitted.
+##### Which attributes are supported?
+Select-Mania supports the following attributes: `disabled` (select or option), `required` and `multiple`.
 
 ##### Can I still get the selected values directly from the original select element?
-Of course! Just do a classic `$('target-selector').val();` and it will be fine. Every action taken on the select-mania element is passed on the orinal select element.
+Of course! Just do a classic `$('target-selector').val();` and it will be fine. Every action taken on the select-mania element is passed on the original select element.
+
+##### I want to control this thing with my keyboard!
+You're a keyboard guy? Select-Mania can be manipulated with standard keyboard controls. Try it out!
 
 ##### This plugin doesn't work!
 Oh... Sorry about that! Please feel free to post issues on the [select-mania repository](https://github.com/pitininja/select-mania)! I'll do my best to fix what's broken.

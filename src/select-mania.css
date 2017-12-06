@@ -6,7 +6,7 @@
 
 @font-face {
 	font-family: "select-mania-font";
-	src:url("fonts/select-mania-font.eot");
+	src:url("fonts/select-mania-font.eot"); 	
 	src:url("fonts/select-mania-font.eot?#iefix") format("embedded-opentype"),
 	url("fonts/select-mania-font.woff") format("woff"),
 	url("fonts/select-mania-font.ttf") format("truetype"),
@@ -117,7 +117,10 @@
 	overflow:hidden !important;
 	padding:0 !important;
 	position:absolute !important;
+	top:0 !important;
+	left:0 !important;
 	width:100% !important;
+	height:100% !important;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTMANIA ELEMENT */
@@ -129,15 +132,20 @@
 	margin:auto;
 	background:white;
 	vertical-align:middle;
+	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
 }
 
 .select-mania,
-.select-mania * {
-	box-sizing:border-box;
+.select-mania *, 
+.select-mania-dropdown, 
+.select-mania-dropdown * {
+	box-sizing:border-box !important;
 }
 
 .select-mania,
-.select-mania *:not(.select-mania-dropdown-search-input) {
+.select-mania *:not(.select-mania-search-input) {
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -153,7 +161,12 @@
 	padding:6px;
 	border:1px solid #D6D6D6;
 	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
 	cursor:pointer;
+}
+.select-mania-inner.select-mania-disabled {
+	border-color:#DDDDDD;
 }
 
 .select-mania-values,
@@ -170,6 +183,12 @@
 	display:none !important;
 }
 
+.select-mania-focused {
+	-webkit-box-shadow: #047DE2 0 0 4px;
+	-moz-box-shadow: #047DE2 0 0 4px;
+	box-shadow: #047DE2 0 0 4px;
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
 
 .select-mania-values {
@@ -179,12 +198,17 @@
 	font-size:0;
 	text-align:left;
 }
+.select-mania.select-mania-disabled .select-mania-inner {
+	color:#CCCCCC;
+}
 
 .select-mania-value {
 	width:auto;
 	max-width:100%;
 	height:26px;
 	border-radius: 4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
 	margin-top:1px;
 	margin-bottom:1px;
 	margin-right:4px;
@@ -193,7 +217,6 @@
 }
 .select-mania.select-mania-multiple .select-mania-value {
 	border: 1px solid #047DE2;
-
 	background-color: #047DE2;
 	color: white;
 }
@@ -248,8 +271,10 @@
 	width:24px;
 	font-size:1rem;
 	text-align:center;
-
 	color: #EB1F38;
+}
+.select-mania.select-mania-disabled .select-mania-clear {
+	color:#CCCCCC;
 }
 .select-mania-clear i {
 	font-size:1.1rem;
@@ -261,8 +286,10 @@
 	width:24px;
 	font-size:1rem;
 	text-align:center;
-
 	color: #383838;
+}
+.select-mania.select-mania-disabled .select-mania-arrow {
+	color:#CCCCCC;
 }
 .select-mania-arrow i {
 	font-size:1.1rem;
@@ -280,6 +307,8 @@
 	padding:6px;
 	border:1px solid #D6D6D6;
 	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
 }
 
 .select-mania-dropdown-search {
@@ -287,10 +316,12 @@
 	margin-bottom:6px;
 }
 
-.select-mania-dropdown-search-input {
+.select-mania-search-input {
 	width:100%;
 	padding:6px;
 	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
 	font-size:1rem;
 	border:1px solid #D6D6D6;
 	color: #5A5A5A;
@@ -339,11 +370,13 @@
 	min-height:20px;
 	padding:6px;
 	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
 	font-size:0;
 	cursor:pointer;
 	text-align:left;
 }
-.select-mania-item:hover {
+.select-mania-item.select-mania-hover {
 	background:#E3F1FC;
 }
 .select-mania-item:empty[data-value=""] {
@@ -396,7 +429,7 @@
 .select-mania-item.select-mania-disabled {
 	color: #D6D6D6;
 }
-.select-mania-item.select-mania-disabled:hover {
+.select-mania-item.select-mania-disabled.select-mania-hover {
 	background:none;
 }
 
@@ -469,7 +502,7 @@
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
 
-.select-mania-tiny .select-mania-dropdown {
+.select-mania-dropdown.select-mania-tiny {
 	padding:2px;
 }
 
@@ -477,7 +510,7 @@
 	margin-bottom:2px;
 }
 
-.select-mania-tiny .select-mania-dropdown-search-input {
+.select-mania-tiny .select-mania-search-input {
 	padding:2px;
 	font-size:0.75rem;
 }
@@ -587,9 +620,9 @@
 	font-size:1rem;
 }
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
 
-.select-mania-small .select-mania-dropdown {
+.select-mania-dropdown.select-mania-small {
 	padding:4px;
 }
 
@@ -597,7 +630,7 @@
 	margin-bottom:4px;
 }
 
-.select-mania-small .select-mania-dropdown-search-input {
+.select-mania-small .select-mania-search-input {
 	padding:4px;
 	font-size:0.8rem;
 }
@@ -707,9 +740,9 @@
 	font-size:1.2rem;
 }
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
 
-.select-mania-large .select-mania-dropdown {
+.select-mania-dropdown.select-mania-large {
 	padding:8px;
 }
 
@@ -717,7 +750,7 @@
 	margin-bottom:8px;
 }
 
-.select-mania-large .select-mania-dropdown-search-input {
+.select-mania-large .select-mania-search-input {
 	padding:8px;
 	font-size:1.1rem;
 }
