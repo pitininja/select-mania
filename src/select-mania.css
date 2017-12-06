@@ -6,7 +6,7 @@
 
 @font-face {
 	font-family: "select-mania-font";
-	src:url("fonts/select-mania-font.eot");
+	src:url("fonts/select-mania-font.eot"); 	
 	src:url("fonts/select-mania-font.eot?#iefix") format("embedded-opentype"),
 	url("fonts/select-mania-font.woff") format("woff"),
 	url("fonts/select-mania-font.ttf") format("truetype"),
@@ -138,12 +138,14 @@
 }
 
 .select-mania,
-.select-mania * {
-	box-sizing:border-box;
+.select-mania *, 
+.select-mania-dropdown, 
+.select-mania-dropdown * {
+	box-sizing:border-box !important;
 }
 
 .select-mania,
-.select-mania *:not(.select-mania-dropdown-search-input) {
+.select-mania *:not(.select-mania-search-input) {
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -162,6 +164,9 @@
 	-webkit-border-radius:4px;
 	-moz-border-radius:4px;
 	cursor:pointer;
+}
+.select-mania-inner.select-mania-disabled {
+	border-color:#DDDDDD;
 }
 
 .select-mania-values,
@@ -192,6 +197,9 @@
 	padding-right:4px;
 	font-size:0;
 	text-align:left;
+}
+.select-mania.select-mania-disabled .select-mania-inner {
+	color:#CCCCCC;
 }
 
 .select-mania-value {
@@ -263,8 +271,10 @@
 	width:24px;
 	font-size:1rem;
 	text-align:center;
-
 	color: #EB1F38;
+}
+.select-mania.select-mania-disabled .select-mania-clear {
+	color:#CCCCCC;
 }
 .select-mania-clear i {
 	font-size:1.1rem;
@@ -276,8 +286,10 @@
 	width:24px;
 	font-size:1rem;
 	text-align:center;
-
 	color: #383838;
+}
+.select-mania.select-mania-disabled .select-mania-arrow {
+	color:#CCCCCC;
 }
 .select-mania-arrow i {
 	font-size:1.1rem;
@@ -304,7 +316,7 @@
 	margin-bottom:6px;
 }
 
-.select-mania-dropdown-search-input {
+.select-mania-search-input {
 	width:100%;
 	padding:6px;
 	border-radius:4px;
@@ -490,7 +502,7 @@
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
 
-.select-mania-tiny .select-mania-dropdown {
+.select-mania-dropdown.select-mania-tiny {
 	padding:2px;
 }
 
@@ -498,7 +510,7 @@
 	margin-bottom:2px;
 }
 
-.select-mania-tiny .select-mania-dropdown-search-input {
+.select-mania-tiny .select-mania-search-input {
 	padding:2px;
 	font-size:0.75rem;
 }
@@ -608,9 +620,9 @@
 	font-size:1rem;
 }
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
 
-.select-mania-small .select-mania-dropdown {
+.select-mania-dropdown.select-mania-small {
 	padding:4px;
 }
 
@@ -618,7 +630,7 @@
 	margin-bottom:4px;
 }
 
-.select-mania-small .select-mania-dropdown-search-input {
+.select-mania-small .select-mania-search-input {
 	padding:4px;
 	font-size:0.8rem;
 }
@@ -728,9 +740,9 @@
 	font-size:1.2rem;
 }
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
 
-.select-mania-large .select-mania-dropdown {
+.select-mania-dropdown.select-mania-large {
 	padding:8px;
 }
 
@@ -738,7 +750,7 @@
 	margin-bottom:8px;
 }
 
-.select-mania-large .select-mania-dropdown-search-input {
+.select-mania-large .select-mania-search-input {
 	padding:8px;
 	font-size:1.1rem;
 }
