@@ -24,7 +24,8 @@
 			ajax: false, 
 			data: {}, 
 			//positionning
-			scrollContainer: null
+			scrollContainer: null, 
+			zIndex: null
 		}, 
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ setDefaults
@@ -85,7 +86,7 @@
 		getAttrSettings: function($originalSelect) {
 			var attrData = {};
 			//available attributes
-			var attrs = ['width','size','placeholder','removable','empty','search','scrollContainer'];
+			var attrs = ['width','size','placeholder','removable','empty','search','scrollContainer','zIndex'];
 			//loop through attributes
 			attrs.forEach(function(attr) {
 				//if attribute is set on select
@@ -735,6 +736,14 @@
 				console.log(settings);
 				return false;
 			}
+			//error if invalid sroll container provided
+			if(settings.zIndex !== null && (isNaN(parseInt(settings.zIndex)) || !isFinite(settings.zIndex))) {
+				settings.zIndex = null;
+				console.error('selectMania | invalid z-index');
+				console.log($target[0]);
+				console.log(settings);
+				return false;
+			}
 			//if control ok
 			return true;
 		}, 
@@ -953,6 +962,10 @@ var Build = {
 					//applies theme class
 					$dropdown.addClass('select-mania-theme-'+theme);
 				});
+			}
+			//if zIndex setting is set
+			if(settings.zIndex !== null) {
+				$dropdown.css('z-index', settings.zIndex);
 			}
 			//send back items dropdown
 			return $dropdown;
