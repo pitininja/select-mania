@@ -88,6 +88,8 @@ A z-index value for the dropdown.
 
 Can be useful if the select is placed in a high z-index element so it doesn't go under it.
 
+This option works only if `scrollContainer` is enabled.
+
 #### placeholder
 
 Default: `'Select an item'`
