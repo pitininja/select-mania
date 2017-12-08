@@ -80,6 +80,14 @@ If a scroll container is set, the dropdown will be opened in a special way so it
 
 Note that the dropdown will close automatically if any scroll is detected on the scroll container.
 
+### zIndex
+
+Default: null
+
+A z-index value for the dropdown.
+
+Can be useful if the select is placed in a high z-index element so it doesn't go under it.
+
 #### placeholder
 
 Default: `'Select an item'`
