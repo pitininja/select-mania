@@ -23,6 +23,15 @@ $('target-selector').selectMania({
 });
 ```
 
+Use select-mania methods:
+```javascript
+$('target-selector').selectMania('method');
+//with data
+$('target-selector').selectMania('method', {
+    //data
+});
+```
+
 ## Settings
 
 Select-mania can be initialized with a bunch of available settings.
