@@ -23,6 +23,15 @@ $('target-selector').selectMania({
 });
 ```
 
+Use select-mania methods:
+```javascript
+$('target-selector').selectMania('method');
+//with data
+$('target-selector').selectMania('method', {
+    //data
+});
+```
+
 ## Settings
 
 Select-mania can be initialized with a bunch of available settings.
@@ -87,6 +96,8 @@ Default: null
 A z-index value for the dropdown.
 
 Can be useful if the select is placed in a high z-index element so it doesn't go under it.
+
+This option works only if `scrollContainer` is enabled.
 
 #### placeholder
 
