@@ -126,6 +126,7 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTMANIA ELEMENT */
 
 .select-mania {
+	color:black;
 	display:inline-block;
 	position:relative;
 	width:100%;
