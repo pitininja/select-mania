@@ -126,9 +126,11 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTMANIA ELEMENT */
 
 .select-mania {
+	color:black;
 	display:inline-block;
 	position:relative;
 	width:100%;
+	line-height:18px;
 	margin:auto;
 	background:white;
 	vertical-align:middle;
@@ -224,7 +226,7 @@
 .select-mania-value-text {
 	height:26px;
 	padding:4px;
-	font-size:1rem;
+	font-size:16px;
 	text-align:left;
 	overflow:hidden;
 	text-overflow:ellipsis;
@@ -247,8 +249,7 @@
 	text-align:center;
 }
 .select-mania-value-clear i {
-	line-height:18px;
-	font-size:0.9rem;
+	font-size:18px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
@@ -439,6 +440,10 @@
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL */
 
+.select-mania.select-mania-tiny {
+	line-height:14px;
+}
+
 .select-mania-tiny .select-mania-inner {
 	min-height:24px;
 	padding:2px;
@@ -458,7 +463,7 @@
 .select-mania-tiny .select-mania-value-text {
 	height:14px;
 	padding:0;
-	font-size:0.75rem;
+	font-size:12px;
 }
 .select-mania-tiny.select-mania-multiple .select-mania-value-text {
 	max-width:calc(100% - 14px);
@@ -470,8 +475,7 @@
 	padding:0;
 }
 .select-mania-tiny .select-mania-value-clear i {
-	line-height:14px;
-	font-size:0.75rem;
+	font-size:14px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
@@ -559,6 +563,10 @@
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL */
 
+.select-mania.select-mania-small {
+	line-height:16px;
+}
+
 .select-mania-small .select-mania-inner {
 	min-height:34px;
 	padding:4px;
@@ -578,7 +586,7 @@
 .select-mania-small .select-mania-value-text {
 	height:20px;
 	padding:3px;
-	font-size:0.8rem;
+	font-size:14px;
 }
 .select-mania-small.select-mania-multiple .select-mania-value-text {
 	max-width:calc(100% - 20px);
@@ -590,8 +598,7 @@
 	padding:3px;
 }
 .select-mania-small .select-mania-value-clear i {
-	line-height:14px;
-	font-size:0.9rem;
+	font-size:16px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
@@ -679,6 +686,10 @@
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL */
 
+.select-mania.select-mania-large {
+	line-height:20px;
+}
+
 .select-mania-large .select-mania-inner {
 	min-height:52px;
 	padding:8px;
@@ -698,7 +709,7 @@
 .select-mania-large .select-mania-value-text {
 	height:32px;
 	padding:4px;
-	font-size:1.1rem;
+	font-size:18px;
 }
 .select-mania-large.select-mania-multiple .select-mania-value-text {
 	max-width:calc(100% - 26px);
@@ -710,8 +721,7 @@
 	padding:4px;
 }
 .select-mania-large .select-mania-value-clear i {
-	line-height:24px;
-	font-size:1.1rem;
+	font-size:20px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
