@@ -92,7 +92,9 @@
 	left:0;
 	right:0;
 	margin:auto;
-	font-size:2rem;
+	font-size:32px;
+	line-size:32px;
+	line-height:32px;
 }
 .select-mania .icon-loading-container .icon-loading {
 	width:32px;
@@ -227,6 +229,7 @@
 	height:26px;
 	padding:4px;
 	font-size:16px;
+	line-height:14px;
 	text-align:left;
 	overflow:hidden;
 	text-overflow:ellipsis;
@@ -250,6 +253,7 @@
 }
 .select-mania-value-clear i {
 	font-size:18px;
+	line-height:16px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
@@ -464,6 +468,7 @@
 	height:14px;
 	padding:0;
 	font-size:12px;
+	line-height:12px;
 }
 .select-mania-tiny.select-mania-multiple .select-mania-value-text {
 	max-width:calc(100% - 14px);
@@ -476,6 +481,7 @@
 }
 .select-mania-tiny .select-mania-value-clear i {
 	font-size:14px;
+	line-height:14px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
@@ -557,6 +563,20 @@
 	padding-left:8px;
 }
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOADING */
+
+.select-mania-tiny .icon-loading-container {
+	width:24px;
+	height:24px;
+	font-size:24px;
+	line-size:24px;
+	line-height:24px;
+}
+.select-mania-tiny .icon-loading-container .icon-loading {
+	width:24px;
+	height:24px;
+}
+
 /* ################################################################## */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~ TAILLE SMALL ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* ################################################################## */
@@ -587,6 +607,7 @@
 	height:20px;
 	padding:3px;
 	font-size:14px;
+	line-height:14px;
 }
 .select-mania-small.select-mania-multiple .select-mania-value-text {
 	max-width:calc(100% - 20px);
@@ -599,6 +620,7 @@
 }
 .select-mania-small .select-mania-value-clear i {
 	font-size:16px;
+	line-height:14px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
@@ -680,6 +702,20 @@
 	padding-left:12px;
 }
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOADING */
+
+.select-mania-small .icon-loading-container {
+	width:28px;
+	height:28px;
+	font-size:28px;
+	line-size:28px;
+	line-height:28px;
+}
+.select-mania-small .icon-loading-container .icon-loading {
+	width:28px;
+	height:28px;
+}
+
 /* ################################################################## */
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~ TAILLE LARGE ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* ################################################################## */
@@ -687,7 +723,7 @@
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL */
 
 .select-mania.select-mania-large {
-	line-height:20px;
+	line-height:22px;
 }
 
 .select-mania-large .select-mania-inner {
@@ -710,6 +746,7 @@
 	height:32px;
 	padding:4px;
 	font-size:18px;
+	line-height:20px;
 }
 .select-mania-large.select-mania-multiple .select-mania-value-text {
 	max-width:calc(100% - 26px);
@@ -722,6 +759,7 @@
 }
 .select-mania-large .select-mania-value-clear i {
 	font-size:20px;
+	line-height:20px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
@@ -801,4 +839,18 @@
 
 .select-mania-large .select-mania-group-inner .select-mania-item {
 	padding-left:24px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOADING */
+
+.select-mania-large .icon-loading-container {
+	width:36px;
+	height:36px;
+	font-size:36px;
+	line-size:36px;
+	line-height:36px;
+}
+.select-mania-large .icon-loading-container .icon-loading {
+	width:36px;
+	height:36px;
 }
