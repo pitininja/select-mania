@@ -1,0 +1,33 @@
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTMANIA ELEMENT */
+
+.select-mania-theme-red .select-mania-inner { border:1px solid #D6D6D6; }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
+
+.select-mania-theme-red.select-mania.select-mania-multiple .select-mania-value {
+	border: 1px solid #FF4545;
+
+	background-color: #FF4545;
+	color: white;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
+
+.select-mania-theme-red .select-mania { border:1px solid #D6D6D6; }
+
+
+.select-mania-theme-red .select-mania-search-input {
+	border:1px solid #D6D6D6;
+	color: #5A5A5A;
+}
+
+.select-mania-theme-red .select-mania-item:hover { background:#FFDEE2; }
+
+.select-mania-theme-red .select-mania-item.select-mania-selected {
+	background: #FF4545;
+	color: white;
+}

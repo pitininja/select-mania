@@ -1,0 +1,856 @@
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ICONES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+@charset "UTF-8";
+
+@font-face {
+	font-family: "select-mania-font";
+	src:url("fonts/select-mania-font.eot"); 	
+	src:url("fonts/select-mania-font.eot?#iefix") format("embedded-opentype"),
+	url("fonts/select-mania-font.woff") format("woff"),
+	url("fonts/select-mania-font.ttf") format("truetype"),
+	url("fonts/select-mania-font.svg#select-mania-font") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+.select-mania [data-icon]:before {
+	font-family: "select-mania-font" !important;
+	content: attr(data-icon);
+	font-style: normal !important;
+	font-weight: normal !important;
+	font-variant: normal !important;
+	text-transform: none !important;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.select-mania [class^="icon-"],
+.select-mania [class*=" icon-"] {
+	display:inline-block;
+}
+.select-mania [class^="icon-"]:before,
+.select-mania [class*=" icon-"]:before {
+	font-family: "select-mania-font" !important;
+	font-style: normal !important;
+	font-weight: normal !important;
+	font-variant: normal !important;
+	text-transform: none !important;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.select-mania .icon-arrow-down:before {
+	content: "\61";
+}
+.select-mania .icon-cross:before {
+	content: "\63";
+}
+.select-mania .icon-loading:before {
+	content: "\6c";
+}
+
+@-webkit-keyframes rotating {
+	from {
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+@keyframes rotating {
+	from {
+		-ms-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	to {
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+.select-mania .icon-loading-container {
+	display:inline-block;
+	width:32px;
+	height:32px;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	margin:auto;
+	font-size:32px;
+	line-size:32px;
+	line-height:32px;
+}
+.select-mania .icon-loading-container .icon-loading {
+	width:32px;
+	height:32px;
+	-webkit-animation: rotating 2s linear infinite;
+	-moz-animation: rotating 2s linear infinite;
+	-ms-animation: rotating 2s linear infinite;
+	-o-animation: rotating 2s linear infinite;
+	animation: rotating 2s linear infinite;
+}
+
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ORIGINAL SELECT */
+
+.select-mania-original {
+	border:0 !important;
+	clip:rect(0 0 0 0) !important;
+	margin:0 !important;
+	overflow:hidden !important;
+	padding:0 !important;
+	position:absolute !important;
+	top:0 !important;
+	left:0 !important;
+	width:100% !important;
+	height:100% !important;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTMANIA ELEMENT */
+
+.select-mania {
+	color:black;
+	display:inline-block;
+	position:relative;
+	width:100%;
+	line-height:18px;
+	margin:auto;
+	background:white;
+	vertical-align:middle;
+	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+}
+
+.select-mania,
+.select-mania *, 
+.select-mania-dropdown, 
+.select-mania-dropdown * {
+	box-sizing:border-box !important;
+}
+
+.select-mania,
+.select-mania *:not(.select-mania-search-input) {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.select-mania-inner {
+	width:100%;
+	min-height:42px;
+	font-size:0;
+	padding:6px;
+	border:1px solid #D6D6D6;
+	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	cursor:pointer;
+}
+.select-mania-inner.select-mania-disabled {
+	border-color:#DDDDDD;
+}
+
+.select-mania-values,
+.select-mania-value,
+.select-mania-value-text,
+.select-mania-value-clear,
+.select-mania-clear,
+.select-mania-arrow {
+	display:inline-block;
+	vertical-align:middle;
+}
+
+.select-mania-hidden {
+	display:none !important;
+}
+
+.select-mania-focused {
+	-webkit-box-shadow: #047DE2 0 0 4px;
+	-moz-box-shadow: #047DE2 0 0 4px;
+	box-shadow: #047DE2 0 0 4px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
+
+.select-mania-values {
+	width:calc(100% - 48px);
+	min-height:26px;
+	padding-right:4px;
+	font-size:0;
+	text-align:left;
+}
+.select-mania.select-mania-disabled .select-mania-inner {
+	color:#CCCCCC;
+}
+
+.select-mania-value {
+	width:auto;
+	max-width:100%;
+	height:26px;
+	border-radius: 4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	margin-top:1px;
+	margin-bottom:1px;
+	margin-right:4px;
+	padding: 0 2px;
+	font-size:0;
+}
+.select-mania.select-mania-multiple .select-mania-value {
+	border: 1px solid #047DE2;
+	background-color: #047DE2;
+	color: white;
+}
+
+.select-mania-value-text {
+	height:26px;
+	padding:4px;
+	font-size:16px;
+	line-height:14px;
+	text-align:left;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	max-width: 100%;
+}
+.select-mania.select-mania-multiple .select-mania-value-text {
+	max-width:calc(100% - 22px);
+}
+
+.select-mania-value-clear {
+	display:none;
+}
+.select-mania.select-mania-multiple .select-mania-value-clear {
+	display:inline-block;
+	width:22px;
+	height:26px;
+	padding:4px;
+	font-size:1rem;
+	text-align:center;
+}
+.select-mania-value-clear i {
+	font-size:18px;
+	line-height:16px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
+
+.select-mania-placeholder {
+	display:none;
+	width:auto;
+	height:26px;
+	padding:4px;
+	font-size:1rem;
+	color:#7F8C8D;
+}
+.select-mania-placeholder:only-child {
+	display:inline-block;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CLEAN VALUES ICON */
+
+.select-mania-clear {
+	width:24px;
+	font-size:1rem;
+	text-align:center;
+	color: #EB1F38;
+}
+.select-mania.select-mania-disabled .select-mania-clear {
+	color:#CCCCCC;
+}
+.select-mania-clear i {
+	font-size:1.1rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ARROW ICON */
+
+.select-mania-arrow {
+	width:24px;
+	font-size:1rem;
+	text-align:center;
+	color: #383838;
+}
+.select-mania.select-mania-disabled .select-mania-arrow {
+	color:#CCCCCC;
+}
+.select-mania-arrow i {
+	font-size:1.1rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
+
+.select-mania-dropdown {
+	background:white;
+	z-index:9;
+	display:none;
+	position:absolute;
+	top:100%;
+	width:100%;
+	padding:6px;
+	border:1px solid #D6D6D6;
+	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+}
+
+.select-mania-dropdown-search {
+	width:100%;
+	margin-bottom:6px;
+}
+
+.select-mania-search-input {
+	width:100%;
+	padding:6px;
+	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	font-size:1rem;
+	border:1px solid #D6D6D6;
+	color: #5A5A5A;
+	outline:none;
+	background-image:none;
+	background-color:transparent;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.select-mania-items-container {
+	position:relative;
+	width:100%;
+	max-height:200px;
+}
+
+.select-mania-items {
+	width:100%;
+	max-height:200px;
+	overflow-y:auto;
+}
+
+.select-mania-group {
+	width:100%;
+}
+
+.select-mania-group.select-mania-disabled {
+	color: #D6D6D6;
+}
+
+.select-mania-group-title {
+	width:100%;
+	padding:6px;
+	font-size:1rem;
+	font-weight:bold;
+	text-align:left;
+}
+
+.select-mania-group-inner {
+	width:100%;
+}
+
+.select-mania-item {
+	width:100%;
+	min-height:20px;
+	padding:6px;
+	border-radius:4px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	font-size:0;
+	cursor:pointer;
+	text-align:left;
+}
+.select-mania-item.select-mania-hover {
+	background:#E3F1FC;
+}
+.select-mania-item:empty[data-value=""] {
+	display:none;
+}
+
+.select-mania-group-icon,
+.select-mania-item-icon {
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	font-size: 1rem;
+	text-align: center;
+	margin-right: 4px;
+	vertical-align: top;
+}
+.select-mania-group-icon i,
+.select-mania-item-icon i {
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
+
+.select-mania-group-text,
+.select-mania-item-text {
+	display: inline-block;
+	width: 100%;
+	min-height: 20px;
+	font-size:1rem;
+	vertical-align: top;
+	text-align:left;
+}
+.select-mania-group-icon+.select-mania-group-text,
+.select-mania-item-icon+.select-mania-item-text {
+	width: calc(100% - 24px);
+}
+
+.select-mania-group-inner .select-mania-item {
+	padding-left:18px;
+}
+
+.select-mania-item.select-mania-selected {
+	background: #047de2;
+	color: white;
+}
+.select-mania.select-mania-multiple .select-mania-item.select-mania-selected {
+	display:none;
+}
+
+.select-mania-item.select-mania-disabled {
+	color: #D6D6D6;
+}
+.select-mania-item.select-mania-disabled.select-mania-hover {
+	background:none;
+}
+
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~ TAILLE TINY ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL */
+
+.select-mania.select-mania-tiny {
+	line-height:14px;
+}
+
+.select-mania-tiny .select-mania-inner {
+	min-height:24px;
+	padding:2px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
+
+.select-mania-tiny .select-mania-values {
+	width:calc(100% - 36px);
+	min-height:18px;
+}
+
+.select-mania-tiny .select-mania-value {
+	height:16px;
+}
+
+.select-mania-tiny .select-mania-value-text {
+	height:14px;
+	padding:0;
+	font-size:12px;
+	line-height:12px;
+}
+.select-mania-tiny.select-mania-multiple .select-mania-value-text {
+	max-width:calc(100% - 14px);
+}
+
+.select-mania.select-mania-multiple.select-mania-tiny .select-mania-value-clear {
+	width:14px;
+	height:14px;
+	padding:0;
+}
+.select-mania-tiny .select-mania-value-clear i {
+	font-size:14px;
+	line-height:14px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
+
+.select-mania-tiny .select-mania-placeholder {
+	height:16px;
+	padding:2px;
+	font-size:0.75rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CLEAN VALUES ICON */
+
+.select-mania-tiny .select-mania-clear {
+	width:18px;
+}
+.select-mania-tiny .select-mania-clear i {
+	font-size:0.85rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ARROW ICON */
+
+.select-mania-tiny .select-mania-arrow {
+	width:18px;
+}
+.select-mania-tiny .select-mania-arrow i {
+	font-size:0.85rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
+
+.select-mania-dropdown.select-mania-tiny {
+	padding:2px;
+}
+
+.select-mania-tiny .select-mania-dropdown-search {
+	margin-bottom:2px;
+}
+
+.select-mania-tiny .select-mania-search-input {
+	padding:2px;
+	font-size:0.75rem;
+}
+
+.select-mania-tiny .select-mania-item {
+	min-height:16px;
+	padding:2px;
+	font-size:0;
+}
+
+.select-mania-tiny .select-mania-group-icon,
+.select-mania-tiny .select-mania-item-icon {
+	width: 14px;
+	height: 14px;
+	margin-right: 2px;
+	font-size: 0.65rem;
+}
+.select-mania-tiny .select-mania-group-icon i,
+.select-mania-tiny .select-mania-item-icon i {
+	width: 14px;
+	height: 14px;
+}
+
+.select-mania-tiny .select-mania-group-text,
+.select-mania-tiny .select-mania-item-text {
+	min-height: 14px;
+	font-size:0.75rem;
+}
+.select-mania-tiny .select-mania-group-icon+.select-mania-group-text,
+.select-mania-tiny .select-mania-item-icon+.select-mania-item-text {
+	width: calc(100% - 19px);
+}
+
+.select-mania-tiny .select-mania-group-title {
+	padding:2px;
+	font-size:0.75rem;
+}
+
+.select-mania-tiny .select-mania-group-inner .select-mania-item {
+	padding-left:8px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOADING */
+
+.select-mania-tiny .icon-loading-container {
+	width:24px;
+	height:24px;
+	font-size:24px;
+	line-size:24px;
+	line-height:24px;
+}
+.select-mania-tiny .icon-loading-container .icon-loading {
+	width:24px;
+	height:24px;
+}
+
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~ TAILLE SMALL ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL */
+
+.select-mania.select-mania-small {
+	line-height:16px;
+}
+
+.select-mania-small .select-mania-inner {
+	min-height:34px;
+	padding:4px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
+
+.select-mania-small .select-mania-values {
+	width:calc(100% - 44px);
+	min-height:24px;
+}
+
+.select-mania-small .select-mania-value {
+	height:22px;
+}
+
+.select-mania-small .select-mania-value-text {
+	height:20px;
+	padding:3px;
+	font-size:14px;
+	line-height:14px;
+}
+.select-mania-small.select-mania-multiple .select-mania-value-text {
+	max-width:calc(100% - 20px);
+}
+
+.select-mania.select-mania-multiple.select-mania-small .select-mania-value-clear {
+	width:20px;
+	height:20px;
+	padding:3px;
+}
+.select-mania-small .select-mania-value-clear i {
+	font-size:16px;
+	line-height:14px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
+
+.select-mania-small .select-mania-placeholder {
+	height:20px;
+	padding:4px;
+	font-size:0.8rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CLEAN VALUES ICON */
+
+.select-mania-small .select-mania-clear {
+	width:22px;
+}
+.select-mania-small .select-mania-clear i {
+	font-size:1rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ARROW ICON */
+
+.select-mania-small .select-mania-arrow {
+	width:22px;
+}
+.select-mania-small .select-mania-arrow i {
+	font-size:1rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
+
+.select-mania-dropdown.select-mania-small {
+	padding:4px;
+}
+
+.select-mania-small .select-mania-dropdown-search {
+	margin-bottom:4px;
+}
+
+.select-mania-small .select-mania-search-input {
+	padding:4px;
+	font-size:0.8rem;
+}
+
+.select-mania-small .select-mania-item {
+	min-height:16px;
+	padding:4px;
+	font-size:0;
+}
+
+.select-mania-small .select-mania-group-icon,
+.select-mania-small .select-mania-item-icon {
+	width: 16px;
+	height: 16px;
+	margin-right: 3px;
+	font-size: 0.8rem;
+}
+.select-mania-small .select-mania-group-icon i,
+.select-mania-small .select-mania-item-icon i {
+	width: 16px;
+	height: 16px;
+}
+
+.select-mania-small .select-mania-group-text,
+.select-mania-small .select-mania-item-text {
+	min-height: 16px;
+	font-size:0.8rem;
+}
+.select-mania-small .select-mania-group-icon+.select-mania-group-text,
+.select-mania-small .select-mania-item-icon+.select-mania-item-text {
+	width: calc(100% - 19px);
+}
+
+.select-mania-small .select-mania-group-title {
+	padding:4px;
+	font-size:0.8rem;
+}
+
+.select-mania-small .select-mania-group-inner .select-mania-item {
+	padding-left:12px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOADING */
+
+.select-mania-small .icon-loading-container {
+	width:28px;
+	height:28px;
+	font-size:28px;
+	line-size:28px;
+	line-height:28px;
+}
+.select-mania-small .icon-loading-container .icon-loading {
+	width:28px;
+	height:28px;
+}
+
+/* ################################################################## */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~ TAILLE LARGE ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ################################################################## */
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL */
+
+.select-mania.select-mania-large {
+	line-height:22px;
+}
+
+.select-mania-large .select-mania-inner {
+	min-height:52px;
+	padding:8px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
+
+.select-mania-large .select-mania-values {
+	width:calc(100% - 56px);
+	min-height:32px;
+}
+
+.select-mania-large .select-mania-value {
+	height:32px;
+}
+
+.select-mania-large .select-mania-value-text {
+	height:32px;
+	padding:4px;
+	font-size:18px;
+	line-height:20px;
+}
+.select-mania-large.select-mania-multiple .select-mania-value-text {
+	max-width:calc(100% - 26px);
+}
+
+.select-mania.select-mania-multiple.select-mania-large .select-mania-value-clear {
+	width:26px;
+	height:32px;
+	padding:4px;
+}
+.select-mania-large .select-mania-value-clear i {
+	font-size:20px;
+	line-height:20px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PLACEHOLDER */
+
+.select-mania-large .select-mania-placeholder {
+	height:32px;
+	padding:6px;
+	font-size:1.1rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CLEAN VALUES ICON */
+
+.select-mania-large .select-mania-clear {
+	width:28px;
+}
+.select-mania-large .select-mania-clear i {
+	font-size:1.2rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ARROW ICON */
+
+.select-mania-large .select-mania-arrow {
+	width:28px;
+}
+.select-mania-large .select-mania-arrow i {
+	font-size:1.2rem;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
+
+.select-mania-dropdown.select-mania-large {
+	padding:8px;
+}
+
+.select-mania-large .select-mania-dropdown-search {
+	margin-bottom:8px;
+}
+
+.select-mania-large .select-mania-search-input {
+	padding:8px;
+	font-size:1.1rem;
+}
+
+.select-mania-large .select-mania-item {
+	min-height:24px;
+	padding:8px;
+	font-size:0;
+}
+
+.select-mania-large .select-mania-group-icon,
+.select-mania-large .select-mania-item-icon {
+	width: 22px;
+	height: 22px;
+	margin-right: 5px;
+	font-size: 1.1rem;
+}
+.select-mania-large .select-mania-group-icon i,
+.select-mania-large .select-mania-item-icon i {
+	width: 22px;
+	height: 22px;
+}
+
+.select-mania-large .select-mania-group-text,
+.select-mania-large .select-mania-item-text {
+	min-height: 22px;
+	font-size:1.1rem;
+}
+.select-mania-large .select-mania-group-icon+.select-mania-group-text,
+.select-mania-large .select-mania-item-icon+.select-mania-item-text {
+	width: calc(100% - 27px);
+}
+
+.select-mania-large .select-mania-group-title {
+	padding:8px;
+	font-size:1.1rem;
+}
+
+.select-mania-large .select-mania-group-inner .select-mania-item {
+	padding-left:24px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ LOADING */
+
+.select-mania-large .icon-loading-container {
+	width:36px;
+	height:36px;
+	font-size:36px;
+	line-size:36px;
+	line-height:36px;
+}
+.select-mania-large .icon-loading-container .icon-loading {
+	width:36px;
+	height:36px;
+}

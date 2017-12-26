@@ -1,0 +1,134 @@
+<h1>Examples</h1>
+
+<h3>Simple select</h3>
+
+<p>
+<select id="example-simple">
+	<option value="1">A new hope</option>
+	<option value="2">The empire strikes back</option>
+	<option value="3">Return of the jedi</option>
+</select>
+<pre><code class="html">
+$('#example-simple').selectMania({
+	width: '300px'
+});
+</code></pre>
+</p>
+<script>
+$('#example-simple').selectMania({
+	width: '300px'
+});
+</script>
+
+<h3>Multiple select</h3>
+
+<p>
+<select id="example-multiple" multiple>
+	<option value="1">Human</option>
+	<option value="2">Wookie</option>
+	<option value="3">Droïd</option>
+	<option value="4">Hutt</option>
+</select>
+<pre><code class="html">
+$('#example-multiple').selectMania({
+	width: '300px', 
+	search: true
+});
+</code></pre>
+</p>
+<script>
+$('#example-multiple').selectMania({
+	width: '300px', 
+	search: true
+});
+</script>
+
+<h3>Sizes</h3>
+
+<p>
+<select id="example-sizes-tiny">
+	<option value="1">X-Wing</option>
+	<option value="2">Y-Wing</option>
+	<option value="3">Tie Figther</option>
+	<option value="4">Tie Bomber</option>
+</select>
+</p>
+<script>
+$('#example-sizes-tiny').selectMania({
+	size: 'tiny', 
+	width: '150px'
+});
+</script>
+
+<p>
+<select id="example-sizes-small">
+	<option value="1">Blue light saber</option>
+	<option value="2">Heavy blaster</option>
+</select>
+</p>
+<script>
+$('#example-sizes-small').selectMania({
+	size: 'small', 
+	width: '200px'
+});
+</script>
+
+<p>
+<select id="example-sizes-medium">
+	<option value="1">Tatooïne</option>
+	<option value="2">Yavin IV</option>
+	<option value="3">Coruscant</option>
+</select>
+</p>
+<script>
+$('#example-sizes-medium').selectMania({
+	size: 'medium', 
+	width: '250px'
+});
+</script>
+
+<p>
+<select id="example-sizes-large">
+	<option value="1">Luke Skywalker</option>
+	<option value="2">Han Solo</option>
+	<option value="3">Leïa Organa</option>
+</select>
+<pre><code class="html">
+$('#example-sizes').selectMania({
+	size: 'tiny' / 'small' / 'medium' / 'large', 
+	width: '150px'
+});
+</code></pre>
+</p>
+<script>
+$('#example-sizes-large').selectMania({
+	size: 'large', 
+	width: '300px'
+});
+</script>
+
+<h3>Themes</h3>
+
+<p>
+<select id="example-themes-color" multiple>
+	<option value="1" selected>Darth Vador</option>
+	<option value="2">Darth Sidious</option>
+	<option value="3" selected>Bobba Fett</option>
+	<option value="4">Jabba the Hutt</option>
+</select>
+<pre><code class="html">
+$('#example-themes-color').selectMania({
+	themes: [
+		'orange', 
+		'square'
+	], 
+	width: '400px'
+});
+</code></pre>
+</p>
+<script>
+$('#example-themes-color').selectMania({
+	themes: ['orange', 'square'], 
+	width: '400px'
+});
+</script>

@@ -1,0 +1,128 @@
+<h1>Themes</h1>
+
+<h3>Colors</h3>
+
+<p>
+<select id="example-colors-darkblue" multiple>
+	<option value="1" selected>The force awakens</option>
+	<option value="2">The last jedi</option>
+	<option value="3" selected>Rogue one</option>
+	<option value="4">Solo</option>
+</select>
+</p>
+<script>
+$('#example-colors-darkblue').selectMania({
+	themes: ['darkblue'], 
+	width: '400px'
+});
+</script>
+
+<p>
+<select id="example-colors-green" multiple>
+	<option value="1">The force awakens</option>
+	<option value="2" selected>The last jedi</option>
+	<option value="3">Rogue one</option>
+	<option value="4" selected>Solo</option>
+</select>
+</p>
+<script>
+$('#example-colors-green').selectMania({
+	themes: ['green'], 
+	width: '400px'
+});
+</script>
+
+<p>
+<select id="example-colors-orange" multiple>
+	<option value="1" selected>The force awakens</option>
+	<option value="2">The last jedi</option>
+	<option value="3" selected>Rogue one</option>
+	<option value="4">Solo</option>
+</select>
+</p>
+<script>
+$('#example-colors-orange').selectMania({
+	themes: ['orange'], 
+	width: '400px'
+});
+</script>
+
+<p>
+<select id="example-colors-red" multiple>
+	<option value="1" selected>The force awakens</option>
+	<option value="2">The last jedi</option>
+	<option value="3">Rogue one</option>
+	<option value="4" selected>Solo</option>
+</select>
+<pre><code class="html">
+$('#example-colors').selectMania({
+	themes: [ 'darkblue' / 'green' / 'orange' / 'red' ], 
+	width: '400px'
+});
+</code></pre>
+</p>
+<script>
+$('#example-colors-red').selectMania({
+	themes: ['red'], 
+	width: '400px'
+});
+</script>
+
+<h3>Shapes</h3>
+
+<p>
+<select id="example-shapes-square" multiple>
+	<option value="1">The force awakens</option>
+	<option value="2" selected>The last jedi</option>
+	<option value="3" selected>Rogue one</option>
+	<option value="4">Solo</option>
+</select>
+<pre><code class="html">
+$('#example-shapes-square').selectMania({
+	themes: [ 'square' ], 
+	width: '400px'
+});
+</code></pre>
+</p>
+<script>
+$('#example-shapes-square').selectMania({
+	themes: ['square'], 
+	width: '400px'
+});
+</script>
+
+<h3>Make your own theme!</h3>
+
+<p>Here is a sample CSS sheet, tweak it to get what you want!</p>
+
+<pre><code class="css">
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTMANIA ELEMENT */
+
+.select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania-inner { border:1px solid #D6D6D6; }
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
+
+.select-mania-theme-[CHANGE-THE-NAME-HERE].select-mania.select-mania-multiple .select-mania-value {
+	border: 1px solid [YOUR-COLOR];
+
+	background-color: [YOUR-COLOR];
+	color: white;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
+
+.select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania { border:1px solid #D6D6D6; }
+
+
+.select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania-search-input {
+	border:1px solid #D6D6D6;
+	color: #5A5A5A;
+}
+
+.select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania-item:hover { background:[YOUR-HOVER-COLOR]; }
+
+.select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania-item.select-mania-selected {
+	background: [YOUR-COLOR];
+	color: white;
+}
+</code></pre>
