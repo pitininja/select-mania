@@ -2,9 +2,13 @@
 
 A jQuery select plugin.
 
+## Examples
+
+[Check the website!](https://pitininja.github.io/select-mania/)
+
 ## Depencies
 
-- [jQuery (v1.6+)](https://jquery.com)
+[jQuery (v1.6+)](https://jquery.com)
 
 ## Quick start
 
