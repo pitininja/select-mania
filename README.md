@@ -322,13 +322,13 @@ $('target-selector').selectMania('clear');
 ## Questions
 
 ##### Which attributes are supported?
-Select-Mania supports the following attributes: `disabled` (select or option), `required` and `multiple`.
+Select-Mania supports the following attributes: `disabled`, `required` and `multiple`.
 
 ##### Can I still get the selected values directly from the original select element?
-Of course! Just do a classic `$('target-selector').val();` and it will be fine. Every action taken on the select-mania element is passed on the original select element.
+Of course! Just do a classic `$('target-selector').val();`. Any changes on the select-mania element is passed on the original select element.
 
 ##### I want to control this thing with my keyboard!
-You're a keyboard guy? Select-Mania can be manipulated with standard keyboard controls. Try it out!
+You're a keyboard person? Select-Mania can be manipulated with standard keyboard controls. Try it out!
 
 ##### This plugin doesn't work!
 Oh... Sorry about that! Please feel free to post issues on the [select-mania repository](https://github.com/pitininja/select-mania)! I'll do my best to fix what's broken.
