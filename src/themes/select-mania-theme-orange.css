@@ -1,33 +1,33 @@
-/* ################################################################## */
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/* ################################################################## */
-
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTMANIA ELEMENT */
 
-.select-mania-theme-orange .select-mania-inner { border:1px solid #D6D6D6; }
+.select-mania-theme-orange.select-mania {
+	border:1px solid #D6D6D6;
+}
+
+.select-mania-theme-orange.select-mania .select-mania-inner {
+	border:1px solid #D6D6D6;
+}
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
 
 .select-mania-theme-orange.select-mania.select-mania-multiple .select-mania-value {
-	border: 1px solid #FA6900;
-
 	background-color: #FA6900;
+	border: 1px solid #FA6900;
 	color: white;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
 
-.select-mania-theme-orange .select-mania { border:1px solid #D6D6D6; }
-
-
-.select-mania-theme-orange .select-mania-search-input {
+.select-mania-theme-orange.select-mania-dropdown .select-mania-search-input {
 	border:1px solid #D6D6D6;
 	color: #5A5A5A;
 }
 
-.select-mania-theme-orange .select-mania-item:hover { background:#FEE9D9; }
+.select-mania-theme-orange.select-mania-dropdown .select-mania-item:hover {
+	background:#FEE9D9;
+}
 
-.select-mania-theme-orange .select-mania-item.select-mania-selected {
+.select-mania-theme-orange.select-mania-dropdown .select-mania-item.select-mania-selected {
 	background: #FA6900;
 	color: white;
 }
