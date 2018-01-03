@@ -1,31 +1,31 @@
-/* ################################################################## */
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/* ################################################################## */
-
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTMANIA ELEMENT */
 
-.select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania-inner { border:1px solid #D6D6D6; }
+.select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania-inner {
+	border:1px solid #D6D6D6;
+}
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTED VALUES */
 
 .select-mania-theme-[CHANGE-THE-NAME-HERE].select-mania.select-mania-multiple .select-mania-value {
-	border: 1px solid [YOUR-COLOR];
-
 	background-color: [YOUR-COLOR];
+	border: 1px solid [YOUR-COLOR];
 	color: white;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
 
-.select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania { border:1px solid #D6D6D6; }
-
+.select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania {
+	border:1px solid #D6D6D6;
+}
 
 .select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania-search-input {
 	border:1px solid #D6D6D6;
 	color: #5A5A5A;
 }
 
-.select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania-item:hover { background:[YOUR-HOVER-COLOR]; }
+.select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania-item:hover {
+	background:[YOUR-HOVER-COLOR];
+}
 
 .select-mania-theme-[CHANGE-THE-NAME-HERE] .select-mania-item.select-mania-selected {
 	background: [YOUR-COLOR];

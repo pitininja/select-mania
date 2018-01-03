@@ -1,7 +1,3 @@
-/* ################################################################## */
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GLOBAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/* ################################################################## */
-
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SELECTMANIA ELEMENT */
 
 .select-mania-theme-square .select-mania-inner { border-radius: 0; }
@@ -11,6 +7,8 @@
 .select-mania-theme-square .select-mania-value { border-radius: 0; }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DROPDOWN */
+
+.select-mania-dropdown.select-mania-theme-square { border-radius: 0; }
 
 .select-mania-theme-square .select-mania { border-radius: 0; }
 
