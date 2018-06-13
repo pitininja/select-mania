@@ -1554,6 +1554,46 @@ var Build = {
 			});
 		}, 
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ open
+
+		//open dropdown
+		open: function() {
+			//loop through targeted elements
+			return this.each(function() {
+				//current select to destroy
+				var $originalSelect = $(this);
+				//controls if plugin initialized
+				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
+					//selectMania element
+					var $selectManiaEl = $originalSelect.data('selectMania-element');
+					//dropdown element
+					var $dropdown = $selectManiaEl.data('selectMania-dropdown');
+					//open dropdown
+					Engine.openDropdown($dropdown);
+				}
+			});
+		}, 
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ close
+
+		//close dropdown
+		close: function() {
+			//loop through targeted elements
+			return this.each(function() {
+				//current select to destroy
+				var $originalSelect = $(this);
+				//controls if plugin initialized
+				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
+					//selectMania element
+					var $selectManiaEl = $originalSelect.data('selectMania-element');
+					//dropdown element
+					var $dropdown = $selectManiaEl.data('selectMania-dropdown');
+					//close dropdown
+					Engine.closeDropdown($dropdown);
+				}
+			});
+		}, 
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ setup
 
 		//setup default settings values
