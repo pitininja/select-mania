@@ -245,6 +245,14 @@ Clear the selected values of the targeted select.
 $('target-selector').selectMania('clear');
 ```
 
+### close
+
+Close the dropdowns of the targeted select elements.
+
+```javascript
+$('target-selector').selectMania('close');
+```
+
 ### destroy
 
 This method destroys select-mania on the targeted elements.
@@ -284,6 +292,14 @@ Call this method to initialize select-mania on the targeted select elements.
 $('target-selector').selectMania({/*settings*/});
 //explicit call
 $('target-selector').selectMania('init', {/*settings*/});
+```
+
+### open
+
+Open the dropdowns of the targeted select elements.
+
+```javascript
+$('target-selector').selectMania('open');
 ```
 
 ### set
