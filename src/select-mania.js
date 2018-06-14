@@ -189,8 +189,12 @@
 		destroy: function($originalSelect) {
 			//selectMania element
 			var $selectManiaEl = $originalSelect.data('selectMania-element');
+			//dropdown
+			var $dropdown = $selectManiaEl.data('selectMania-dropdown');
 			//move original select out of the selectMania element
 			$originalSelect.insertAfter($selectManiaEl);
+			//remove dropdown
+			$dropdown.remove();
 			//remove selectMania element
 			$selectManiaEl.remove();
 			//remove class from original select
