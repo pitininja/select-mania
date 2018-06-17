@@ -15,120 +15,22 @@
 <p>Initialize select-mania:</p>
 
 <pre><code class="javascript language-javascript">$('target-selector').selectMania();
-//with settings
+//OR
 $('target-selector').selectMania({
-    //settings here
+    //settings
 });
 </code></pre>
 
 <p>Use select-mania methods:</p>
 
 <pre><code class="javascript language-javascript">$('target-selector').selectMania('method');
-//with data
+//OR
 $('target-selector').selectMania('method', {
-    //data
+    //settings
 });
 </code></pre>
 
 <h2 id="settings">Settings</h2>
-
-<p>Select-mania can be initialized with a bunch of available settings.</p>
-
-<h3 id="example">Example</h3>
-
-<pre><code class="javascript language-javascript">$('target-selector').selectMania({
-    width: '200px', 
-    size: 'small', 
-    themes: ['square','red'], 
-    placeholder: 'Please select me!'
-});
-</code></pre>
-
-<h3 id="availablesettings">Available settings</h3>
-
-<h4 id="width">width</h4>
-
-<p>Default: <code>'100%'</code></p>
-
-<p>The select width.</p>
-
-<p>Must be a valid CSS width.</p>
-
-<p>Can be set by passing a <code>data-width</code> attribute on the select element.</p>
-
-<h4 id="size">size</h4>
-
-<p>Default: <code>'medium'</code></p>
-
-<p>The size of the select.</p>
-
-<p>Three sizes are available: <code>'tiny'</code>, <code>'small'</code>, <code>'medium'</code>, <code>'large'</code></p>
-
-<p>Can be set by passing a <code>data-size</code> attribute on the select element.</p>
-
-<h4 id="themes">themes</h4>
-
-<p>Default: <code>[]</code></p>
-
-<p>An array of the themes names to apply.</p>
-
-<p>Themes CSS files can be found in the <code>themes</code> folder with names like <code>select-mania-theme-[themeName].css</code></p>
-
-<p>You can create your own theme! A <code>sample.css</code> theme file is here to help you doing that.</p>
-
-<h3 id="scrollcontainer">scrollContainer</h3>
-
-<p>Default: null</p>
-
-<p>A selector or element which is the scrollable container of the select.</p>
-
-<p>If a scroll container is set, the dropdown will be opened in a special way so it does not go under the scrollable element.</p>
-
-<p>Note that the dropdown will close automatically if any scroll is detected on the scroll container.</p>
-
-<h3 id="zindex">zIndex</h3>
-
-<p>Default: null</p>
-
-<p>A z-index value for the dropdown.</p>
-
-<p>Can be useful if the select is placed in a high z-index element so it doesn't go under it.</p>
-
-<p>This option works only if <code>scrollContainer</code> is enabled.</p>
-
-<h4 id="placeholder">placeholder</h4>
-
-<p>Default: <code>'Select an item'</code></p>
-
-<p>The text of the placeholder.</p>
-
-<p>Can be set by passing a <code>data-placeholder</code> attribute on the select element.</p>
-
-<h4 id="removable">removable</h4>
-
-<p>Default: <code>false</code></p>
-
-<p>Set this setting to <code>true</code> to be able to remove the selected option of a simple select, even without any empty option available.</p>
-
-<p>Can be set by passing a <code>data-removable</code> attribute on the select element.</p>
-
-<h4 id="empty">empty</h4>
-
-<p>Default: <code>false</code></p>
-
-<p>If this setting is enabled, the select value will be forced as empty on initialization.</p>
-
-<p>Can be set by passing a <code>data-empty</code> attribute on the select element.</p>
-
-<h4 id="search">search</h4>
-
-<p>Default: <code>false</code></p>
-
-<p>If set to <code>true</code>, a search input will be available in the dropdown to search for items to select.</p>
-
-<p>If the <code>ajax</code> setting is enabled, the search will be made in ajax with the provided function (see below).</p>
-
-<p>Can be set by passing a <code>data-search</code> attribute on the select element.</p>
 
 <h4 id="ajax">ajax</h4>
 
@@ -158,8 +60,6 @@ $('target-selector').selectMania('method', {
 
 <p>The results sent by the callback function must be options to add / options found (if searching) in the form of a HTML string, or jQuery / DOM elements.</p>
 
-<p>Example:</p>
-
 <pre><code class="javascript language-javascript">ajax: function(search, page, data, callback) {
     $.ajax({
         type: 'POST', 
@@ -182,14 +82,98 @@ $('target-selector').selectMania('method', {
 
 <p>This data will be set as argument in the ajax function if enabled.</p>
 
+<h4 id="empty">empty</h4>
+
+<p>Default: <code>false</code></p>
+
+<p>If this setting is enabled, the select value will be forced as empty on initialization.</p>
+
+<p>Can be set by passing a <code>data-empty</code> attribute on the select element.</p>
+
+<h4 id="placeholder">placeholder</h4>
+
+<p>Default: <code>'Select an item'</code></p>
+
+<p>The text of the placeholder.</p>
+
+<p>Can be set by passing a <code>data-placeholder</code> attribute on the select element.</p>
+
+<h4 id="removable">removable</h4>
+
+<p>Default: <code>false</code></p>
+
+<p>Set this setting to <code>true</code> to be able to remove the selected option of a simple select, even without any empty option available.</p>
+
+<p>Can be set by passing a <code>data-removable</code> attribute on the select element.</p>
+
+<h4 id="scrollcontainer">scrollContainer</h4>
+
+<p>Default: null</p>
+
+<p>A selector or element which is the scrollable container of the select.</p>
+
+<p>If a scroll container is set, the dropdown will be opened in a special way so it does not go under the scrollable element.</p>
+
+<p>Note that the dropdown will close automatically if any scroll is detected on the scroll container.</p>
+
+<h4 id="search">search</h4>
+
+<p>Default: <code>false</code></p>
+
+<p>If set to <code>true</code>, a search input will be available in the dropdown to search for items to select.</p>
+
+<p>If the <code>ajax</code> setting is enabled, the search will be made in ajax with the provided function (see below).</p>
+
+<p>Can be set by passing a <code>data-search</code> attribute on the select element.</p>
+
+<h4 id="size">size</h4>
+
+<p>Default: <code>'medium'</code></p>
+
+<p>The size of the select.</p>
+
+<p>Three sizes are available: <code>'tiny'</code>, <code>'small'</code>, <code>'medium'</code>, <code>'large'</code></p>
+
+<p>Can be set by passing a <code>data-size</code> attribute on the select element.</p>
+
+<h4 id="themes">themes</h4>
+
+<p>Default: <code>[]</code></p>
+
+<p>An array of the themes names to apply.</p>
+
+<p>Themes CSS files can be found in the <code>themes</code> folder with names like <code>select-mania-theme-[themeName].css</code></p>
+
+<p>You can create your own theme! A <code>sample.css</code> theme file is here to help you doing that.</p>
+
+<h4 id="width">width</h4>
+
+<p>Default: <code>'100%'</code></p>
+
+<p>The select width.</p>
+
+<p>Must be a valid CSS width.</p>
+
+<p>Can be set by passing a <code>data-width</code> attribute on the select element.</p>
+
+<h4 id="zindex">zIndex</h4>
+
+<p>Default: null</p>
+
+<p>A z-index value for the dropdown.</p>
+
+<p>Can be useful if the select is placed in a high z-index element so it doesn't go under it.</p>
+
+<p>This option works only if <code>scrollContainer</code> is enabled.</p>
+
 <h3 id="optionsettings">Option settings</h3>
 
-<h4 id="optgroup">optgroup</h4>
+<h4 id="disabled">disabled</h4>
 
-<p>Optgroup elements are supported.</p>
+<p>Disabled option or optgroup elements will be render as disabled items or groups in the dropdown.</p>
 
-<pre><code class="html language-html">&lt;optgroup label="Group"&gt;
-    &lt;option value="1"&gt;Item&lt;/option&gt;
+<pre><code class="html language-html">&lt;optgroup label="Group" disabled&gt;
+    &lt;option value="1" disabled&gt;Item&lt;/option&gt;
 &lt;/optgroup&gt;
 </code></pre>
 
@@ -202,12 +186,12 @@ $('target-selector').selectMania('method', {
 &lt;/optgroup&gt;
 </code></pre>
 
-<h4 id="disabled">disabled</h4>
+<h4 id="optgroup">optgroup</h4>
 
-<p>Disabled option or optgroup elements will be render as disabled items or groups in the dropdown.</p>
+<p>Optgroup elements are supported.</p>
 
-<pre><code class="html language-html">&lt;optgroup label="Group" disabled&gt;
-    &lt;option value="1" disabled&gt;Item&lt;/option&gt;
+<pre><code class="html language-html">&lt;optgroup label="Group"&gt;
+    &lt;option value="1"&gt;Item&lt;/option&gt;
 &lt;/optgroup&gt;
 </code></pre>
 
@@ -231,34 +215,6 @@ $('target-selector').selectMania('method', {
 
 <h2 id="methods">Methods</h2>
 
-<h3 id="init">init</h3>
-
-<p>Call this method to initialize select-mania on the targeted select elements.</p>
-
-<pre><code class="javascript language-javascript">//simple call
-$('target-selector').selectMania({/*settings*/});
-//explicit call
-$('target-selector').selectMania('init', {/*settings*/});
-</code></pre>
-
-<h3 id="update">update</h3>
-
-<p>Updates select-mania on targeted elements.</p>
-
-<p>The select-mania element will be updated according to the original select options.</p>
-
-<pre><code class="javascript language-javascript">$('target-selector').selectMania('update');
-</code></pre>
-
-<h3 id="destroy">destroy</h3>
-
-<p>This method destroys select-mania on the targeted elements.</p>
-
-<p>The select-mania element will be removed and the original select set to this original state.</p>
-
-<pre><code class="javascript language-javascript">$('target-selector').selectMania('destroy');
-</code></pre>
-
 <h3 id="check">check</h3>
 
 <p><em>This method can be called on a single element only!</em></p>
@@ -270,13 +226,34 @@ $('target-selector').selectMania('init', {/*settings*/});
 }
 </code></pre>
 
+<h3 id="clear">clear</h3>
+
+<p>Clear the selected values of the targeted select.</p>
+
+<pre><code class="javascript language-javascript">$('target-selector').selectMania('clear');
+</code></pre>
+
+<h3 id="close">close</h3>
+
+<p>Close the dropdowns of the targeted select elements.</p>
+
+<pre><code class="javascript language-javascript">$('target-selector').selectMania('close');
+</code></pre>
+
+<h3 id="destroy">destroy</h3>
+
+<p>This method destroys select-mania on the targeted elements.</p>
+
+<p>The select-mania element will be removed and the original select set to this original state.</p>
+
+<pre><code class="javascript language-javascript">$('target-selector').selectMania('destroy');
+</code></pre>
+
 <h3 id="get">get</h3>
 
 <p><em>This method can be called on a single element only!</em></p>
 
 <p>Call this method to get parsed selected values of a select-mania initialized element.</p>
-
-<p>This can be useful to set selected values on further initialization, if these values were selected from ajax scroll / search and are not there anymore.</p>
 
 <pre><code class="javascript language-javascript">var values = $('target-selector').selectMania('get');
 values: [
@@ -291,11 +268,30 @@ values: [
 ]
 </code></pre>
 
+<h3 id="init">init</h3>
+
+<p>Call this method to initialize select-mania on the targeted select elements.</p>
+
+<pre><code class="javascript language-javascript">//simple call
+$('target-selector').selectMania({/*settings*/});
+//explicit call
+$('target-selector').selectMania('init', {/*settings*/});
+</code></pre>
+
+<h3 id="open">open</h3>
+
+<p>Open the dropdowns of the targeted select elements.</p>
+
+<pre><code class="javascript language-javascript">$('target-selector').selectMania('open');
+</code></pre>
+
 <h3 id="set">set</h3>
 
 <p><em>This method can be called on a single element only!</em></p>
 
 <p>This method sets the provided values as selected values on the targeted select-mania initialized element.</p>
+
+<p>This can be useful to set selected values on further initialization, if these values were selected from ajax scroll / search and are not there anymore.</p>
 
 <p>The provided values must be formed like the data returned by the <code>get</code> method.</p>
 
@@ -311,27 +307,33 @@ values: [
 ]);
 </code></pre>
 
-<h3 id="clear">clear</h3>
+<h3 id="update">update</h3>
 
-<p>Clear the selected values of the targeted select.</p>
+<p>Updates select-mania on targeted elements.</p>
 
-<pre><code class="javascript language-javascript">$('target-selector').selectMania('clear');
+<p>The select-mania element will be updated according to the original select options.</p>
+
+<pre><code class="javascript language-javascript">$('target-selector').selectMania('update');
 </code></pre>
 
 <h2 id="questions">Questions</h2>
 
-<h5 id="whichattributesaresupported">Which attributes are supported?</h5>
+<h5 id="howcanidynamicallysetthevalueofmyselect">How can I dynamically set the value of my select?</h5>
 
-<p>Select-Mania supports the following attributes: <code>disabled</code>, <code>required</code> and <code>multiple</code>.</p>
+<p>Simple! Set the value with <code>$('#mySelect').val(value)</code>, then update selectMania with <code>$('#mySelect').selectMania('update')</code>!</p>
 
 <h5 id="canistillgettheselectedvaluesdirectlyfromtheoriginalselectelement">Can I still get the selected values directly from the original select element?</h5>
 
-<p>Of course! Just do a classic <code>$('target-selector').val();</code>. Any changes on the select-mania element is passed on the original select element.</p>
+<p>Of course! Just use <code>$('mySelect').val();</code>. Any changes on the select-mania element is passed on the original select element.</p>
+
+<h5 id="whichattributesaresupported">Which attributes are supported?</h5>
+
+<p>Select-Mania supports the following attributes on the select element: <code>disabled</code>, <code>required</code> and <code>multiple</code>.</p>
 
 <h5 id="iwanttocontrolthisthingwithmykeyboard">I want to control this thing with my keyboard!</h5>
 
 <p>You're a keyboard person? Select-Mania can be manipulated with standard keyboard controls. Try it out!</p>
 
-<h5 id="thisplugindoesntwork">This plugin doesn't work!</h5>
+<h5 id="dudethisplugindoesntwork">Dude, this plugin doesn't work!</h5>
 
 <p>Oh... Sorry about that! Please feel free to post issues on the <a href="https://github.com/pitininja/select-mania">select-mania repository</a>! I'll do my best to fix what's broken.</p>
