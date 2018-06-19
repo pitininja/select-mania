@@ -57,6 +57,7 @@ function(search, page, data, callback) {
 ```
 
 The function takes 4 arguments:
+
 - `search`: the current search input value
 - `page`: the requested page number
 - `data`: provided custom data (see below)
@@ -94,6 +95,12 @@ Default: `false`
 If this setting is enabled, the select value will be forced as empty on initialization.
 
 Can be set by passing a `data-empty` attribute on the select element.
+
+#### hidden
+
+Default: `false`
+
+Set this setting to true if you want the select to be hidden at initialization.
 
 #### placeholder
 
@@ -225,7 +232,7 @@ $.selectManiaSetup({
 
 ## Methods
 
-### check
+#### check
 
 *This method can be called on a single element only!*
 
@@ -237,7 +244,7 @@ if($('target-selector').selectMania('check')) {
 }
 ```
 
-### clear
+#### clear
 
 Clear the selected values of the targeted select.
 
@@ -245,7 +252,7 @@ Clear the selected values of the targeted select.
 $('target-selector').selectMania('clear');
 ```
 
-### close
+#### close
 
 Close the dropdowns of the targeted select elements.
 
@@ -253,7 +260,7 @@ Close the dropdowns of the targeted select elements.
 $('target-selector').selectMania('close');
 ```
 
-### destroy
+#### destroy
 
 This method destroys select-mania on the targeted elements.
 
@@ -263,7 +270,7 @@ The select-mania element will be removed and the original select set to this ori
 $('target-selector').selectMania('destroy');
 ```
 
-### get
+#### get
 
 *This method can be called on a single element only!*
 
@@ -283,7 +290,15 @@ values: [
 ]
 ```
 
-### init
+#### hide
+
+This method hides select-mania.
+
+```javascript
+$('target-selector').selectMania('hide');
+```
+
+#### init
 
 Call this method to initialize select-mania on the targeted select elements.
 
@@ -294,7 +309,7 @@ $('target-selector').selectMania({/*settings*/});
 $('target-selector').selectMania('init', {/*settings*/});
 ```
 
-### open
+#### open
 
 Open the dropdowns of the targeted select elements.
 
@@ -302,7 +317,7 @@ Open the dropdowns of the targeted select elements.
 $('target-selector').selectMania('open');
 ```
 
-### set
+#### set
 
 *This method can be called on a single element only!*
 
@@ -325,7 +340,15 @@ $('target-selector').selectMania('set', [
 ]);
 ```
 
-### update
+#### show
+
+This method shows select-mania if it was hidden.
+
+```javascript
+$('target-selector').selectMania('show');
+```
+
+#### update
 
 Updates select-mania on targeted elements.
 
@@ -338,16 +361,21 @@ $('target-selector').selectMania('update');
 ## Questions
 
 ##### How can I dynamically set the value of my select?
+
 Simple! Set the value with `$('#mySelect').val(value)`, then update selectMania with `$('#mySelect').selectMania('update')`!
 
 ##### Can I still get the selected values directly from the original select element?
+
 Of course! Just use `$('mySelect').val();`. Any changes on the select-mania element is passed on the original select element.
 
 ##### Which attributes are supported?
+
 Select-Mania supports the following attributes on the select element: `disabled`, `required` and `multiple`.
 
 ##### I want to control this thing with my keyboard!
+
 You're a keyboard person? Select-Mania can be manipulated with standard keyboard controls. Try it out!
 
 ##### Dude, this plugin doesn't work!
+
 Oh... Sorry about that! Please feel free to post issues on the [select-mania repository](https://github.com/pitininja/select-mania)! I'll do my best to fix what's broken.
