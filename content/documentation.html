@@ -90,6 +90,12 @@ $('target-selector').selectMania('method', {
 
 <p>Can be set by passing a <code>data-empty</code> attribute on the select element.</p>
 
+<h4 id="hidden">hidden</h4>
+
+<p>Default: <code>false</code></p>
+
+<p>Set this setting to true if you want the select to be hidden at initialization.</p>
+
 <h4 id="placeholder">placeholder</h4>
 
 <p>Default: <code>'Select an item'</code></p>
@@ -215,7 +221,7 @@ $('target-selector').selectMania('method', {
 
 <h2 id="methods">Methods</h2>
 
-<h3 id="check">check</h3>
+<h4 id="check">check</h4>
 
 <p><em>This method can be called on a single element only!</em></p>
 
@@ -226,21 +232,21 @@ $('target-selector').selectMania('method', {
 }
 </code></pre>
 
-<h3 id="clear">clear</h3>
+<h4 id="clear">clear</h4>
 
 <p>Clear the selected values of the targeted select.</p>
 
 <pre><code class="javascript language-javascript">$('target-selector').selectMania('clear');
 </code></pre>
 
-<h3 id="close">close</h3>
+<h4 id="close">close</h4>
 
 <p>Close the dropdowns of the targeted select elements.</p>
 
 <pre><code class="javascript language-javascript">$('target-selector').selectMania('close');
 </code></pre>
 
-<h3 id="destroy">destroy</h3>
+<h4 id="destroy">destroy</h4>
 
 <p>This method destroys select-mania on the targeted elements.</p>
 
@@ -249,7 +255,7 @@ $('target-selector').selectMania('method', {
 <pre><code class="javascript language-javascript">$('target-selector').selectMania('destroy');
 </code></pre>
 
-<h3 id="get">get</h3>
+<h4 id="get">get</h4>
 
 <p><em>This method can be called on a single element only!</em></p>
 
@@ -268,7 +274,14 @@ values: [
 ]
 </code></pre>
 
-<h3 id="init">init</h3>
+<h4 id="hide">hide</h4>
+
+<p>This method hides select-mania.</p>
+
+<pre><code class="javascript language-javascript">$('target-selector').selectMania('hide');
+</code></pre>
+
+<h4 id="init">init</h4>
 
 <p>Call this method to initialize select-mania on the targeted select elements.</p>
 
@@ -278,14 +291,14 @@ $('target-selector').selectMania({/*settings*/});
 $('target-selector').selectMania('init', {/*settings*/});
 </code></pre>
 
-<h3 id="open">open</h3>
+<h4 id="open">open</h4>
 
 <p>Open the dropdowns of the targeted select elements.</p>
 
 <pre><code class="javascript language-javascript">$('target-selector').selectMania('open');
 </code></pre>
 
-<h3 id="set">set</h3>
+<h4 id="set">set</h4>
 
 <p><em>This method can be called on a single element only!</em></p>
 
@@ -307,7 +320,14 @@ $('target-selector').selectMania('init', {/*settings*/});
 ]);
 </code></pre>
 
-<h3 id="update">update</h3>
+<h4 id="show">show</h4>
+
+<p>This method shows select-mania if it was hidden.</p>
+
+<pre><code class="javascript language-javascript">$('target-selector').selectMania('show');
+</code></pre>
+
+<h4 id="update">update</h4>
 
 <p>Updates select-mania on targeted elements.</p>
 
@@ -336,4 +356,4 @@ $('target-selector').selectMania('init', {/*settings*/});
 
 <h5 id="dudethisplugindoesntwork">Dude, this plugin doesn't work!</h5>
 
-<p>Oh... Sorry about that! Please feel free to post issues on the <a href="https://github.com/pitininja/select-mania">select-mania repository</a>! I'll do my best to fix what's broken.</p>
+<p>Oh... Sorry about that! Please feel free to post issues on the <a href="https://github.com/pitininja/select-mania">select-mania repository</a>! I'll do my best to fix what's broken.</p>a>! I'll do my best to fix what's broken.</p>
