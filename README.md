@@ -94,6 +94,8 @@ Default: `false`
 
 If this setting is enabled, the select value will be forced as empty on initialization.
 
+It can be useful in case of a non-multiple select with no placeholder so it doesn't display the first option value as default value.
+
 Can be set by passing a `data-empty` attribute on the select element.
 
 #### hidden
@@ -107,6 +109,8 @@ Set this setting to true if you want the select to be hidden at initialization.
 Default: `'Select an item'`
 
 The text of the placeholder.
+
+In case of a non-multiple select, if a placeholder is set and no options are selected, the value will be forced as empty and the placeholder will be displayed.
 
 Can be set by passing a `data-placeholder` attribute on the select element.
 
@@ -212,7 +216,7 @@ Optgroup elements are supported.
 
 #### selected
 
-Any selected option element will be set as selected value.
+Any selected option element will be set as selected value, unless the `empty` option is enabled.
 
 ```html
 <option value="1" selected>Item</option>
