@@ -88,6 +88,8 @@ $('target-selector').selectMania('method', {
 
 <p>If this setting is enabled, the select value will be forced as empty on initialization.</p>
 
+<p>It can be useful in case of a non-multiple select with no placeholder so it doesn't display the first option value as default value.</p>
+
 <p>Can be set by passing a <code>data-empty</code> attribute on the select element.</p>
 
 <h4 id="hidden">hidden</h4>
@@ -101,6 +103,8 @@ $('target-selector').selectMania('method', {
 <p>Default: <code>'Select an item'</code></p>
 
 <p>The text of the placeholder.</p>
+
+<p>In case of a non-multiple select, if a placeholder is set and no options are selected, the value will be forced as empty and the placeholder will be displayed.</p>
 
 <p>Can be set by passing a <code>data-placeholder</code> attribute on the select element.</p>
 
@@ -203,7 +207,7 @@ $('target-selector').selectMania('method', {
 
 <h4 id="selected">selected</h4>
 
-<p>Any selected option element will be set as selected value.</p>
+<p>Any selected option element will be set as selected value, unless the <code>empty</code> option is enabled.</p>
 
 <pre><code class="html language-html">&lt;option value="1" selected&gt;Item&lt;/option&gt;
 </code></pre>
@@ -356,4 +360,4 @@ $('target-selector').selectMania('init', {/*settings*/});
 
 <h5 id="dudethisplugindoesntwork">Dude, this plugin doesn't work!</h5>
 
-<p>Oh... Sorry about that! Please feel free to post issues on the <a href="https://github.com/pitininja/select-mania">select-mania repository</a>! I'll do my best to fix what's broken.</p>a>! I'll do my best to fix what's broken.</p>
+<p>Oh... Sorry about that! Please feel free to post issues on the <a href="https://github.com/pitininja/select-mania">select-mania repository</a>! I'll do my best to fix what's broken.</p>

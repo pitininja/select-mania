@@ -266,7 +266,7 @@
 	font-size:1rem;
 	color:#7F8C8D;
 }
-.select-mania-placeholder:only-child {
+.select-mania-placeholder:only-child:not(:empty) {
 	display:inline-block;
 }
 
