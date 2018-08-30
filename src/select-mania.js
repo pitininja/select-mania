@@ -1075,6 +1075,11 @@ const Build = {
 			//build group element
 			const $group = $('<div class="select-mania-group"></div>');
 			const $groupInner = $('<div class="select-mania-group-inner"></div>');
+			//if group is hidden
+			if($optgroupEl.is('[data-hidden="true"]')) {
+				//set hidden class
+				$group.addClass('select-mania-hidden');
+			}
 			//build group title element
 			const $groupTitle = $('<div class="select-mania-group-title"></div>');
 			//if group icon is set
@@ -1107,6 +1112,11 @@ const Build = {
 			const optionEl = $optionEl[0];
 			//build item html
 			const $item = $('<div class="select-mania-item" data-value="'+optionEl.value+'"></div>');
+			//if option is hidden
+			if($optionEl.is('[data-hidden="true"]')) {
+				//set hidden class
+				$item.addClass('select-mania-hidden');
+			}
 			//if option icon is set
 			if($optionEl.is('[data-icon]')) {
 				//insert item icon
@@ -1542,7 +1552,7 @@ const Build = {
 				//current select to destroy
 				const $originalSelect = $(el);
 				//controls if selectMania initialized
-				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
+				if(Engine.controlTarget($originalSelect, ['isSelect','isInitialized'])) {
 					//update selectMania
 					Engine.update($originalSelect);
 				}
@@ -1558,7 +1568,7 @@ const Build = {
 				//current select to destroy
 				const $originalSelect = $(el);
 				//controls if selectMania initialized
-				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
+				if(Engine.controlTarget($originalSelect, ['isSelect','isInitialized'])) {
 					//destroy selectMania
 					Engine.destroy($originalSelect);
 				}
@@ -1570,9 +1580,9 @@ const Build = {
 		//check if selectMania initialized
 		check() {
 			//controls method was called on single element
-			if(Engine.controlTarget(this, ['isSingle'])) {
+			if(Engine.controlTarget(this, ['isSelect','isSingle'])) {
 				//send back if plugin initialized or not
-				return this.hasClass('select-mania-original');
+				return Engine.controlTarget(this, ['isInitialized']);
 			}
 		}, 
 
@@ -1581,7 +1591,7 @@ const Build = {
 		//returns parsed selected values
 		get() {
 			//controls if single element and plugin initialized
-			if(Engine.controlTarget(this, ['isSingle','isInitialized'])) {
+			if(Engine.controlTarget(this, ['isSelect','isSingle','isInitialized'])) {
 				//selectMania element
 				const $selectManiaEl = this.data('selectMania-element');
 				//get and return parsed selected values
@@ -1594,7 +1604,7 @@ const Build = {
 		//set parsed values as selected values
 		set(values) {
 			//controls if single element and plugin initialized
-			if(Engine.controlTarget(this, ['isSingle','isInitialized'])) {
+			if(Engine.controlTarget(this, ['isSelect','isSingle','isInitialized'])) {
 				//controls values are valid
 				if(Engine.controlValues(this, values)) {
 					//selectMania element
@@ -1614,7 +1624,7 @@ const Build = {
 				//current select to destroy
 				const $originalSelect = $(el);
 				//controls if plugin initialized
-				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
+				if(Engine.controlTarget($originalSelect, ['isSelect','isInitialized'])) {
 					//selectMania element
 					const $selectManiaEl = $originalSelect.data('selectMania-element');
 					//clear values
@@ -1636,7 +1646,7 @@ const Build = {
 				//current original select
 				const $originalSelect = $(el);
 				//controls if plugin initialized
-				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
+				if(Engine.controlTarget($originalSelect, ['isSelect','isInitialized'])) {
 					//selectMania element
 					const $selectManiaEl = $originalSelect.data('selectMania-element');
 					//dropdown element
@@ -1656,7 +1666,7 @@ const Build = {
 				//current original select
 				const $originalSelect = $(el);
 				//controls if plugin initialized
-				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
+				if(Engine.controlTarget($originalSelect, ['isSelect','isInitialized'])) {
 					//selectMania element
 					const $selectManiaEl = $originalSelect.data('selectMania-element');
 					//dropdown element
@@ -1676,7 +1686,7 @@ const Build = {
 				//current select to destroy
 				const $originalSelect = $(el);
 				//controls if plugin initialized
-				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
+				if(Engine.controlTarget($originalSelect, ['isSelect','isInitialized'])) {
 					//selectMania element
 					const $selectManiaEl = $originalSelect.data('selectMania-element');
 					//dropdown element
@@ -1698,33 +1708,11 @@ const Build = {
 				//current select to destroy
 				const $originalSelect = $(el);
 				//controls if plugin initialized
-				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
+				if(Engine.controlTarget($originalSelect, ['isSelect','isInitialized'])) {
 					//selectMania element
 					const $selectManiaEl = $originalSelect.data('selectMania-element');
 					//remove hidding class from select mania
 					$selectManiaEl.removeClass('select-mania-hidden');
-				}
-			});
-		}, 
-
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ setup
-
-		//setup default settings values
-		setup() {
-			//loop through targeted elements
-			return this.each((idx, el) => {
-				//current select to destroy
-				const $originalSelect = $(el);
-				//controls if plugin initialized
-				if(Engine.controlTarget($originalSelect, ['isInitialized'])) {
-					//selectMania element
-					const $selectManiaEl = $originalSelect.data('selectMania-element');
-					//clear values
-					Engine.clear($selectManiaEl);
-					//trigger original select change event
-					$originalSelect.trigger('change');
-					//update clear values icon display
-					Engine.updateClean($selectManiaEl);
 				}
 			});
 		}

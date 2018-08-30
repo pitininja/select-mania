@@ -194,6 +194,17 @@ Disabled option or optgroup elements will be render as disabled items or groups 
 </optgroup>
 ```
 
+#### hidden
+
+Options and group of options can be hidden by setting a `data-hidden` attribute with `true` as value. If the `data-hidden` attribute value is changed, use the `update` method to update options visibility.
+
+```html
+<option value="1" data-hidden="true">One</option>
+<optgroup data-hidden="true">
+	<option value="2">Two</option>
+</optgroup>
+```
+
 #### icon
 
 An icon can be placed before any item or group text. If a `data-icon` attribute is set on an option or optgroup element, an `i` icon element will be created with the `data-icon` attribute value as class and will be placed before the element text. Therefore this feature is font-awesome friendly.
