@@ -187,6 +187,16 @@ $('target-selector').selectMania('method', {
 &lt;/optgroup&gt;
 </code></pre>
 
+<h4 id="hidden-1">hidden</h4>
+
+<p>Options and group of options can be hidden by setting a <code>data-hidden</code> attribute with <code>true</code> as value. If the <code>data-hidden</code> attribute value is changed, use the <code>update</code> method to update options visibility.</p>
+
+<pre><code class="html language-html">&lt;option value="1" data-hidden="true"&gt;One&lt;/option&gt;
+&lt;optgroup data-hidden="true"&gt;
+    &lt;option value="2"&gt;Two&lt;/option&gt;
+&lt;/optgroup&gt;
+</code></pre>
+
 <h4 id="icon">icon</h4>
 
 <p>An icon can be placed before any item or group text. If a <code>data-icon</code> attribute is set on an option or optgroup element, an <code>i</code> icon element will be created with the <code>data-icon</code> attribute value as class and will be placed before the element text. Therefore this feature is font-awesome friendly.</p>
