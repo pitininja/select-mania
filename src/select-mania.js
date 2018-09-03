@@ -740,29 +740,37 @@
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ controls
 
 		//control target element
-		controlTarget($target, controls) {
+		controlTarget($target, controls, showConsole=true) {
 			//error if element is not a select
 			if($.inArray('isSelect', controls) !== -1 && !$target.is('select')) {
-				console.error('selectMania | invalid select element');
-				console.log($target[0]);
+				if(showConsole) {
+					console.error('selectMania | invalid select element');
+					console.log($target[0]);
+				}
 				return false;
 			}
 			//error if plugin not initialized
 			if($.inArray('isInitialized', controls) !== -1 && !$target.hasClass('select-mania-original')) {
-				console.error('selectMania | select is not initialized');
-				console.log($target[0]);
+				if(showConsole) {
+					console.error('selectMania | select is not initialized');
+					console.log($target[0]);
+				}
 				return false;
 			}
 			//error if plugin already initialized
 			if($.inArray('notInitialized', controls) !== -1 && $target.hasClass('select-mania-original')) {
-				console.error('selectMania | ignore because already initialized');
-				console.log($target[0]);
+				if(showConsole) {
+					console.error('selectMania | ignore because already initialized');
+					console.log($target[0]);
+				}
 				return false;
 			}
 			//control method was called on single element
 			if($.inArray('isSingle', controls) !== -1 && $target.length > 1) {
-				console.error('selectMania | check method can be called on single element only');
-				console.log($target[0]);
+				if(showConsole) {
+					console.error('selectMania | check method can be called on single element only');
+					console.log($target[0]);
+				}
 				return false;
 			}
 			//if control ok
@@ -1582,7 +1590,7 @@ const Build = {
 			//controls method was called on single element
 			if(Engine.controlTarget(this, ['isSelect','isSingle'])) {
 				//send back if plugin initialized or not
-				return Engine.controlTarget(this, ['isInitialized']);
+				return Engine.controlTarget(this, ['isInitialized'], false);
 			}
 		}, 
 
